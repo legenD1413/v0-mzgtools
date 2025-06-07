@@ -464,6 +464,14 @@ function runTests() {
       console.log('   ❌ CSS 样式隔离配置缺失');
       stagewiseValid = false;
     }
+    
+    // 检查强化的样式隔离
+    if (stagewiseInitComponent.includes('contain: layout style paint')) {
+      console.log('   ✅ 强化样式隔离已配置');
+    } else {
+      console.log('   ❌ 强化样式隔离配置缺失');
+      stagewiseValid = false;
+    }
   } catch (error) {
     console.log('   ❌ 无法读取 stagewise-init.tsx');
     stagewiseValid = false;
@@ -493,6 +501,20 @@ function runTests() {
     }
   } catch (error) {
     console.log('   ❌ 无法检查 Layout');
+    stagewiseValid = false;
+  }
+  
+  // 检查全局 CSS 样式隔离
+  try {
+    const globalCssContent = fs.readFileSync('app/globals.css', 'utf8');
+    if (globalCssContent.includes('#stagewise-container') && globalCssContent.includes('isolation: isolate')) {
+      console.log('   ✅ 全局 CSS 样式隔离已配置');
+    } else {
+      console.log('   ❌ 全局 CSS 样式隔离配置缺失');
+      stagewiseValid = false;
+    }
+  } catch (error) {
+    console.log('   ❌ 无法检查全局 CSS 配置');
     stagewiseValid = false;
   }
   
@@ -548,7 +570,6 @@ function runTests() {
     'components/theme-provider.tsx',
     'components/client-only.tsx',
     'components/hydration-boundary.tsx',
-    'components/stagewise-toolbar.tsx',
     'components/stagewise-init.tsx',
     'data/blog-posts.json'
   ];

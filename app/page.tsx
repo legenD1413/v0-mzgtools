@@ -247,7 +247,7 @@ export default function Home() {
 
       <Footer />
       
-      {/* Stagewise 开发工具初始化 - 独立渲染，不影响主应用样式 */}
+      {/* Stagewise 开发工具初始化 */}
       <StagewiseInit />
     </div>
   )
