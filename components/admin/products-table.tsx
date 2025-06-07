@@ -203,6 +203,24 @@ export function ProductsTable({ products }: ProductsTableProps) {
                     </div>
                   </div>
                 )}
+
+                {product.internalDetailUrl && (
+                  <div>
+                    <h4 className="text-md font-medium text-gray-900">产品详情站内地址</h4>
+                    <div className="mt-2 rounded-md border border-gray-200 bg-white p-2">
+                      <span className="text-sm font-medium text-gray-700">站内地址: </span>
+                      <span className="text-sm text-blue-500">{product.internalDetailUrl}</span>
+                    </div>
+                  </div>
+                )}
+
+                <GenerateDetailPageButton
+                  productId={product.id}
+                  productName={product.name}
+                  referenceUrl={product.reference_url || product.referenceUrl}
+                  internalDetailUrl={product.internal_detail_url || product.internalDetailUrl}
+                  productCode={product.product_code || product.productCode}
+                />
               </div>
             )
           })()}

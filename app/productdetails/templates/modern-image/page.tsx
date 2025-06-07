@@ -43,6 +43,18 @@ interface ProductTemplateProps {
     flute?: string
     hrc?: string
     modelImageUrl?: string
+    // Support for database field names
+    product_name?: string
+    product_description?: string
+    product_code?: string
+    main_category?: string
+    sub_category?: string
+    performance_features?: string
+    technical_info?: string
+    custom_parameters?: {
+      name: string
+      value: string
+    }[]
   }
 }
 
@@ -86,10 +98,23 @@ const sampleProduct = {
 }
 
 export default function ModernImageTemplate({ product = sampleProduct }: ProductTemplateProps) {
+  // Handle both camelCase and snake_case field names from database
+  const productName = product.name || product.product_name || "Product Name"
+  const productDescription = product.description || product.product_description || ""
+  const productCode = product.productCode || product.product_code || ""
+  const mainCategory = product.mainCategory || product.main_category || ""
+  const subCategory = product.subCategory || product.sub_category || ""
+  const performanceFeatures = product.performanceFeatures || product.performance_features || ""
+  const technicalInfo = product.technicalInfo || product.technical_info || ""
+  const parameters = product.parameters || product.custom_parameters || []
+  const material = product.material || ""
+  const flute = product.flute || ""
+  const hrc = product.hrc || ""
+
   const [activeImage, setActiveImage] = useState<string>(
-    product.images.find((img) => img.isPrimary)?.url ||
+    product.images?.find((img) => img.isPrimary)?.url ||
       product.modelImageUrl ||
-      product.images[0]?.url ||
+      product.images?.[0]?.url ||
       "/placeholder.svg",
   )
 
@@ -97,10 +122,10 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
   const breadcrumbPath = [
     { name: "Home", path: "/" },
     { name: "Products", path: "/products" },
-    { name: product.mainCategory, path: `/products/${product.mainCategory.toLowerCase()}` },
+    { name: mainCategory, path: `/products/${mainCategory.toLowerCase()}` },
     {
-      name: product.subCategory,
-      path: `/products/${product.mainCategory.toLowerCase()}/${product.subCategory.toLowerCase()}`,
+      name: subCategory,
+      path: `/products/${mainCategory.toLowerCase()}/${subCategory.toLowerCase()}`,
     },
   ]
 
@@ -109,7 +134,7 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
       {/* Large Hero Section */}
       <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
         <div className="absolute inset-0 overflow-hidden opacity-20">
-          <Image src={activeImage || "/placeholder.svg"} alt={product.name} fill className="object-cover" priority />
+          <Image src={activeImage || "/placeholder.svg"} alt={productName} fill className="object-cover" priority />
         </div>
         <div className="relative container mx-auto px-4 py-16 sm:py-24">
           <div className="flex items-center text-sm mb-4">
@@ -129,9 +154,9 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
 
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="md:w-2/3">
-              <h1 className="text-4xl md:text-5xl font-bold mb-2">{product.name}</h1>
-              <p className="text-xl text-gray-300 mb-6">Product Code: {product.productCode}</p>
-              <p className="text-lg md:text-xl max-w-3xl mb-8">{product.description}</p>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2">{productName}</h1>
+              <p className="text-xl text-gray-300 mb-6">Product Code: {productCode}</p>
+              <p className="text-lg md:text-xl max-w-3xl mb-8">{productDescription}</p>
               <div className="flex flex-wrap gap-4">
                 <Button className="bg-red-600 hover:bg-red-700 text-white">Request Quote</Button>
                 <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white/10">
@@ -143,22 +168,22 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
               <div className="bg-white/10 backdrop-blur-sm p-6 rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Quick Specifications</h3>
                 <ul className="space-y-2">
-                  {product.flute && (
+                  {flute && (
                     <li className="flex justify-between">
                       <span className="text-gray-300">Flutes:</span>
-                      <span className="font-medium">{product.flute}</span>
+                      <span className="font-medium">{flute}</span>
                     </li>
                   )}
-                  {product.material && (
+                  {material && (
                     <li className="flex justify-between">
                       <span className="text-gray-300">Material:</span>
-                      <span className="font-medium">{product.material}</span>
+                      <span className="font-medium">{material}</span>
                     </li>
                   )}
-                  {product.hrc && (
+                  {hrc && (
                     <li className="flex justify-between">
                       <span className="text-gray-300">Hardness (HRC):</span>
-                      <span className="font-medium">{product.hrc}</span>
+                      <span className="font-medium">{hrc}</span>
                     </li>
                   )}
                   {product.series && (
@@ -167,6 +192,13 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
                       <span className="font-medium">{product.series}</span>
                     </li>
                   )}
+                  {/* Display custom parameters */}
+                  {parameters.map((param, index) => (
+                    <li key={index} className="flex justify-between">
+                      <span className="text-gray-300">{param.name}:</span>
+                      <span className="font-medium">{param.value}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -180,26 +212,27 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
         <div className="mb-16">
           <h2 className="text-3xl font-bold mb-8 text-center">Product Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gray-100 rounded-lg overflow-hidden">
-              <div className="relative aspect-square">
-                <Image src={activeImage || "/placeholder.svg"} alt={product.name} fill className="object-contain p-4" />
+            {/* Updated image container with fixed size and white background */}
+            <div className="bg-white rounded-lg overflow-hidden shadow-md flex items-center justify-center">
+              <div className="relative w-[400px] h-[400px]">
+                <Image src={activeImage || "/placeholder.svg"} alt={productName} fill className="object-contain" />
               </div>
             </div>
             <div className="flex flex-col justify-between">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold mb-4">{product.name}</h3>
-                <p className="text-gray-600 mb-4">{product.description}</p>
+                <h3 className="text-2xl font-bold mb-4">{productName}</h3>
+                <p className="text-gray-600 mb-4">{productDescription}</p>
 
-                {product.performanceFeatures && (
+                {performanceFeatures && (
                   <div className="mt-6">
                     <h4 className="text-lg font-semibold mb-3">Key Features</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {product.performanceFeatures.split("\n").map((feature, index) => (
+                      {performanceFeatures.split("\n").map((feature, index) => (
                         <div key={index} className="flex items-start gap-2">
                           <div className="mt-1 text-green-600">
                             <Check className="h-4 w-4" />
                           </div>
-                          <p className="text-sm">{feature.trim()}</p>
+                          <p className="text-sm">{feature.replace(/^-\s*/, "").trim()}</p>
                         </div>
                       ))}
                     </div>
@@ -210,17 +243,17 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
               <div>
                 <h4 className="text-lg font-semibold mb-3">Product Images</h4>
                 <div className="grid grid-cols-5 gap-2">
-                  {product.images.map((image, index) => (
+                  {product.images?.map((image, index) => (
                     <div
                       key={index}
-                      className={`relative h-16 bg-gray-100 rounded cursor-pointer border-2 ${
+                      className={`relative h-16 bg-white rounded cursor-pointer border-2 ${
                         activeImage === image.url ? "border-red-600" : "border-transparent"
                       }`}
                       onClick={() => setActiveImage(image.url)}
                     >
                       <Image
                         src={image.url || "/placeholder.svg"}
-                        alt={image.alt || `${product.name} View ${index + 1}`}
+                        alt={image.alt || `${productName} View ${index + 1}`}
                         fill
                         className="object-contain p-1"
                       />
@@ -228,14 +261,14 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
                   ))}
                   {product.modelImageUrl && (
                     <div
-                      className={`relative h-16 bg-gray-100 rounded cursor-pointer border-2 ${
+                      className={`relative h-16 bg-white rounded cursor-pointer border-2 ${
                         activeImage === product.modelImageUrl ? "border-red-600" : "border-transparent"
                       }`}
                       onClick={() => setActiveImage(product.modelImageUrl)}
                     >
                       <Image
                         src={product.modelImageUrl || "/placeholder.svg"}
-                        alt={`${product.name} Model Image`}
+                        alt={`${productName} Model Image`}
                         fill
                         className="object-contain p-1"
                       />
@@ -258,42 +291,37 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
         )}
 
         {/* Technical Parameters */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-8 text-center">Technical Parameters</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
-              <thead>
-                <tr className="bg-gray-800 text-white">
-                  <th className="py-3 px-4 text-left">Parameter</th>
-                  <th className="py-3 px-4 text-left">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {product.parameters.map((param, index) => (
-                  <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="py-3 px-4 border-b">{param.name}</td>
-                    <td className="py-3 px-4 border-b">{param.value}</td>
+        {parameters.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold mb-8 text-center">Technical Parameters</h2>
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-gray-800 text-white">
+                    <th className="py-3 px-4 text-left">Parameter</th>
+                    <th className="py-3 px-4 text-left">Value</th>
                   </tr>
-                ))}
-                {product.parameters.length === 0 && (
-                  <tr>
-                    <td className="py-3 px-4 border-b" colSpan={2}>
-                      No parameters available
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {parameters.map((param, index) => (
+                    <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                      <td className="py-3 px-4 border-b">{param.name}</td>
+                      <td className="py-3 px-4 border-b">{param.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Technical Information */}
-        {product.technicalInfo && (
+        {technicalInfo && (
           <div className="mb-16">
             <h2 className="text-3xl font-bold mb-8 text-center">Technical Information</h2>
             <div className="bg-white shadow-md rounded-lg p-6">
               <div className="prose max-w-none">
-                <div className="whitespace-pre-line">{product.technicalInfo}</div>
+                <div className="whitespace-pre-line">{technicalInfo}</div>
               </div>
             </div>
           </div>
@@ -306,7 +334,7 @@ export default function ModernImageTemplate({ product = sampleProduct }: Product
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {product.technicalDrawings.map((drawing, index) => (
                 <div key={index} className="bg-white shadow-md rounded-lg overflow-hidden">
-                  <div className="relative h-48 bg-gray-100">
+                  <div className="relative h-48 bg-white">
                     <Image
                       src={drawing.url || "/placeholder.svg"}
                       alt={drawing.title}

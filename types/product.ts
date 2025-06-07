@@ -41,6 +41,7 @@ export interface Product {
   productCode?: string
   technicalInfo?: string
   referenceUrl?: string
+  internalDetailUrl?: string // 新增：产品详情站内地址
 }
 
 export type ProductFormData = Omit<Product, "id" | "createdAt" | "updatedAt">

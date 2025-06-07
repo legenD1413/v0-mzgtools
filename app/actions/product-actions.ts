@@ -85,7 +85,7 @@ export async function getProductById(id: string): Promise<Product | undefined> {
     `
     const images: ProductImage[] = imagesResult.map((img) => snakeToCamel(img) as ProductImage)
 
-    // ��取技术图纸
+    // 取技术图纸
     const drawingsResult = await sql`
       SELECT * FROM technical_drawings WHERE product_id = ${id}
     `
@@ -107,6 +107,55 @@ export async function getProductById(id: string): Promise<Product | undefined> {
   }
 }
 
+// Get product by product code
+export async function getProductByCode(productCode: string): Promise<Product | undefined> {
+  try {
+    // Get product basic information
+    const productResult = await sql`
+      SELECT * FROM products WHERE product_code = ${productCode}
+    `
+
+    if (!productResult.length) {
+      return undefined
+    }
+
+    const product = snakeToCamel(productResult[0]) as Product
+    const id = product.id
+
+    // Get product parameters
+    const parametersResult = await sql`
+      SELECT * FROM product_parameters WHERE product_id = ${id}
+    `
+    const parameters: ProductParameter[] = parametersResult.map((param) => snakeToCamel(param) as ProductParameter)
+
+    // Get product images
+    const imagesResult = await sql`
+      SELECT * FROM product_images WHERE product_id = ${id}
+    `
+    const images: ProductImage[] = imagesResult.map((img) => snakeToCamel(img) as ProductImage)
+
+    // Get technical drawings
+    const drawingsResult = await sql`
+      SELECT * FROM technical_drawings WHERE product_id = ${id}
+    `
+    const technicalDrawings: TechnicalDrawing[] = drawingsResult.map(
+      (drawing) => snakeToCamel(drawing) as TechnicalDrawing,
+    )
+
+    return {
+      ...product,
+      parameters,
+      images,
+      technicalDrawings,
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
+    }
+  } catch (error) {
+    console.error(`Failed to get product with code ${productCode}:`, error)
+    throw new Error(`Failed to get product with code ${productCode}`)
+  }
+}
+
 // 创建产品
 export async function createProduct(productData: ProductFormData): Promise<Product> {
   try {
@@ -116,7 +165,7 @@ export async function createProduct(productData: ProductFormData): Promise<Produ
         name, description, main_category, sub_category,
         application, model_image_url, performance_features,
         flute, hrc, series, material,
-        product_code, technical_info, reference_url
+        product_code, technical_info, reference_url, internal_detail_url
       ) VALUES (
         ${productData.name}, 
         ${productData.description}, 
@@ -131,7 +180,8 @@ export async function createProduct(productData: ProductFormData): Promise<Produ
         ${productData.material || null},
         ${productData.productCode || null},
         ${productData.technicalInfo || null},
-        ${productData.referenceUrl || null}
+        ${productData.referenceUrl || null},
+        ${productData.internalDetailUrl || null}
       ) RETURNING *
     `
 
@@ -215,6 +265,7 @@ export async function updateProduct(id: string, productData: ProductFormData): P
         product_code = ${productData.productCode || null},
         technical_info = ${productData.technicalInfo || null},
         reference_url = ${productData.referenceUrl || null},
+        internal_detail_url = ${productData.internalDetailUrl || null},
         updated_at = CURRENT_TIMESTAMP
       WHERE id = ${id}
     `

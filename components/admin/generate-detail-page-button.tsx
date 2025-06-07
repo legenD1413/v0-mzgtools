@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FileText, ExternalLink, AlertCircle } from "lucide-react"
 import { generateProductDetailPage } from "@/app/actions/generate-product-detail-page"
 import { Button } from "@/components/ui/button"
@@ -11,56 +11,80 @@ interface GenerateDetailPageButtonProps {
   productId: string
   productName?: string
   referenceUrl?: string
+  internalDetailUrl?: string
+  productCode?: string
 }
 
-export function GenerateDetailPageButton({ productId, productName, referenceUrl }: GenerateDetailPageButtonProps) {
+export function GenerateDetailPageButton({
+  productId,
+  productName,
+  referenceUrl,
+  internalDetailUrl,
+  productCode,
+}: GenerateDetailPageButtonProps) {
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedPagePath, setGeneratedPagePath] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  // Initialize the page path if we have the internal URL and product code
+  useEffect(() => {
+    if (internalDetailUrl && productCode) {
+      // Remove trailing slash if present
+      const baseUrl = internalDetailUrl.endsWith("/") ? internalDetailUrl.slice(0, -1) : internalDetailUrl
+
+      // Create the full path
+      const fullPath = `${baseUrl}/${productCode}`
+      setGeneratedPagePath(fullPath)
+    }
+  }, [internalDetailUrl, productCode])
 
   const handleGenerate = async () => {
     try {
       setIsGenerating(true)
       setError(null)
 
-      console.log(`正在为产品ID生成页面: ${productId}`)
-      console.log(`产品名称: ${productName || "未知"}`)
+      console.log(`Generating page for product ID: ${productId}`)
+      console.log(`Product name: ${productName || "Unknown"}`)
 
       if (referenceUrl) {
-        console.log(`使用模板: ${referenceUrl}`)
+        console.log(`Using template: ${referenceUrl}`)
       } else {
-        console.log("未指定模板，将使用默认模板")
+        console.log("No template specified, will use default template")
+      }
+
+      if (internalDetailUrl) {
+        console.log(`Using internal detail URL: ${internalDetailUrl}`)
       }
 
       const result = await generateProductDetailPage(productId)
-      console.log("生成结果:", result)
+      console.log("Generation result:", result)
 
       if (result.success) {
         toast({
-          title: "成功",
+          title: "Success",
           description: result.message,
         })
-        // 存储生成的页面路径
+        // Store the generated page path
         if (result.path) {
           setGeneratedPagePath(result.path)
-          console.log(`页面生成于: ${result.path}`)
+          console.log(`Page generated at: ${result.path}`)
         }
       } else {
-        setError(result.message || "未知错误")
+        setError(result.message || "Unknown error")
         toast({
-          title: "错误",
+          title: "Error",
           description: result.message,
           variant: "destructive",
         })
-        console.error("服务器操作错误:", result.message)
+        console.error("Server operation error:", result.message)
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
       setError(errorMessage)
-      console.error("生成按钮处理程序中的错误:", error)
+      console.error("Error in generate button handler:", error)
       toast({
-        title: "错误",
-        description: "生成产品详情页失败",
+        title: "Error",
+        description: "Failed to generate product detail page",
         variant: "destructive",
       })
     } finally {
@@ -77,10 +101,10 @@ export function GenerateDetailPageButton({ productId, productName, referenceUrl 
           onClick={handleGenerate}
           disabled={isGenerating}
           className="h-8 px-2 lg:px-3"
-          title={referenceUrl ? `使用模板: ${referenceUrl}` : "使用默认模板"}
+          title={referenceUrl ? `Using template: ${referenceUrl}` : "Using default template"}
         >
           <FileText className="h-4 w-4 mr-2" />
-          {isGenerating ? "生成中..." : "Generate Detail Page"}
+          {isGenerating ? "Generating..." : "Generate Detail Page"}
         </Button>
 
         {generatedPagePath && (
@@ -90,7 +114,7 @@ export function GenerateDetailPageButton({ productId, productName, referenceUrl 
             className="flex items-center text-blue-600 hover:text-blue-800"
           >
             <ExternalLink className="h-4 w-4 mr-1" />
-            <span>查看页面</span>
+            <span>View Page</span>
           </Link>
         )}
       </div>
@@ -98,7 +122,7 @@ export function GenerateDetailPageButton({ productId, productName, referenceUrl 
       {error && (
         <div className="mt-2 text-xs text-red-500 flex items-center">
           <AlertCircle className="h-3 w-3 mr-1" />
-          <span>错误: {error}</span>
+          <span>Error: {error}</span>
         </div>
       )}
     </div>

@@ -83,7 +83,7 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">MILLING</span>
+                                <span className="text-[14px] font-medium">MILLING CUTTING</span>
                               </button>
                             </li>
                             <li>
@@ -102,7 +102,7 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">THREADING</span>
+                                <span className="text-[14px] font-medium">THREAD MILLING</span>
                               </button>
                             </li>
                             <li>
@@ -288,119 +288,41 @@ export default function Header() {
                             <h3 className="mb-6 text-xl font-bold text-gray-800">Milling Tools</h3>
                             <div className="grid grid-cols-3 gap-x-8 gap-y-8">
                               <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">End Mills</h4>
-                                <ul className="space-y-3">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Basic End Mills</h4>
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
-                                      href="/standard-tools/milling/end-mills"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/milling/deep-ditch"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Standard End Mills
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/ball-nose"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Ball Nose Mills
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/roughing"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Roughing End Mills
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/corner-radius"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Corner Radius Mills
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Deep Ditch End Milling Cutter
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       href="/standard-tools/milling/right-angle-flat"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Right Angel Flat End Mill
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/milling/deep-ditch"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/milling/ball-end"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Deep Ditch End Milling Cutter
-                                    </Link>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Mills</h4>
-                                <ul className="space-y-3">
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/face-mills"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Face Mills
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/chamfer"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Chamfer Mills
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/thread-mills"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Thread Mills
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/engraving"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Engraving Tools
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling/small-diameter"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Small Diameter Milling Cutter
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Ball End Mill
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       href="/standard-tools/milling/fillet"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Fillet End Mill
                                     </Link>
                                   </li>
@@ -408,41 +330,83 @@ export default function Header() {
                               </div>
 
                               <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Advanced Mills</h4>
-                                <ul className="space-y-3">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Mills</h4>
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
-                                      href="/standard-tools/milling/ball-end"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/milling/chamfer"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Ball End Mill
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Chamfer Mills
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling/t-slot-cutter"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      T-Slot Cutter
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling/side-milling-cutter"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Side Milling Cutter
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Advanced Mills</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling/reamer"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Reamer
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling/small-diameter"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Small Diameter Milling Cutter
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       href="/standard-tools/milling/rough"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Rough Milling Cutter
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       href="/standard-tools/milling/taper"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Taper End Mill
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       href="/standard-tools/milling/welding-edge"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Welding Edge Milling Cutter
                                     </Link>
                                   </li>
@@ -463,60 +427,36 @@ export default function Header() {
                         {/* 螺纹加工工具子菜单 */}
                         {activeCategory === "threading" && (
                           <div>
-                            <h3 className="mb-6 text-xl font-bold text-gray-800">Threading Tools</h3>
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-8">
+                            <h3 className="mb-6 text-xl font-bold text-gray-800">Thread Milling Tools</h3>
+                            <div className="grid grid-cols-1 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Internal Threading</h4>
                                 <ul className="space-y-3">
                                   <li>
                                     <Link
                                       href="/standard-tools/threading/taps"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 text-xs transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Taps
+                                      Taps and Adjustable Circular Die
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/threading/thread-mills"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/threading/integral-thread-milling-cutters"
+                                      className="flex items-center hover:text-red-600 py-1 text-xs transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Thread Mills
+                                      Integral Thread Milling Cutters
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/threading/thread-milling-cutters"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/threading/inserts-type-thread-milling-cutter"
+                                      className="flex items-center hover:text-red-600 py-1 text-xs transition-colors whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Thread Milling Cutters
-                                    </Link>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">External Threading</h4>
-                                <ul className="space-y-3">
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/threading/thread-turning"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Thread Turning Tools
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/threading/thread-whirling"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Thread Whirling Tools
+                                      Inserts Type Thread Milling Cutter
                                     </Link>
                                   </li>
                                 </ul>
@@ -526,8 +466,8 @@ export default function Header() {
                             <div className="mt-10 p-4 bg-gray-50 rounded-lg">
                               <h4 className="font-medium text-gray-800 mb-2">Threading Excellence</h4>
                               <p className="text-sm text-gray-600">
-                                Our threading tools provide precise thread profiles and superior surface finish for all
-                                thread types and materials.
+                                Our thread milling tools provide precise thread profiles and superior surface finish for
+                                all thread types and materials.
                               </p>
                             </div>
                           </div>
@@ -1279,7 +1219,12 @@ export default function Header() {
             )}
           </div>
 
-          {/* About Us */}
+          {/* Blog */}
+          <Link href="/mzgblog" className="text-gray-700 hover:text-red-600">
+            Blog
+          </Link>
+
+          {/* About Us - moved to second-to-last position */}
           <Link href="/about" className="text-gray-700 hover:text-red-600">
             About Us
           </Link>
@@ -1317,6 +1262,9 @@ export default function Header() {
           </Link>
           <Link href="/resources" className="block px-4 py-2 text-gray-700 hover:text-red-600">
             Resources
+          </Link>
+          <Link href="/mzgblog" className="block px-4 py-2 text-gray-700 hover:text-red-600">
+            Blog
           </Link>
           <Link href="/about" className="block px-4 py-2 text-gray-700 hover:text-red-600">
             About Us

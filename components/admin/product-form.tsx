@@ -39,6 +39,7 @@ export function ProductForm({ product, isEdit = false }: ProductFormProps) {
     productCode: "",
     technicalInfo: "",
     referenceUrl: "",
+    internalDetailUrl: "", // 新增：产品详情站内地址
   })
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export function ProductForm({ product, isEdit = false }: ProductFormProps) {
         productCode: product.productCode || "",
         technicalInfo: product.technicalInfo || "",
         referenceUrl: product.referenceUrl || "",
+        internalDetailUrl: product.internalDetailUrl || "", // 新增：产品详情站内地址
       })
 
       // 如果有产品型号图，初始化modelImage状态
@@ -272,6 +274,21 @@ export function ProductForm({ product, isEdit = false }: ProductFormProps) {
               />
             </div>
 
+            <div>
+              <label htmlFor="internalDetailUrl" className="block text-sm font-medium text-gray-700">
+                产品详情站内地址
+              </label>
+              <input
+                type="text"
+                id="internalDetailUrl"
+                name="internalDetailUrl"
+                value={formData.internalDetailUrl}
+                onChange={handleChange}
+                placeholder="/productdetails/[product-code]"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              />
+            </div>
+
             <div className="md:col-span-2">
               <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                 产品描述 <span className="text-red-500">*</span>
@@ -474,11 +491,11 @@ export function ProductForm({ product, isEdit = false }: ProductFormProps) {
           </div>
         </div>
 
-        {/* 产品图片 */}
+        {/* 产品实物图 */}
         <div className="rounded-md border border-gray-200 bg-white p-4">
-          <h3 className="mb-4 text-lg font-medium">产品图片</h3>
+          <h3 className="mb-4 text-lg font-medium">产品实物图</h3>
           <FileUpload
-            label="产品实物图"
+            label="产品实物图（可上传多张）"
             accept="image/*"
             multiple={true}
             files={formData.images.map((img) => ({ id: img.id, url: img.url, alt: img.alt }))}
@@ -488,11 +505,11 @@ export function ProductForm({ product, isEdit = false }: ProductFormProps) {
           <p className="mt-1 text-xs text-gray-500">第一张图片将作为产品主图</p>
         </div>
 
-        {/* 技术图纸 */}
+        {/* 产品技术图 */}
         <div className="rounded-md border border-gray-200 bg-white p-4">
-          <h3 className="mb-4 text-lg font-medium">技术图纸</h3>
+          <h3 className="mb-4 text-lg font-medium">产品技术图</h3>
           <FileUpload
-            label="产品技术图纸"
+            label="产品技术图（可上传多张）"
             accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png"
             multiple={true}
             files={formData.technicalDrawings.map((drawing) => ({
@@ -503,6 +520,7 @@ export function ProductForm({ product, isEdit = false }: ProductFormProps) {
             onFilesChange={handleDrawingsChange}
             type="document"
           />
+          <p className="mt-1 text-xs text-gray-500">支持PDF、DWG、DXF、JPG、PNG等格式</p>
         </div>
       </div>
 
