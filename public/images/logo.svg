@@ -1,0 +1,6 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="40" height="40" rx="8" fill="#DC2626"/>
+  <path d="M8 12h24v4H20v12h-4V16H8v-4zm32 0h4l6 16h-4l-1-3h-6l-1 3h-4l6-16zm2 10l-2-5-2 5h4z" fill="white"/>
+  <text x="48" y="16" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1F2937">MZG</text>
+  <text x="48" y="30" font-family="Arial, sans-serif" font-size="10" fill="#6B7280">TOOLS</text>
+</svg>

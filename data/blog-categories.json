@@ -1,0 +1,27 @@
+[
+  {
+    "id": "jjlcyclfvvmfe9ic89ll8j",
+    "name": "News",
+    "slug": "news"
+  },
+  {
+    "id": "k59if5stcngqaz4ektced",
+    "name": "Careers",
+    "slug": "careers"
+  },
+  {
+    "id": "bf75e4ggcqvgivmxt4bdb",
+    "name": "Employee Spotlights",
+    "slug": "employee-spotlights"
+  },
+  {
+    "id": "gm8cnafacuttl6v46q72g8",
+    "name": "Exhibition",
+    "slug": "exhibition"
+  },
+  {
+    "id": "290u6ambg72kldgy7k92ln",
+    "name": "Manufacturing 101",
+    "slug": "manufacturing-101"
+  }
+]
