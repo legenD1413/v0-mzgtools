@@ -18,12 +18,21 @@ peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from react-day-picker@8.10.1
 Conflicting peer dependency: react@18.3.1
 ```
 
+### 3. Vaul 组件兼容性错误
+```
+npm error ERESOLVE could not resolve
+Could not resolve dependency:
+peer react@"^16.8 || ^17.0 || ^18.0" from vaul@0.9.9
+Conflicting peer dependency: react@18.3.1
+```
+
 ## ✅ 解决方案
 
-### 步骤 1: 更新 React-Day-Picker 到 React 19 兼容版本
+### 步骤 1: 更新组件库到 React 19 兼容版本
 ```bash
 # 更新 package.json 中的版本
 "react-day-picker": "^9.7.0"  # 支持 React 19
+"vaul": "^1.1.2"              # 支持 React 19
 ```
 
 ### 步骤 2: 清理锁文件冲突
@@ -53,6 +62,7 @@ git push origin main
 ### 依赖版本信息
 - **React**: 19.x (最新稳定版)
 - **react-day-picker**: 9.7.0 (支持 React 19)
+- **vaul**: 1.1.2 (支持 React 19)
 - **Next.js**: 15.2.4
 - **包管理器**: npm (推荐，避免锁文件冲突)
 
