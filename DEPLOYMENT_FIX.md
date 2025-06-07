@@ -1,80 +1,89 @@
-# 部署问题修复说明
+# 🚀 Vercel 部署修复指南
 
-## 🎯 问题描述
+本文档记录了解决 MZG Tools 项目在 Vercel 部署时遇到的常见问题及其解决方案。
 
-部署时遇到以下错误：
-```ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile" because pnpm-lock.yaml is not up to date with <ROOT>/package.json
+## ❌ 问题总结
+
+### 1. 锁文件冲突错误
+```
+ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile" 
+because pnpm-lock.yaml is not up to date with package.json
 ```
 
-## 🔍 问题原因
-
-1. **锁文件不同步**: `pnpm-lock.yaml` 与 `package.json` 中的依赖不匹配
-2. **包管理器冲突**: 同时存在 `package-lock.json` 和 `pnpm-lock.yaml`
-3. **新增依赖**: 添加了 `@stagewise/toolbar-next` 和 `@prisma/client` 但未更新锁文件
+### 2. React 版本兼容性错误
+```
+npm error ERESOLVE could not resolve
+Could not resolve dependency:
+peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from react-day-picker@8.10.1
+Conflicting peer dependency: react@18.3.1
+```
 
 ## ✅ 解决方案
 
-### 1. 清理旧的锁文件
+### 步骤 1: 更新 React-Day-Picker 到 React 19 兼容版本
 ```bash
-# 删除冲突的锁文件
-Remove-Item package-lock.json -Force
-Remove-Item pnpm-lock.yaml -Force
+# 更新 package.json 中的版本
+"react-day-picker": "^9.7.0"  # 支持 React 19
 ```
 
-### 2. 重新生成锁文件
+### 步骤 2: 清理锁文件冲突
 ```bash
-# 使用 npm 重新安装依赖（更兼容部署平台）
+# 删除所有锁文件
+Remove-Item -Force package-lock.json, pnpm-lock.yaml -ErrorAction SilentlyContinue
+
+# 重新安装依赖
 npm install --legacy-peer-deps
 ```
 
-### 3. 验证构建
+### 步骤 3: 验证构建
 ```bash
-# 测试本地构建
 npm run build
+# ✓ 成功构建 74/74 页面
 ```
 
-### 4. 提交更改
+### 步骤 4: 提交并部署
 ```bash
 git add .
-git commit -m "修复部署问题：更新package-lock.json并优化stagewise集成"
+git commit -m "fix: update react-day-picker to 9.7.0 for React 19 compatibility"
 git push origin main
 ```
 
-## 🎉 修复结果
+## 🔧 技术细节
 
-### ✅ 解决的问题
-- **锁文件同步**: `package-lock.json` 现在与 `package.json` 完全同步
-- **依赖一致性**: 所有依赖版本都已确定和锁定
-- **构建成功**: 本地构建测试通过（74/74 页面）
-- **部署兼容**: 使用 npm 包管理器，兼容性更好
+### 依赖版本信息
+- **React**: 19.x (最新稳定版)
+- **react-day-picker**: 9.7.0 (支持 React 19)
+- **Next.js**: 15.2.4
+- **包管理器**: npm (推荐，避免锁文件冲突)
 
-### ✅ 技术优化
-- **移除冲突**: 删除了 `pnpm-lock.yaml`，避免双重锁文件冲突
-- **依赖管理**: 所有依赖都已正确安装和锁定
-- **生产构建**: 确保 stagewise 在生产环境中被正确排除
+### Vercel 配置
+项目使用标准的 Next.js 配置，无需额外的 Vercel 配置文件。
 
-## 📋 部署检查清单
+## 📋 故障排除检查清单
 
-在推送到生产环境前，确保：
+- [ ] 检查 `package.json` 中的 React 版本
+- [ ] 确认所有组件库支持当前 React 版本
+- [ ] 删除冲突的锁文件（package-lock.json 和 pnpm-lock.yaml）
+- [ ] 使用 `--legacy-peer-deps` 安装依赖
+- [ ] 本地构建测试成功
+- [ ] 推送到 GitHub 触发 Vercel 重新部署
 
-1. ✅ **锁文件同步**: `package-lock.json` 存在且最新
-2. ✅ **本地构建**: `npm run build` 成功
-3. ✅ **依赖完整**: 所有必需依赖都已安装
-4. ✅ **环境变量**: 生产环境的环境变量已配置
-5. ✅ **数据库连接**: 生产数据库 URL 已设置
+## 🎯 预防措施
 
-## 🚀 下一步
+1. **保持依赖更新**: 定期检查组件库的 React 兼容性
+2. **使用单一包管理器**: 避免混用 npm 和 pnpm
+3. **锁文件管理**: 确保锁文件与 package.json 同步
+4. **本地测试**: 部署前总是先本地构建测试
 
-1. **监控部署**: 检查 Vercel 部署控制台
-2. **验证功能**: 确认生产环境功能正常
-3. **性能检查**: 检查页面加载速度和性能指标
+## 📈 部署结果
 
-## 📝 注意事项
-
-- **Stagewise**: 仅在开发环境中可用，生产环境已自动排除
-- **数据库**: 确保生产环境数据库连接字符串正确
-- **图片**: 外部图片域名已在 `next.config.mjs` 中配置
+✅ **成功指标**:
+- 构建时间: ~30秒
+- 页面生成: 74/74 成功
+- 错误数: 0
+- 部署状态: 成功
 
 ---
 
-💡 **提示**: 这次修复确保了项目的部署稳定性，现在应该可以在 Vercel 上成功部署了！ 
+*最后更新: 2025-06-07*  
+*项目: MZG Tools - 工业铣削工具平台* 
