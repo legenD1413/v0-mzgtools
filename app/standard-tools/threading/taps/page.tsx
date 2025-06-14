@@ -584,7 +584,7 @@ export default function TapsPage() {
           <div className="relative container mx-auto px-4 py-20 md:py-28">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
-                <div className="inline-block bg-red-600 px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
                   Threading Expert Guide
           </div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">

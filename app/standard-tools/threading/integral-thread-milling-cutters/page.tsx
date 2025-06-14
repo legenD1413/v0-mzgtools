@@ -9,55 +9,148 @@ export default function IntegralThreadMillingCuttersPage() {
   // Sample product data - in a real application, this would come from a database or API
   const products = [
     {
-      id: "itmc-007",
+      id: "itmc-010",
       name: "Metric Single Tooth Thread Milling Cutter",
-      image: "/images/1T-.png",
-      description: "Versatile single tooth design for metric threads with wide pitch range",
-      p: "0.2-3.5mm",
-      d1: "0.55-16mm",
-      d2: "0.29-11.45mm",
-      L1: "1.5-50mm",
-      D: "4-16mm",
-      L: "50-90mm",
-      bladeCount: "2,3,4,5",
-      series: "1T-",
-      page: "L05",
-      application: "",
-      url: "/standard-tools/threading/integral-thread-milling-cutters/1T-metric",
+      image: "/images/L05-1.png",
+      description: "Single tooth thread milling cutter for versatile thread milling processing",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically a single tooth type",
+      pageNumber: "L05",
     },
     {
-      id: "itmc-008",
+      id: "itmc-011",
       name: "Metric Three Tooth Thread Milling Cutter",
-      image: "/images/3T-.png",
-      description: "High-performance three tooth design for enhanced stability and productivity",
-      p: "0.2-3.5mm",
-      d1: "0.7-16mm",
-      d2: "0.375-12.1mm",
-      L1: "2.8-45mm",
-      D: "4-16mm",
-      L: "50-90mm",
-      bladeCount: "3,4",
-      series: "3T-",
-      page: "L05",
-      application: "",
-      url: "/standard-tools/threading/integral-thread-milling-cutters/3T-metric",
+      image: "/images/L05-2.png",
+      description: "Three tooth thread milling cutter for enhanced stability and productivity",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically a three tooth type",
+      pageNumber: "L05",
     },
     {
-      id: "itmc-009",
+      id: "itmc-012",
       name: "Metric Full Thread Milling Cutter",
-      image: "/images/FT-.png",
-      description: "Full profile thread milling cutter for complete thread machining in single operation",
-      p: "0.5-3mm",
-      d1: "2.3-16mm",
-      d2: "",
-      L1: "6-42mm",
-      D: "4-16mm",
-      L: "50-100mm",
-      bladeCount: "3,4",
-      series: "FT-",
-      page: "L06",
-      application: "",
-      url: "/standard-tools/threading/integral-thread-milling-cutters/FT-metric",
+      image: "/images/L06-1.png",
+      description: "Full thread milling cutter for complete thread profile machining",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically a full tooth type",
+      pageNumber: "L06",
+    },
+    {
+      id: "itmc-013",
+      name: "Metric Extended Single Tooth Thread Milling Cutter",
+      image: "/images/L06-2.png",
+      description: "Extended single tooth design for deeper thread milling applications",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically an extended single tooth type",
+      pageNumber: "L06",
+    },
+    {
+      id: "itmc-014",
+      name: "Metric Extended Three Tooth Thread Milling Cutter",
+      image: "/images/L07-1.png",
+      description: "Extended three tooth design for deeper thread milling with enhanced stability",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically an extended three tooth type",
+      pageNumber: "L07",
+    },
+    {
+      id: "itmc-015",
+      name: "M Metric Hard Alloy Right-Hand Drilling Thread Milling Cutter",
+      image: "/images/L07-2.png",
+      description: "Hard alloy right-hand drilling thread milling cutter with advanced coating",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically a right-hand drilling type. Made of Co10% material, coated with Balchals Ultra H, suitable for processing stainless steel, high-temperature alloy, titanium alloy, mold steel, steel parts, and cast iron",
+      pageNumber: "L07",
+    },
+    {
+      id: "itmc-016",
+      name: "M Metric Hard Alloy Left-Hand Drilling Thread Milling Cutter",
+      image: "/images/L08-1.png",
+      description: "Hard alloy left-hand drilling thread milling cutter for specialized applications",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically a left-hand drilling type",
+      pageNumber: "L08",
+    },
+    {
+      id: "itmc-017",
+      name: "M Metric Tungsten Steel Left-Hand Right Cutting Full Thread Milling Cutter",
+      image: "/images/L08-2.png",
+      description: "Tungsten steel left-hand right cutting full thread milling cutter",
+      threadStandards: "Metric",
+      application: "For thread milling processing, specifically a left-hand right cutting full tooth type",
+      pageNumber: "L08",
+    },
+    {
+      id: "itmc-018",
+      name: "60° Single Tooth Range Thread Milling Cutter",
+      image: "/images/L09-1.png",
+      description: "60° single tooth range thread milling cutter for UN.M. threads",
+      threadStandards: "UN.M.",
+      application: "For thread milling processing, specifically a single tooth type, suitable for UN.M. threads",
+      pageNumber: "L09",
+    },
+    {
+      id: "itmc-019",
+      name: "UNC.UNF American Triple Thread Cutter",
+      image: "/images/L10-1.png",
+      description: "American standard triple thread cutter for UNC/UNF applications",
+      threadStandards: "UNC/UNF",
+      application: "For thread milling processing, specifically a three tooth type for American UNC/UNF threads",
+      pageNumber: "L10",
+    },
+    {
+      id: "itmc-020",
+      name: "Full Tooth American UN Internal Thread Milling Cutter",
+      image: "/images/L11-1.png",
+      description: "Full tooth internal thread milling cutter for American UN threads",
+      threadStandards: "UN (American)",
+      application: "For thread milling processing, specifically an internal thread type for American UN threads",
+      pageNumber: "L11",
+    },
+    {
+      id: "itmc-021",
+      name: "55° Inch Single Tooth Range Thread Milling Cutter",
+      image: "/images/L12-1.png",
+      description: "55° inch single tooth range thread milling cutter for British threads",
+      threadStandards: "British Inch",
+      application: "For thread milling processing, specifically a single tooth range type for British threads",
+      pageNumber: "L12",
+    },
+    {
+      id: "itmc-022",
+      name: "A80 German Standard PG Tungsten Steel Straight Groove Thread Milling Cutter",
+      image: "/images/L13-1.png",
+      description: "German standard PG tungsten steel straight groove thread milling cutter with advanced coating",
+      threadStandards: "PG (German)",
+      application: "For thread milling processing, specifically a straight groove type for German PG threads. Made of Co10% material, coated with Balchals Ultra H, suitable for processing stainless steel, high-temperature alloy, titanium alloy, mold steel, steel parts, and cast iron",
+      pageNumber: "L13",
+    },
+    {
+      id: "itmc-023",
+      name: "Inch Cylindrical Pipe Thread Milling Cutter",
+      image: "/images/L13-2.png",
+      description: "Inch cylindrical pipe thread milling cutter for British pipe threads",
+      threadStandards: "British Pipe",
+      application: "For thread milling processing, specifically a cylindrical type for British pipe threads",
+      pageNumber: "L13",
+    },
+    {
+      id: "itmc-024",
+      name: "NPT/NPTF American Taper Pipe Thread Milling Cutter",
+      image: "/images/L14-1.png",
+      description: "American taper pipe thread milling cutter for NPT/NPTF applications",
+      threadStandards: "NPT/NPTF",
+      application: "For thread milling processing, specifically a taper type for American NPT/NPTF pipe threads",
+      pageNumber: "L14",
+    },
+    {
+      id: "itmc-025",
+      name: "BSPT(PT.RC) British Taper Pipe Thread Milling Cutter",
+      image: "/images/L14-2.png",
+      description: "British taper pipe thread milling cutter for BSPT/PT/RC applications",
+      threadStandards: "BSPT/PT/RC",
+      application: "For thread milling processing, specifically a taper type for British BSPT/PT/RC pipe threads",
+      pageNumber: "L14",
     },
   ]
 
@@ -206,7 +299,7 @@ export default function IntegralThreadMillingCuttersPage() {
               <div className="flex justify-center lg:justify-end">
                 <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
-                    src="/images/thread-mills-hero.png"
+                    src="/images/Integral-Steel.png"
                     alt="Collection of Integral Thread Milling Cutters"
                     width={500}
                     height={300}
@@ -308,6 +401,52 @@ export default function IntegralThreadMillingCuttersPage() {
                   </ul>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Products Grid */}
+          <div className="mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-1 bg-red-600 mr-4"></div>
+              <h2 className="text-3xl font-bold">Our Products</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
+                >
+                  <div className="relative w-full bg-white" style={{ height: "200px" }}>
+                    <Image
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.name}
+                      fill
+                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-5 border-t">
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-lg font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">
+                        {product.pageNumber}
+                      </span>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      {product.threadStandards && (
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-700">Standards:</span>
+                          <span className="text-gray-900">{product.threadStandards}</span>
+                        </div>
+                      )}
+                      {product.application && (
+                        <div className="pt-2 border-t border-gray-100">
+                          <p className="text-xs text-gray-600">{product.application}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -421,36 +560,7 @@ export default function IntegralThreadMillingCuttersPage() {
             </div>
           </div>
 
-          {/* Products Grid */}
-          <div className="mb-16">
-            <div className="flex items-center mb-8">
-              <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Our Products</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <div
-                  key={product.id}
-                  className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col"
-                >
-                  <div className="relative w-full bg-gray-50" style={{ height: "200px" }}>
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-4 border-t h-full flex flex-col">
-                    <h3 className="text-base font-bold mb-2 flex-grow">{product.name}</h3>
-                    <p className="text-xs text-gray-600 mb-4">{product.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Technical Parameters */}
+                    {/* Technical Parameters */}
           <div className="mb-20">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>

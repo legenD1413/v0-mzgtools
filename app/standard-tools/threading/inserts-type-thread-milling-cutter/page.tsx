@@ -66,66 +66,171 @@ export default function InsertTypeThreadMillingCuttersPage() {
 
   const products = [
     {
-      id: "itmc-blade-60-004",
-      name: "Threaded Blade 60°",
-      image: "/images/THB60.png",
-      description:
-        "Precision 60° threaded blade insert for various thread profiles. Optimized geometry for superior thread quality and extended tool life.",
+      id: "itmc-001",
+      name: "ISO Standard Threaded Insert",
+      image: "/images/L15-1.png",
+      description: "Standard threaded insert for ISO thread milling processing",
       params: [{ label: "Page", value: "L15" }],
       url: "/productdetails/placeholder-product",
     },
     {
-      id: "itmc-blade-55-005",
-      name: "Threaded Blade 55°",
-      image: "/images/THB55.png",
-      description:
-        "Precision 55° threaded blade insert designed for British Standard and pipe thread profiles. Engineered for optimal performance in BSW, BSF, BSP, and NPT applications.",
+      id: "itmc-002",
+      name: "UN-60° American UN Standard Threaded Insert",
+      image: "/images/L15-2.png",
+      description: "American UN standard threaded insert for UN, UNC, UNF, UNEF, UNS threads",
+      params: [{ label: "Page", value: "L15" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-003",
+      name: "W-55 British Whitworth Thread Cutter",
+      image: "/images/L16-1.png",
+      description: "Thread cutter for British Whitworth thread milling processing",
       params: [{ label: "Page", value: "L16" }],
       url: "/productdetails/placeholder-product",
     },
     {
-      id: "itmc-blade-80-006",
-      name: "Threaded Blade 80°",
-      image: "/images/THB80.png",
-      description:
-        "Precision 80° threaded blade insert designed for PG thread profiles according to DIN 40430 standard. Engineered for optimal performance in cable gland and conduit applications.",
+      id: "itmc-004",
+      name: "BSPT-55 British Standard Taper Pipe Thread Cutter",
+      image: "/images/L16-2.png",
+      description: "Standard taper pipe thread cutter for British BSPT threads",
       params: [{ label: "Page", value: "L16" }],
       url: "/productdetails/placeholder-product",
     },
     {
-      id: "itmc-toolholder-001",
-      name: "Single insert toolholders",
-      image: "/images/SIT1218.png",
-      description:
-        "Versatile toolholders designed for single conic inserts, suitable for NPT, NPTF, and BSPT thread profiles. Ideal for precise threading operations.",
+      id: "itmc-005",
+      name: "NPT-60° American Standard Taper Pipe Thread Insert",
+      image: "/images/L16-3.png",
+      description: "American standard taper pipe thread insert for NPT threads",
+      params: [{ label: "Page", value: "L16" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-006",
+      name: "PG Thread Insert",
+      image: "/images/L16-4.png",
+      description: "Thread insert for PG-DIN 40430 threads",
+      params: [{ label: "Page", value: "L16" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-007",
+      name: "Single Insert Toolholders",
+      image: "/images/L18-1.png",
+      description: "Toolholders designed to hold single thread milling inserts",
       params: [{ label: "Page", value: "L18" }],
       url: "/productdetails/placeholder-product",
     },
     {
-      id: "itmc-toolholder-003",
-      name: "Twin insert toolholders",
-      image: "/images/TIT01.png",
-      description:
-        "High-performance toolholders designed for twin inserts, featuring internal coolant bore for enhanced productivity and stability in various threading operations.",
+      id: "itmc-008",
+      name: "Single Insert Toolholders (Long Shank)",
+      image: "/images/L18-2.png",
+      description: "Single insert toolholders with longer shank for deeper reach applications",
       params: [{ label: "Page", value: "L18" }],
       url: "/productdetails/placeholder-product",
     },
     {
-      id: "itmc-toolholder-004",
-      name: "Multi Insert Toolholders",
-      image: "/images/MIT01.png",
-      description:
-        "Robust toolholders designed to accommodate multiple inserts, maximizing material removal rates and efficiency for demanding threading applications.",
-      params: [{ label: "Page", value: "L18" }],
+      id: "itmc-009",
+      name: "ISO Metric Full Profile Thread Milling Inserts",
+      image: "/images/L19-1.png",
+      description: "Full profile thread milling inserts for ISO Metric threads, suitable for both external and internal threading; double-sided use",
+      params: [{ label: "Page", value: "L19" }],
       url: "/productdetails/placeholder-product",
     },
     {
-      id: "itmc-insert-fullprofile-001",
-      name: "Full Profile Inserts",
-      image: "/images/FP01.png",
-      description:
-        "Full profile inserts designed to create the complete thread form, including crest and root. Suitable for various standards: ISO, UN-60° American UN, BSPT-55°, W-55° Whitworth, NPT-60° National Pipe Threads, and NPTF (Dry seal).",
-      params: [{ label: "Page", value: "L19-L20" }],
+      id: "itmc-010",
+      name: "UN-60° American UN Full Profile Thread Milling Inserts",
+      image: "/images/L19-2.png",
+      description: "Full profile thread milling inserts for UN-60° American UN threads, suitable for both external and internal threading; double-sided use",
+      params: [{ label: "Page", value: "L19" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-011",
+      name: "UNJ Aviation Thread Milling Inserts",
+      image: "/images/L20-1.png",
+      description: "Thread milling inserts for UNJ Aviation threads, suitable for both external and internal threading; double-sided use",
+      params: [{ label: "Page", value: "L20" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-012",
+      name: "W-55° Whitworth Full Profile Thread Milling Inserts",
+      image: "/images/L20-2.png",
+      description: "Full profile thread milling inserts for W-55° Whitworth threads, suitable for both external and internal threading; double-sided use",
+      params: [{ label: "Page", value: "L20" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-013",
+      name: "NPT-60° National Pipe Thread Milling Inserts",
+      image: "/images/L20-3.png",
+      description: "Thread milling inserts for NPT-60° National Pipe Threads; single-sided use",
+      params: [{ label: "Page", value: "L20" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-014",
+      name: "BSPT-55° British Standard Pipe Taper Thread Milling Inserts",
+      image: "/images/L20-4.png",
+      description: "Thread milling inserts for BSPT-55° British Standard Pipe Taper threads; single-sided use",
+      params: [{ label: "Page", value: "L20" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-015",
+      name: "NPTF (Dry seal) American Taper Pipe Thread Milling Inserts",
+      image: "/images/L20-5.png",
+      description: "Thread milling inserts for NPTF (Dry seal) American taper pipe threads; single-sided use",
+      params: [{ label: "Page", value: "L20" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-016",
+      name: "Threading Milling Tool Holders",
+      image: "/images/L21-1.png",
+      description: "General threading milling tool holders",
+      params: [{ label: "Page", value: "L21" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-017",
+      name: "Thread Milling Holders for Deep Holes (U-type)",
+      image: "/images/L23-1.png",
+      description: "Deep hole thread milling holders, specifically suitable for large pitches",
+      params: [{ label: "Page", value: "L23" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-018",
+      name: "Thread Milling Holders for Deep Holes (A-type)",
+      image: "/images/L23-2.png",
+      description: "Deep hole thread milling holders, specifically suitable for small pitches and situations with short relief grooves",
+      params: [{ label: "Page", value: "L23" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-019",
+      name: "60° Thread Mill for Deep Holes Inserts",
+      image: "/images/L23-3.png",
+      description: "Thread milling inserts specifically designed for deep hole thread milling",
+      params: [{ label: "Page", value: "L23" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-020",
+      name: "Indexable Threading Mills",
+      image: "/images/L24-1.png",
+      description: "Threading mills for external and internal thread milling. External threads use 16NR** inserts, while internal threads use 16NT** inserts. Includes specific instructions for right-hand and left-hand threads with different feed and milling directions",
+      params: [{ label: "Page", value: "L24" }],
+      url: "/productdetails/placeholder-product",
+    },
+    {
+      id: "itmc-021",
+      name: "Partial Profile Thread Milling Inserts (60°)",
+      image: "/images/L25-1.png",
+      description: "Thread milling inserts for general 60° partial profile thread milling",
+      params: [{ label: "Page", value: "L25" }],
       url: "/productdetails/placeholder-product",
     },
   ]
@@ -296,7 +401,7 @@ export default function InsertTypeThreadMillingCuttersPage() {
               <div className="flex justify-center lg:justify-end">
                 <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
-                    src="/images/insert-thread-mills.png"
+                    src="/images/insert-thread-hero.png"
                     alt="Professional Insert Type Thread Milling Cutters Collection"
                     width={563}
                     height={400}
@@ -398,28 +503,6 @@ export default function InsertTypeThreadMillingCuttersPage() {
             </div>
           </div>
 
-          {/* Main Functions */}
-          <div className="mb-16">
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Primary Functions</h2>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mainFunctions.map((func, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border-l-4 border-red-600 border border-gray-100"
-                >
-                  <div className="flex items-start mb-3">
-                    <div className="mr-4 mt-1">{func.icon}</div>
-                    <h3 className="text-lg font-bold text-gray-800">{func.title}</h3>
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">{func.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* Products Grid */}
           <div className="mb-16">
             <div className="flex items-center mb-6">
@@ -449,6 +532,28 @@ export default function InsertTypeThreadMillingCuttersPage() {
                     </div>
                     <p className="text-xs text-gray-600 mb-3 line-clamp-3">{product.description}</p>
                   </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Main Functions */}
+          <div className="mb-16">
+            <div className="flex items-center mb-6">
+              <div className="w-12 h-1 bg-red-600 mr-4"></div>
+              <h2 className="text-3xl font-bold">Primary Functions</h2>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {mainFunctions.map((func, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border-l-4 border-red-600 border border-gray-100"
+                >
+                  <div className="flex items-start mb-3">
+                    <div className="mr-4 mt-1">{func.icon}</div>
+                    <h3 className="text-lg font-bold text-gray-800">{func.title}</h3>
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed">{func.description}</p>
                 </div>
               ))}
             </div>

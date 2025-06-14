@@ -20,7 +20,7 @@ export default function Header() {
     } else if (menu === "custom" && activeCategory === null) {
       setActiveCategory("tool-holders")
     } else if (menu === "resources" && activeCategory === null) {
-      setActiveCategory("technical")
+      setActiveCategory("catalogs")
     } else if (menu === "about" && activeCategory === null) {
       setActiveCategory("company")
     }
@@ -65,7 +65,7 @@ export default function Header() {
                       {/* 左侧分类菜单 - 深色背景 */}
                       <div className="w-1/4 bg-gray-50 py-6 overflow-y-auto">
                         <div className="px-6">
-                          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-500">Categories</h3>
+                          <h3 className="mb-4 text-sm font-bold tracking-wider text-gray-500">Categories</h3>
                           <ul className="space-y-2">
                             <li>
                               <button
@@ -83,7 +83,7 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">MILLING CUTTING</span>
+                                <span className="text-[14px] font-medium">Milling Cutting Tools</span>
                               </button>
                             </li>
                             <li>
@@ -102,159 +102,45 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">THREAD MILLING</span>
+                                <span className="text-[14px] font-medium">Thread Milling System</span>
                               </button>
                             </li>
                             <li>
                               <button
                                 className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "inserts"
+                                  activeCategory === "milling-tool-holder"
                                     ? "bg-white text-red-600 shadow-sm"
                                     : "text-gray-800 hover:bg-gray-100"
                                 }`}
-                                onMouseEnter={() => handleCategoryHover("inserts")}
-                              >
-                                <Layers
-                                  className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "inserts"
-                                      ? "text-red-600"
-                                      : "text-gray-600 group-hover:text-red-500"
-                                  }`}
-                                />
-                                <span className="text-[14px] font-medium">INSERTS</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "turning"
-                                    ? "bg-white text-red-600 shadow-sm"
-                                    : "text-gray-800 hover:bg-gray-100"
-                                }`}
-                                onMouseEnter={() => handleCategoryHover("turning")}
-                              >
-                                <CircleDashed
-                                  className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "turning"
-                                      ? "text-red-600"
-                                      : "text-gray-600 group-hover:text-red-500"
-                                  }`}
-                                />
-                                <span className="text-[14px] font-medium">TURNING</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "boring"
-                                    ? "bg-white text-red-600 shadow-sm"
-                                    : "text-gray-800 hover:bg-gray-100"
-                                }`}
-                                onMouseEnter={() => handleCategoryHover("boring")}
-                              >
-                                <Drill
-                                  className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "boring"
-                                      ? "text-red-600"
-                                      : "text-gray-600 group-hover:text-red-500"
-                                  }`}
-                                />
-                                <span className="text-[14px] font-medium">BORING</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "drilling"
-                                    ? "bg-white text-red-600 shadow-sm"
-                                    : "text-gray-800 hover:bg-gray-100"
-                                }`}
-                                onMouseEnter={() => handleCategoryHover("drilling")}
-                              >
-                                <Drill
-                                  className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "drilling"
-                                      ? "text-red-600"
-                                      : "text-gray-600 group-hover:text-red-500"
-                                  }`}
-                                />
-                                <span className="text-[14px] font-medium">DRILLING</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "tapping"
-                                    ? "bg-white text-red-600 shadow-sm"
-                                    : "text-gray-800 hover:bg-gray-100"
-                                }`}
-                                onMouseEnter={() => handleCategoryHover("tapping")}
-                              >
-                                <Gauge
-                                  className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "tapping"
-                                      ? "text-red-600"
-                                      : "text-gray-600 group-hover:text-red-500"
-                                  }`}
-                                />
-                                <span className="text-[14px] font-medium">TAPPING</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "grooving"
-                                    ? "bg-white text-red-600 shadow-sm"
-                                    : "text-gray-800 hover:bg-gray-100"
-                                }`}
-                                onMouseEnter={() => handleCategoryHover("grooving")}
-                              >
-                                <Layers
-                                  className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "grooving"
-                                      ? "text-red-600"
-                                      : "text-gray-600 group-hover:text-red-500"
-                                  }`}
-                                />
-                                <span className="text-[14px] font-medium">GROOVING</span>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "workholding"
-                                    ? "bg-white text-red-600 shadow-sm"
-                                    : "text-gray-800 hover:bg-gray-100"
-                                }`}
-                                onMouseEnter={() => handleCategoryHover("workholding")}
+                                onMouseEnter={() => handleCategoryHover("milling-tool-holder")}
                               >
                                 <Wrench
                                   className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "workholding"
+                                    activeCategory === "milling-tool-holder"
                                       ? "text-red-600"
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">WORKHOLDING</span>
+                                <span className="text-[14px] font-medium">Milling Tool Holder</span>
                               </button>
                             </li>
                             <li>
                               <button
                                 className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
-                                  activeCategory === "grinding"
+                                  activeCategory === "hole-machining"
                                     ? "bg-white text-red-600 shadow-sm"
                                     : "text-gray-800 hover:bg-gray-100"
                                 }`}
-                                onMouseEnter={() => handleCategoryHover("grinding")}
+                                onMouseEnter={() => handleCategoryHover("hole-machining")}
                               >
-                                <CircleDashed
+                                <Drill
                                   className={`mr-3 h-5 w-5 ${
-                                    activeCategory === "grinding"
+                                    activeCategory === "hole-machining"
                                       ? "text-red-600"
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">GRINDING & POLISHING</span>
+                                <span className="text-[14px] font-medium">Hole Machining Systems</span>
                               </button>
                             </li>
                             <li>
@@ -273,7 +159,7 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">MACHINE TOOL ACCESSORIES</span>
+                                <span className="text-[14px] font-medium">Machine Tool Accessories</span>
                               </button>
                             </li>
                           </ul>
@@ -473,63 +359,65 @@ export default function Header() {
                           </div>
                         )}
 
-                        {/* 刀片子菜单 */}
-                        {activeCategory === "inserts" && (
+
+
+                        {/* 孔加工系统子菜单 */}
+                        {activeCategory === "hole-machining" && (
                           <div>
-                            <h3 className="mb-6 text-xl font-bold text-gray-800">Inserts</h3>
+                            <h3 className="mb-6 text-xl font-bold text-gray-800">Hole Machining Systems</h3>
                             <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                               <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Turning & Milling</h4>
-                                <ul className="space-y-3">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Drilling Solutions</h4>
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
-                                      href="/standard-tools/inserts/turning"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/hole-machining/fast-drilling"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Turning Inserts
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Fast Drilling
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/inserts/milling"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/hole-machining/drill-bit"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Milling Inserts
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Drill Bit
                                     </Link>
                                   </li>
                                 </ul>
                               </div>
 
                               <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Inserts</h4>
-                                <ul className="space-y-3">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Boring Solutions</h4>
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
-                                      href="/standard-tools/inserts/threading"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/hole-machining/boring-machining"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Threading Inserts
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Boring Machining
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/inserts/grooving"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/hole-machining/fine-boring"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Grooving Inserts
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Fine Boring
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/inserts/drilling"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      href="/standard-tools/hole-machining/rough-boring"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
-                                      Drilling Inserts
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Rough Boring
                                     </Link>
                                   </li>
                                 </ul>
@@ -537,10 +425,186 @@ export default function Header() {
                             </div>
 
                             <div className="mt-10 p-4 bg-gray-50 rounded-lg">
-                              <h4 className="font-medium text-gray-800 mb-2">Advanced Insert Technology</h4>
+                              <h4 className="font-medium text-gray-800 mb-2">Complete Hole Machining Solutions</h4>
                               <p className="text-sm text-gray-600">
-                                Our inserts feature the latest coating technologies and geometries for maximum tool life
-                                and cutting performance.
+                                Our comprehensive hole machining systems provide precision drilling and boring solutions for all your manufacturing needs.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 铣削刀柄子菜单 */}
+                        {activeCategory === "milling-tool-holder" && (
+                          <div>
+                            <h3 className="mb-6 text-xl font-bold text-gray-800">Milling Tool Holder</h3>
+                            <div className="grid grid-cols-3 gap-x-8 gap-y-8">
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">High Precision Holders</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/sk-high-speed"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      SK High Speed High Precision
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/hm-hydraulic"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      HM Hydraulic
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/sr-shrink-fit"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      SR Shrink Fit Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/sr-shrink-fit-extension"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      SR Shrink Fit Tool Holder (Extension Rod)
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/shrink-fit-heating-machine"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Shrink Fit Heating Machine
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Standard Holders</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/ads-pull-back"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      ADS Pull Back Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/power-tool-holder"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Power Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/er-tool-holder"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      ER Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/er-tool-holder-extension"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      ER Tool Holder (Extension Rod)
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/oz-tool-holder"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      OZ Tool Holder
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Holders</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/tapping-tool-holder"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Tapping Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/drill-chuck"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Drill Chuck Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/face-milling"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Face Milling Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/morse-taper"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Morse Taper Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/side-lock"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Side Lock Tool Holder
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/accessory"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Accessory
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="mt-10 p-4 bg-gray-50 rounded-lg">
+                              <h4 className="font-medium text-gray-800 mb-2">Precision Tool Holding Solutions</h4>
+                              <p className="text-sm text-gray-600">
+                                Our comprehensive range of milling tool holders provides superior clamping force and precision for all your machining applications.
                               </p>
                             </div>
                           </div>
