@@ -15,7 +15,7 @@ export default function ProductCatalog() {
 
       <main className="flex-1">
         {/* Hero Banner */}
-        <section className="relative bg-blue-950 py-16 text-white">
+        <section className="relative bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 py-16 text-white animate-gradient-x">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl">
               <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">Milling Tools Catalog</h1>
@@ -184,7 +184,7 @@ export default function ProductCatalog() {
         {/* Technical Support */}
         <section className="bg-gray-50 py-12">
           <div className="container mx-auto px-4">
-            <div className="rounded-xl bg-blue-950 p-8 text-white md:p-12">
+            <div className="rounded-xl bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 p-8 text-white md:p-12 animate-gradient-xy">
               <div className="grid gap-8 md:grid-cols-2">
                 <div>
                   <h2 className="text-2xl font-bold md:text-3xl">Need Help Finding the Right Tool?</h2>

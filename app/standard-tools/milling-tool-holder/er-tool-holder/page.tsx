@@ -29,75 +29,129 @@ export default function ERToolHolderPage() {
   const products = [
     {
       id: 1,
-      name: "ISO-ER Tool Holder",
-      image: "/images/L05-1.png",
+      name: "ISO-ER Milling Machine Tool Holder",
+      image: "/images/c41-1.png",
       series: "ISO-ER",
-      balanceGrade: "G6.3 @ 8,000 RPM",
-      application: "General purpose milling, drilling, and tapping operations",
-      pageNumber: "L05"
+      balanceGrade: "G2.5 @ 25,000 RPM",
+      application: "A high-speed tool holder for engraving machines, featuring precision ground threads, external hex nuts for ER16/ER20 collets, and balanced to G2.5, 25000RPM.",
+      pageNumber: "C41"
     },
     {
       id: 2,
-      name: "ISO-GER High-Speed Tool Holder",
-      image: "/images/L05-2.png", 
-      series: "ISO-GER",
-      balanceGrade: "G2.5 @ 40,000 RPM",
-      application: "High-speed precision machining with full balanced round nut",
-      pageNumber: "L05"
+      name: "BT-GER Milling Machine Tool Holder",
+      image: "/images/c42-1.png",
+      series: "BT-GER",
+      balanceGrade: "Non-eccentric Round Nut",
+      application: "A high-speed tool holder for carving and milling machines, equipped with a non-eccentric, full balanced round nut for reduced noise and minimal wind resistance.",
+      pageNumber: "C42"
     },
     {
       id: 3,
-      name: "BT-ER Tool Holder",
-      image: "/images/L06-1.png",
+      name: "BT-ER Milling Machine Tool Holder",
+      image: "/images/c43-1.png",
       series: "BT-ER",
-      balanceGrade: "G6.3 @ 8,000 RPM", 
-      application: "Standard BT taper interface for versatile clamping",
-      pageNumber: "L06"
+      balanceGrade: "G6.3 @ 10,000 RPM",
+      application: "Features precision ground threads, with external hex nuts for ER16/ER20 and a standard nut for other sizes (optional strong nuts available); dynamically balanced to G6.3, 10000RPM (higher speeds on request).",
+      pageNumber: "C43"
     },
     {
       id: 4,
-      name: "BT-GER High-Speed Tool Holder",
-      image: "/images/L06-2.png",
-      series: "BT-GER",
-      balanceGrade: "G2.5 @ 40,000 RPM",
-      application: "High-speed BT interface with reduced wind resistance",
-      pageNumber: "L06"
+      name: "BT-ER-M Milling Machine Tool Holder",
+      image: "/images/c44-1.png",
+      series: "BT-ER-M",
+      balanceGrade: "G6.3 @ 10,000 RPM",
+      application: "Utilizes small diameter nuts to prevent interference, features precision ground threads, and is balanced to G6.3, 10000RPM.",
+      pageNumber: "C44"
     },
     {
       id: 5,
-      name: "HSK-ER Tool Holder",
-      image: "/images/L07-1.png",
-      series: "HSK-ER",
-      balanceGrade: "G2.5 @ 25,000 RPM",
-      application: "HSK interface with plastic ring protection for high-speed operations",
-      pageNumber: "L07"
+      name: "BT-ER Collet Chuck Group",
+      image: "/images/c45-1.png",
+      series: "BT-ER Group",
+      balanceGrade: "Comprehensive Set",
+      application: "A comprehensive set of ER collet chuck tool holders, designed for various clamping ranges.",
+      pageNumber: "C45"
     },
     {
       id: 6,
-      name: "DAT-ER Tool Holder",
-      image: "/images/L07-2.png",
-      series: "DAT-ER", 
-      balanceGrade: "G6.3 @ 8,000 RPM",
-      application: "DAT taper interface for specialized machine compatibility",
-      pageNumber: "L07"
+      name: "DAT-ER Milling Machine Tool Holder",
+      image: "/images/c46-1.png",
+      series: "DAT-ER",
+      balanceGrade: "G6.3 @ 10,000 RPM",
+      application: "Equipped with precision ground threads, featuring external hex nuts for ER16/ER20 and a standard nut for other sizes (optional strong nuts available); dynamically balanced to G6.3, 10000RPM.",
+      pageNumber: "C46"
     },
     {
       id: 7,
-      name: "C-ER Extension Tool Holder",
-      image: "/images/L08-1.png",
-      series: "C-ER",
-      balanceGrade: "G6.3 @ 8,000 RPM",
-      application: "Extended reach for deep cavity and complex geometry machining",
-      pageNumber: "L08"
+      name: "DAT-ER Milling Machine Tool Holder (M Type)",
+      image: "/images/c46-2.png",
+      series: "DAT-ER-M",
+      balanceGrade: "M-Type Design",
+      application: "An M-type ER tool holder with small diameter nuts to avoid interference, suitable for milling.",
+      pageNumber: "C46"
     },
     {
       id: 8,
-      name: "NT-ER Tool Holder",
-      image: "/images/L08-2.png",
+      name: "HSK-ER Milling Machine Tool Holder",
+      image: "/images/c47-1.png",
+      series: "HSK-ER",
+      balanceGrade: "G2.5 @ 25,000 RPM",
+      application: "The tool holder's rotation undergoes balance testing, capable of achieving G2.5 at 25000RPM; designed to securely clamp various diameter tools.",
+      pageNumber: "C47"
+    },
+    {
+      id: 9,
+      name: "NT-ER Milling Machine Tool Holder",
+      image: "/images/c47-2.png",
       series: "NT-ER",
-      balanceGrade: "G2.5 @ 20,000 RPM",
-      application: "NT taper with plastic ring protection for high-speed applications",
-      pageNumber: "L08"
+      balanceGrade: "G2.5 @ 25,000 RPM",
+      application: "The tool holder's rotation is balance-tested, achieving G2.5 at 25000RPM; suitable for clamping a wide range of tool diameters.",
+      pageNumber: "C47"
+    },
+    {
+      id: 10,
+      name: "MT-ER Milling Machine Tool Holder",
+      image: "/images/c48-1.png",
+      series: "MT-ER",
+      balanceGrade: "G2.5 @ 25,000 RPM",
+      application: "The tool holder's rotation is balance-tested, achieving G2.5 at 25000RPM; capable of clamping various diameter tools.",
+      pageNumber: "C48"
+    },
+    {
+      id: 11,
+      name: "R8-ER Milling Machine Tool Holder",
+      image: "/images/c48-2.png",
+      series: "R8-ER",
+      balanceGrade: "G2.5 @ 25,000 RPM",
+      application: "The tool holder's rotation is balance-tested, achieving G2.5 at 25000RPM; designed to clamp various diameter tools.",
+      pageNumber: "C48"
+    },
+    {
+      id: 12,
+      name: "C-ER-M Straight Shank ER Collet Chuck Holder",
+      image: "/images/c50-1.png",
+      series: "C-ER-M",
+      balanceGrade: "M-Type Small Diameter",
+      application: "A straight shank ER collet extension rod, where the M-type utilizes small diameter nuts to prevent interference.",
+      pageNumber: "C50"
+    },
+    {
+      id: 13,
+      name: "C-ER-A Straight Shank ER Collet Chuck Holder",
+      image: "/images/c51-1.png",
+      series: "C-ER-A",
+      balanceGrade: "Standard Extension",
+      application: "A straight shank ER collet extension rod.",
+      pageNumber: "C51"
+    },
+    {
+      id: 14,
+      name: "ER Extension (For Lathe)",
+      image: "/images/c50-2.png",
+      series: "ER Extension",
+      balanceGrade: "Lathe Application",
+      application: "An ER extension rod specifically designed for lathe applications.",
+      pageNumber: "C50"
     }
   ]
 
@@ -317,12 +371,7 @@ export default function ERToolHolderPage() {
                           <span className="text-gray-900">{product.series}</span>
                         </div>
                       )}
-                      {product.balanceGrade && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Balance:</span>
-                          <span className="text-gray-900">{product.balanceGrade}</span>
-                        </div>
-                      )}
+
                       {product.application && (
                         <div className="pt-2 border-t border-gray-100">
                           <p className="text-xs text-gray-600">{product.application}</p>

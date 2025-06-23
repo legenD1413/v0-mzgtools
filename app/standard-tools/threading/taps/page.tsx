@@ -581,7 +581,7 @@ export default function TapsPage() {
       <div className="bg-white">
         {/* Hero Section */}
         <div className="relative bg-white text-gray-900">
-          <div className="relative container mx-auto px-4 py-20 md:py-28">
+          <div className="relative container mx-auto px-4 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
                 <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
@@ -622,7 +622,7 @@ export default function TapsPage() {
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         </div>
 
         {/* Performance Features */}
@@ -650,17 +650,19 @@ export default function TapsPage() {
               <h2 className="text-3xl font-bold">Product Performance</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="md:col-span-2">
-                <div className="prose prose-sm max-w-none">
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Professional threading tools represent the pinnacle of precision manufacturing technology, designed to create and verify threads across diverse industrial applications. The Spiral Groove Tap stands as a prime example of engineering excellence, featuring helical flutes that spiral around the tool's axis to provide exceptional chip evacuation capabilities. This innovative design pulls chips up and out of blind holes, preventing the chip packing that can lead to tap breakage and compromised thread quality.
-                </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Advanced material science drives the performance of modern taps and threading tools. High-Speed Steel (HSS) provides the foundation for general-purpose applications, while cobalt-enhanced HSS-E extends performance into more challenging materials like stainless steel and heat-resistant alloys. Solid carbide constructions offer maximum performance and tool life in high-production environments, particularly when enhanced with advanced coatings such as Titanium Nitride (TiN), Titanium Carbonitride (TiCN), or Titanium Aluminum Nitride (TiAlN).
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Precision manufacturing and quality control ensure that these tools consistently produce threads meeting international standards including Metric (M), Unified (UNC/UNF), British Standard (BSW), and specialized pipe thread standards. From the gradual engagement of taper thread taps that reduce starting torque to the metal-to-metal sealing capabilities of dryseal pipe threads, each tool is engineered for specific applications where reliability and precision are paramount.
-                </p>
+                          <div className="md:col-span-2">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="prose prose-xs max-w-none">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Professional threading tools represent the pinnacle of precision manufacturing technology, designed to create and verify threads across diverse industrial applications. The Spiral Groove Tap stands as a prime example of engineering excellence, featuring helical flutes that spiral around the tool's axis to provide exceptional chip evacuation capabilities. This innovative design pulls chips up and out of blind holes, preventing the chip packing that can lead to tap breakage and compromised thread quality.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Advanced material science drives the performance of modern taps and threading tools. High-Speed Steel (HSS) provides the foundation for general-purpose applications, while cobalt-enhanced HSS-E extends performance into more challenging materials like stainless steel and heat-resistant alloys. Solid carbide constructions offer maximum performance and tool life in high-production environments, particularly when enhanced with advanced coatings such as Titanium Nitride (TiN), Titanium Carbonitride (TiCN), or Titanium Aluminum Nitride (TiAlN).
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Precision manufacturing and quality control ensure that these tools consistently produce threads meeting international standards including Metric (M), Unified (UNC/UNF), British Standard (BSW), and specialized pipe thread standards. From the gradual engagement of taper thread taps that reduce starting torque to the metal-to-metal sealing capabilities of dryseal pipe threads, each tool is engineered for specific applications where reliability and precision are paramount.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div>
@@ -718,7 +720,7 @@ export default function TapsPage() {
                 key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
               >
-                  <div className="relative w-full bg-white" style={{ height: "200px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                   <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
@@ -728,10 +730,10 @@ export default function TapsPage() {
                 </div>
                                     <div className="p-5 border-t">
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
                       <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.pageNumber}</span>
                     </div>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs">
                       {product.threadStandards && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Standards:</span>
@@ -752,34 +754,40 @@ export default function TapsPage() {
 
           {/* Technical Parameters */}
           <div className="mb-16">
-            <div className="flex items-center mb-8">
+            <div className="flex items-center mb-12">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Technical Parameters</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-8">
               {/* Technical Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Technical Specifications</h3>
-                <div className="p-4 space-y-4">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100/50 overflow-hidden hover:shadow-md transition-all duration-300">
+                <div className="p-6 border-b border-gray-100/50">
+                  <h3 className="text-xl font-semibold text-gray-900">Technical Specifications</h3>
+                </div>
+                <div className="p-6 space-y-6">
                   {technicalSpecs.map((spec, index) => (
-                    <div key={index} className={`border-l-4 ${spec.color} pl-4 py-2`}>
-                      <h4 className="font-bold text-base mb-1">{spec.title}</h4>
-                      <p className="text-gray-600 text-sm">{spec.description}</p>
+                    <div key={index} className={`border-l-4 ${spec.color} pl-6 py-3 bg-gray-50/50 rounded-r-xl hover:bg-gray-50 transition-colors duration-200`}>
+                      <h4 className="font-semibold text-base mb-2 text-gray-900">{spec.title}</h4>
+                      <p className="text-gray-600 text-sm leading-relaxed">{spec.description}</p>
               </div>
             ))}
           </div>
               </div>
 
               {/* Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Specifications</h3>
-                <div className="divide-y divide-gray-100">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100/50 overflow-hidden hover:shadow-md transition-all duration-300">
+                <div className="p-6 border-b border-gray-100/50">
+                  <h3 className="text-xl font-semibold text-gray-900">Specifications</h3>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-2">
                   {specifications.map((spec, index) => (
-                    <div key={index} className="flex justify-between items-center p-4">
+                      <div key={index} className="flex justify-between items-center py-2 px-4 bg-white rounded-xl hover:bg-gray-50/30 transition-colors duration-200">
                       <span className="font-medium text-sm text-gray-700">{spec.label}:</span>
-                      <span className="text-sm text-right text-gray-900">{spec.value}</span>
+                        <span className="text-sm text-right text-gray-900 font-medium">{spec.value}</span>
                     </div>
                   ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -787,54 +795,60 @@ export default function TapsPage() {
 
           {/* Application Scenarios */}
           <div className="mb-16">
-            <div className="flex items-center mb-8">
+            <div className="flex items-center mb-12">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Application Scenarios</h2>
                   </div>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-8">
               {/* Industries Served */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Settings className="h-5 w-5 text-red-600 mr-2" />
-                  Industries Served
-                </h3>
-                                <div className="grid grid-cols-1 gap-1">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100/50 h-full hover:shadow-md transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center mr-4">
+                    <Settings className="h-5 w-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Industries Served</h3>
+                </div>
+                <div className="space-y-1">
                   {industries.map((industry, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{industry}</span>
+                    <div key={index} className="flex items-center py-1 group">
+                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-4 shrink-0 group-hover:scale-125 transition-transform duration-200"></div>
+                      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{industry}</span>
                   </div>
                   ))}
                 </div>
                   </div>
 
               {/* Threading Operations */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Tool className="h-5 w-5 text-red-600 mr-2" />
-                  Threading Operations
-                </h3>
-                                <div className="grid grid-cols-1 gap-1">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100/50 h-full hover:shadow-md transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center mr-4">
+                    <Tool className="h-5 w-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Threading Operations</h3>
+                </div>
+                <div className="space-y-1">
                   {threadingOperations.map((operation, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{operation}</span>
+                    <div key={index} className="flex items-center py-1 group">
+                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-4 shrink-0 group-hover:scale-125 transition-transform duration-200"></div>
+                      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{operation}</span>
                   </div>
                   ))}
                 </div>
                   </div>
 
               {/* Material Compatibility */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Info className="h-5 w-5 text-red-600 mr-2" />
-                  Material Compatibility
-                    </h3>
-                <div className="grid grid-cols-1 gap-1">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100/50 h-full hover:shadow-md transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center mr-4">
+                    <Info className="h-5 w-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Material Compatibility</h3>
+                </div>
+                <div className="space-y-1">
                   {threadableMaterials.map((material, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{material}</span>
+                    <div key={index} className="flex items-center py-1 group">
+                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-4 shrink-0 group-hover:scale-125 transition-transform duration-200"></div>
+                      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{material}</span>
                   </div>
                   ))}
                 </div>
@@ -901,41 +915,68 @@ export default function TapsPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "Thread Mills",
-                  image: "/images/thread-mills.jpg",
-                  description: "CNC thread milling tools for internal and external threads",
-                  url: "/standard-tools/threading/thread-mills",
-                },
-                {
-                  title: "Drills",
-                  image: "/images/drills.jpg", 
-                  description: "Precision drilling tools for hole preparation",
-                  url: "/standard-tools/hole-making/drills",
-                },
-                {
-                  title: "Thread Turning Tools",
-                  image: "/images/thread-turning.jpg",
-                  description: "Lathe tools for external thread creation",
-                  url: "/standard-tools/threading/thread-turning",
-                },
-                {
-                  title: "Reamers",
-                  image: "/images/reamers.jpg",
-                  description: "Precision hole finishing for tight tolerances",
-                  url: "/standard-tools/hole-making/reamers",
-                },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Threading Tools" />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {(() => {
+                // 从本分类产品中随机获取图片的函数
+                const getRandomProductImage = () => {
+                  const randomIndex = Math.floor(Math.random() * products.length);
+                  return products[randomIndex].image;
+                };
+                
+                // 定义同目录下的所有分类
+                const allThreadingCategories = [
+                  {
+                    title: "Inserts Type Thread Milling Cutter",
+                    image: getRandomProductImage(),
+                    description: "可转位螺纹铣刀，用于各种螺纹加工",
+                    url: "/standard-tools/threading/inserts-type-thread-milling-cutter",
+                  },
+                  {
+                    title: "Integral Thread Milling Cutters",
+                    image: getRandomProductImage(),
+                    description: "整体式螺纹铣刀，高精度螺纹加工",
+                    url: "/standard-tools/threading/integral-thread-milling-cutters",
+                  },
+                  {
+                    title: "Thread Milling Cutters",
+                    image: getRandomProductImage(),
+                    description: "通用螺纹铣刀，适用于多种材料",
+                    url: "/standard-tools/threading/thread-milling-cutters",
+                  },
+                  {
+                    title: "Thread Mills",
+                    image: getRandomProductImage(),
+                    description: "CNC螺纹铣刀，内外螺纹加工",
+                    url: "/standard-tools/threading/thread-mills",
+                  },
+                  {
+                    title: "Thread Turning",
+                    image: getRandomProductImage(),
+                    description: "车床螺纹加工工具",
+                    url: "/standard-tools/threading/thread-turning",
+                  },
+                  {
+                    title: "Thread Whirling",
+                    image: getRandomProductImage(),
+                    description: "螺纹旋风铣削工具",
+                    url: "/standard-tools/threading/thread-whirling",
+                  },
+                ];
+                
+                // 随机选择最多5个分类
+                const shuffled = [...allThreadingCategories].sort(() => 0.5 - Math.random());
+                const selectedCategories = shuffled.slice(0, 5);
+                
+                return selectedCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Threading Tools" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gray-900 text-white py-16">
+        <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 text-white py-16 animate-gradient-xy">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Need Expert Threading Solutions?</h2>

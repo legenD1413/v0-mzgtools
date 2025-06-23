@@ -10,84 +10,65 @@ export default function SKHighSpeedPage() {
   const products = [
     {
       id: "sk-001",
-      name: "ISO-GSK High-Speed Tool Holder",
-      image: "/images/iso-gsk-holder.png",
-      description: "ISO taper with GSK collet system for high-speed engraving and milling",
+      name: "ISO-GSK Milling Machine Tool Holder",
+      image: "/images/C05-1.png",
+      description: "Designed for high-speed engraving and milling machines, featuring a 4° SK collet for higher repeat clamping accuracy and full circle nuts for low noise and minimal wind resistance.",
       series: "ISO-GSK",
-      application: "High-speed engraving and milling machines, precision finishing operations",
+      application: "High-speed engraving and milling machines",
       speedRange: "15,000-25,000 RPM",
-      pageNumber: "H01",
+      pageNumber: "C05",
     },
     {
-      id: "sk-002", 
-      name: "BT-GSK High-Speed Tool Holder",
-      image: "/images/bt-gsk-holder.png",
-      description: "BT taper with GSK collet system for maximum stability at high speeds",
-      series: "BT-GSK",
-      application: "CNC machining centers, high-speed milling operations",
-      speedRange: "15,000-30,000 RPM",
-      pageNumber: "H02",
+      id: "sk-002",
+      name: "NBT-GSK Milling Machine Tool Holder",
+      image: "/images/C05-2.png",
+      description: "Optimized for high-speed carving and milling machines, equipped with non-eccentric, full balanced round nuts for reduced noise and wind resistance.",
+      series: "NBT-GSK",
+      application: "High-speed carving and milling machines",
+      speedRange: "15,000-25,000 RPM",
+      pageNumber: "C05",
     },
     {
       id: "sk-003",
-      name: "NBT-GSK High-Speed Tool Holder", 
-      image: "/images/nbt-gsk-holder.png",
-      description: "NBT taper with GSK collet system for enhanced precision",
-      series: "NBT-GSK",
-      application: "Precision machining, micro-milling, fine engraving",
-      speedRange: "20,000-40,000 RPM",
-      pageNumber: "H03",
+      name: "BT-GSK Milling Machine Tool Holder",
+      image: "/images/C06-1.png",
+      description: "Ideal for high-speed, high-precision cutting, enhancing tool life and ensuring stable cutting performance with reduced vibration; requires the tool to extend beyond the collet's effective clamping length to prevent damage.",
+      series: "BT-GSK",
+      application: "High-speed, high-precision cutting applications",
+      speedRange: "15,000-30,000 RPM",
+      pageNumber: "C06",
     },
     {
       id: "sk-004",
-      name: "BT-SK Precision Tool Holder",
-      image: "/images/bt-sk-holder.png", 
-      description: "BT taper with SK collet system highlighting superior clamping accuracy",
+      name: "BT-SK Milling Machine Tool Holder",
+      image: "/images/C07-1.png",
+      description: "Provides high repeat clamping accuracy utilizing a 4° SK collet.",
       series: "BT-SK",
-      application: "High-precision machining, tool and die work",
+      application: "Precision milling and engraving operations",
       speedRange: "15,000-25,000 RPM",
-      pageNumber: "H04",
+      pageNumber: "C07",
     },
     {
       id: "sk-005",
-      name: "C-GSK Straight Shank Extension",
-      image: "/images/c-gsk-extension.png",
-      description: "Straight shank extension rod using GSK collet system",
+      name: "C-GSK Milling Machine Tool Holder",
+      image: "/images/C08-1.png",
+      description: "Suited for high-speed, high-precision cutting, incorporating 4° SK collets and full circle nuts for stable performance.",
       series: "C-GSK",
-      application: "Deep cavity machining, extended reach applications",
-      speedRange: "12,000-20,000 RPM",
-      pageNumber: "H05",
+      application: "High-speed, high-precision cutting operations",
+      speedRange: "15,000-25,000 RPM",
+      pageNumber: "C08",
     },
     {
       id: "sk-006",
-      name: "C-SK Straight Shank Extension",
-      image: "/images/c-sk-extension.png",
-      description: "Straight shank extension rod with SK collet system",
-      series: "C-SK", 
-      application: "Extended reach milling, deep pocket machining",
-      speedRange: "12,000-20,000 RPM",
-      pageNumber: "H06",
+      name: "C-SK Milling Machine Tool Holder",
+      image: "/images/C08-2.png",
+      description: "Delivers high repeat clamping accuracy through its 4° SK collets, contributing to stable cutting.",
+      series: "C-SK",
+      application: "Stable cutting operations with high precision",
+      speedRange: "15,000-25,000 RPM",
+      pageNumber: "C08",
     },
-    {
-      id: "sk-007",
-      name: "ISO-ER High-Speed Chuck",
-      image: "/images/iso-er-highspeed.png",
-      description: "High-speed balanced ER chuck system for versatile applications",
-      series: "ISO-ER",
-      application: "General high-speed machining, versatile tool holding",
-      speedRange: "15,000-25,000 RPM", 
-      pageNumber: "H07",
-    },
-    {
-      id: "sk-008",
-      name: "BT-GER High-Speed Chuck",
-      image: "/images/bt-ger-highspeed.png",
-      description: "BT taper with high-speed balanced ER system",
-      series: "BT-GER",
-      application: "High-speed machining centers, production environments",
-      speedRange: "15,000-30,000 RPM",
-      pageNumber: "H08",
-    },
+  
   ]
 
   // Performance features based on the provided content
@@ -229,7 +210,7 @@ export default function SKHighSpeedPage() {
               <div className="flex justify-center lg:justify-end">
                 <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
-                    src="/images/sk-high-speed-holder.png"
+                    src="/images/toolhoder-1.png"
                     alt="SK High-Speed, High-Precision Milling Tool Holder System"
                     width={563}
                     height={400}
@@ -268,16 +249,18 @@ export default function SKHighSpeedPage() {
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
-                <div className="prose prose-sm max-w-none">
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    The performance of this tool holder system is defined by its specialized design features that synergize to deliver superior results in high-RPM environments. The system is engineered and precision-balanced for high-speed operation, utilizing a <strong>Full Circle Nut</strong> with a keyless slot design that significantly reduces noise and minimizes wind resistance at high rotational speeds, which is essential for maintaining stability and accuracy.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    The system utilizes <strong>SK collets</strong> with a distinct <strong>4° taper</strong> angle that provides a large surface contact area with the tool shank, resulting in higher and more consistent clamping forces. This directly translates to higher repeat clamping accuracy, ensuring that tool runout remains minimal even after multiple tool changes. The combination of robust holder body, precision-balanced full circle nut, and high-concentricity SK collet system works to effectively reduce vibration during processing.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    By minimizing vibration and ensuring the tool runs true with low runout, the system distributes cutting forces evenly across the tool's cutting edges. This prevents premature, uneven wear and significantly contributes to increased tool service life, reducing long-term operational costs while maintaining exceptional cutting stability and fine surface finishes.
-                  </p>
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="prose prose-xs max-w-none">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      The performance of this tool holder system is defined by its specialized design features that synergize to deliver superior results in high-RPM environments. The system is engineered and precision-balanced for high-speed operation, utilizing a <strong>Full Circle Nut</strong> with a keyless slot design that significantly reduces noise and minimizes wind resistance at high rotational speeds, which is essential for maintaining stability and accuracy.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      The system utilizes <strong>SK collets</strong> with a distinct <strong>4° taper</strong> angle that provides a large surface contact area with the tool shank, resulting in higher and more consistent clamping forces. This directly translates to higher repeat clamping accuracy, ensuring that tool runout remains minimal even after multiple tool changes. The combination of robust holder body, precision-balanced full circle nut, and high-concentricity SK collet system works to effectively reduce vibration during processing.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      By minimizing vibration and ensuring the tool runs true with low runout, the system distributes cutting forces evenly across the tool's cutting edges. This prevents premature, uneven wear and significantly contributes to increased tool service life, reducing long-term operational costs while maintaining exceptional cutting stability and fine surface finishes.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div>
@@ -335,7 +318,7 @@ export default function SKHighSpeedPage() {
                 key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
               >
-                  <div className="relative w-full bg-white" style={{ height: "200px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                   <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
@@ -345,25 +328,19 @@ export default function SKHighSpeedPage() {
                 </div>
                                     <div className="p-5 border-t">
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
                       <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.pageNumber}</span>
                     </div>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs">
                       {product.series && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Series:</span>
                           <span className="text-gray-900">{product.series}</span>
                     </div>
                       )}
-                      {product.speedRange && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Speed Range:</span>
-                          <span className="text-gray-900">{product.speedRange}</span>
-                    </div>
-                      )}
-                      {product.application && (
+                      {product.description && (
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-xs text-gray-600">{product.application}</p>
+                          <p className="text-xs text-gray-600">{product.description}</p>
                     </div>
                       )}
                     </div>
@@ -567,35 +544,92 @@ export default function SKHighSpeedPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "HM Hydraulic",
-                  image: "/images/hm-hydraulic.jpg",
-                  description: "Hydraulic tool holders for maximum clamping force",
-                  url: "/standard-tools/milling-tool-holder/hm-hydraulic",
-                },
-                {
-                  title: "SR Shrink Fit",
-                  image: "/images/sr-shrink-fit.jpg", 
-                  description: "Shrink fit tool holders for precision applications",
-                  url: "/standard-tools/milling-tool-holder/sr-shrink-fit",
-                },
-                {
-                  title: "ER Tool Holder",
-                  image: "/images/er-tool-holder.jpg",
-                  description: "Versatile ER collet system tool holders",
-                  url: "/standard-tools/milling-tool-holder/er-tool-holder",
-                },
-                {
-                  title: "Power Tool Holder",
-                  image: "/images/power-tool-holder.jpg",
-                  description: "Heavy-duty tool holders for demanding applications",
-                  url: "/standard-tools/milling-tool-holder/power-tool-holder",
-                },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Tool Holders" />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {(() => {
+                // 从本分类产品中随机获取图片的函数
+                const getRandomProductImage = () => {
+                  const randomIndex = Math.floor(Math.random() * products.length);
+                  return products[randomIndex].image;
+                };
+                
+                // 定义同目录下的所有分类（排除当前的sk-high-speed）
+                const allToolHolderCategories = [
+                  {
+                    title: "Side Lock",
+                    image: getRandomProductImage(),
+                    description: "侧锁刀柄，快速更换工具",
+                    url: "/standard-tools/milling-tool-holder/side-lock",
+                  },
+                  {
+                    title: "Morse Taper",
+                    image: getRandomProductImage(),
+                    description: "莫氏锥度刀柄，标准锥度连接",
+                    url: "/standard-tools/milling-tool-holder/morse-taper",
+                  },
+                  {
+                    title: "Face Milling",
+                    image: getRandomProductImage(),
+                    description: "面铣刀柄，大型面加工",
+                    url: "/standard-tools/milling-tool-holder/face-milling",
+                  },
+                  {
+                    title: "Drill Chuck",
+                    image: getRandomProductImage(),
+                    description: "钻夹头，钻削加工专用",
+                    url: "/standard-tools/milling-tool-holder/drill-chuck",
+                  },
+                  {
+                    title: "Tapping Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "攻丝刀柄，螺纹加工专用",
+                    url: "/standard-tools/milling-tool-holder/tapping-tool-holder",
+                  },
+                  {
+                    title: "OZ Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "OZ刀柄系统，高精度应用",
+                    url: "/standard-tools/milling-tool-holder/oz-tool-holder",
+                  },
+                  {
+                    title: "ER Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "ER夹头系统刀柄，多功能应用",
+                    url: "/standard-tools/milling-tool-holder/er-tool-holder",
+                  },
+                  {
+                    title: "Power Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "强力刀柄，适用于重载加工",
+                    url: "/standard-tools/milling-tool-holder/power-tool-holder",
+                  },
+                  {
+                    title: "ADS Pull Back",
+                    image: getRandomProductImage(),
+                    description: "ADS拉钉刀柄，自动换刀",
+                    url: "/standard-tools/milling-tool-holder/ads-pull-back",
+                  },
+                  {
+                    title: "SR Shrink Fit",
+                    image: getRandomProductImage(),
+                    description: "热缩刀柄，用于精密应用",
+                    url: "/standard-tools/milling-tool-holder/sr-shrink-fit",
+                  },
+                  {
+                    title: "HM Hydraulic",
+                    image: getRandomProductImage(),
+                    description: "液压刀柄，提供最大夹紧力",
+                    url: "/standard-tools/milling-tool-holder/hm-hydraulic",
+                  },
+                ];
+                
+                // 随机选择最多5个分类
+                const shuffled = [...allToolHolderCategories].sort(() => 0.5 - Math.random());
+                const selectedCategories = shuffled.slice(0, 5);
+                
+                return selectedCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Tool Holders" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>

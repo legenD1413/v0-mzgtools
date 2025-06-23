@@ -10,103 +10,63 @@ export default function TappingToolHolderPage() {
   const products = [
     {
       id: "tap-holder-001",
-      name: "GTP Torsion Telescopic Tapping Holder",
-      image: "/images/gtp-tapping-holder.png",
-      description: "Provides both axial compensation and torque overload protection",
+      name: "Torque Telescopic Tapping Protection Holder (GTP)",
+      image: "/images/C55-1.png",
+      description: "Provides protective torque control during tapping operations, ensuring precision and preventing damage.",
       series: "GTP Series",
-      features: "Axial Compensation + Torque Protection",
-      application: "Non-synchronous tapping with maximum protection",
-      pageNumber: "GTP",
+      interface: "BT/HSK/CAT",
+      application: "Torque protection tapping operations",
+      pageNumber: "C55",
     },
     {
       id: "tap-holder-002",
-      name: "G Flexible Telescopic Tapping Holder",
-      image: "/images/g-tapping-holder.png",
-      description: "Offers flexible axial compensation and protection",
-      series: "G Series",
-      features: "Flexible Axial Compensation + Protection",
-      application: "General purpose tapping with compensation",
-      pageNumber: "G",
+      name: "Radial Floating Reaming Tool Holder (FDER)",
+      image: "/images/C55-2.png",
+      description: "Provides protective torque control during tapping operations, ensuring precision and preventing damage.",
+      series: "FDER Series",
+      interface: "BT/HSK/CAT",
+      application: "Radial floating reaming operations",
+      pageNumber: "C55",
     },
     {
       id: "tap-holder-003",
-      name: "SVER Micro Telescopic Synchronous Holder",
-      image: "/images/sver-tapping-holder.png",
-      description: "Designed for high-speed synchronous tapping with minimal axial float",
-      series: "SVER Series",
-      features: "Micro Telescopic + High-Speed Synchronous",
-      application: "High-speed synchronous tapping operations",
-      pageNumber: "SVER",
+      name: "Flexible Telescopic Tapping Protection Tool Holder (G)",
+      image: "/images/C56-1.png",
+      description: "Offers flexible telescopic capabilities for tapping operations, providing enhanced protection.",
+      series: "G Series",
+      interface: "BT/HSK/CAT",
+      application: "Flexible telescopic tapping",
+      pageNumber: "C56",
     },
     {
       id: "tap-holder-004",
-      name: "VER Micro Telescopic Tapping Holder",
-      image: "/images/ver-tapping-holder.png",
-      description: "Features fine axial compensation with protection for precision applications",
+      name: "Micro Telescopic Tapping Protection Tool Holder (VER)",
+      image: "/images/C57-1.png",
+      description: "Provides micro telescopic capabilities for tapping operations, offering enhanced protection.",
       series: "VER Series",
-      features: "Fine Axial Compensation + Protection",
-      application: "Precision tapping with micro compensation",
-      pageNumber: "VER",
+      interface: "BT/HSK/CAT",
+      application: "Micro telescopic tapping protection",
+      pageNumber: "C57",
     },
     {
       id: "tap-holder-005",
-      name: "TER Rigid Tapping Protection Holder",
-      image: "/images/ter-tapping-holder.png",
-      description: "Primarily for synchronous tapping with rigid connection and telescopic safety",
-      series: "TER Series",
-      features: "Rigid Connection + Telescopic Safety",
-      application: "Synchronous tapping on modern CNC machines",
-      pageNumber: "TER",
+      name: "Micro Telescopic Synchronous Tapping Protection Tool Holder (SVER)",
+      image: "/images/C57-2.png",
+      description: "Features micro telescopic synchronous movement for precise tapping operations and protection.",
+      series: "SVER Series",
+      interface: "BT/HSK/CAT",
+      application: "Synchronous tapping operations",
+      pageNumber: "C57",
     },
     {
       id: "tap-holder-006",
-      name: "FDG Radial Floating Tapping Holder",
-      image: "/images/fdg-tapping-holder.png",
-      description: "Provides compensation for radial (X-Y) misalignment",
-      series: "FDG Series",
-      features: "Radial Floating + Misalignment Compensation",
-      application: "Correcting spindle-to-hole misalignment",
-      pageNumber: "FDG",
-    },
-    {
-      id: "tap-holder-007",
-      name: "BT Interface Tapping Holder",
-      image: "/images/bt-tapping-holder.png",
-      description: "Battle Creek Taper interface for CNC machining centers",
-      series: "BT Series",
-      interface: "BT30/40/50",
-      application: "Modern CNC machining centers",
-      pageNumber: "BT-TAP",
-    },
-    {
-      id: "tap-holder-008",
-      name: "HSK Interface Tapping Holder",
-      image: "/images/hsk-tapping-holder.png",
-      description: "HSK interface for high-speed machining applications",
-      series: "HSK Series",
-      interface: "HSK50A/63A/100A",
-      application: "High-speed machining centers",
-      pageNumber: "HSK-TAP",
-    },
-    {
-      id: "tap-holder-009",
-      name: "CAT Interface Tapping Holder",
-      image: "/images/cat-tapping-holder.png",
-      description: "Caterpillar Taper interface for American machine tools",
-      series: "CAT Series",
-      interface: "CAT30/40/50",
-      application: "American CNC machines and machining centers",
-      pageNumber: "CAT-TAP",
-    },
-    {
-      id: "tap-holder-010",
-      name: "NT Interface Tapping Holder",
-      image: "/images/nt-tapping-holder.png",
-      description: "National Taper interface for traditional milling machines",
-      series: "NT Series",
-      interface: "NT30/40/50",
-      application: "Traditional milling and drilling machines",
-      pageNumber: "NT-TAP",
+      name: "Rigid Tapping Protection Tool Holder (TER)",
+      image: "/images/C58-1.png",
+      description: "Offers rigid protection during tapping operations, ensuring stability and accuracy.",
+      series: "TER Series",
+      interface: "BT/HSK/CAT",
+      application: "Rigid tapping protection",
+      pageNumber: "C58",
     },
   ]
 
@@ -379,21 +339,9 @@ export default function TappingToolHolderPage() {
                           <span className="text-gray-900">{product.series}</span>
                         </div>
                       )}
-                      {product.features && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Features:</span>
-                          <span className="text-gray-900 text-xs">{product.features}</span>
-                        </div>
-                      )}
-                      {product.interface && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Interface:</span>
-                          <span className="text-gray-900">{product.interface}</span>
-                        </div>
-                      )}
-                      {product.application && (
+                      {product.description && (
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-xs text-gray-600">{product.application}</p>
+                          <p className="text-xs text-gray-600">{product.description}</p>
                         </div>
                       )}
                     </div>

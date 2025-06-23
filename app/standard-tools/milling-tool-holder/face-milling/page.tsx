@@ -10,131 +10,65 @@ export default function FaceMillingPage() {
   const products = [
     {
       id: "face-mill-001",
-      name: "BT-FMA Face Milling Holder",
-      image: "/images/bt-fma-holder.png",
-      description: "Standard holder for BT interface machines with h6 tolerance",
+      name: "BT-FMA Milling Machine Tool Holder",
+      image: "/images/c65-1.png",
+      description: "Designed for face milling operations, featuring h6 tolerance, side locking screws, and central cooling. Dynamically balanced to G6.3, 8000RPM (higher speeds on request).",
       series: "BT-FMA Series",
-      interface: "BT30/40/50",
-      tolerance: "D1: h6",
+      interface: "BT",
+      tolerance: "h6",
       balance: "G6.3 @ 8000 RPM",
-      application: "Standard face milling operations on BT machines",
-      pageNumber: "BT-FMA",
+      features: "Side locking screws, Central cooling",
+      application: "Face milling operations with high precision requirements",
+      pageNumber: "C65",
     },
     {
       id: "face-mill-002",
-      name: "BT-FMB Face Milling Holder",
-      image: "/images/bt-fmb-holder.png",
-      description: "Enhanced BT interface holder with central cooling system",
+      name: "BT-FMB Milling Machine Tool Holder",
+      image: "/images/c66-1.png",
+      description: "Intended for face milling operations, with h6 tolerance, side locking screws, and central cooling. Dynamically balanced to G6.3, 8000RPM (higher speeds on request).",
       series: "BT-FMB Series",
-      interface: "BT30/40/50",
-      tolerance: "D1: h6",
+      interface: "BT",
+      tolerance: "h6",
       balance: "G6.3 @ 8000 RPM",
-      cooling: "Central Cooling (DIN69871-AD)",
-      application: "High-performance face milling with cooling",
-      pageNumber: "BT-FMB",
+      features: "Side locking screws, Central cooling",
+      application: "High-performance face milling with enhanced cooling",
+      pageNumber: "C66",
     },
     {
       id: "face-mill-003",
-      name: "HSK/FMB High-Speed Face Milling Holder",
-      image: "/images/hsk-fmb-holder.png",
-      description: "Designed for high-speed HSK interface machines",
-      series: "HSK/FMB Series",
-      interface: "HSK40A/50A/63A/100A",
-      tolerance: "D1: h6",
+      name: "HSK-FMB Milling Machine Tool Holder",
+      image: "/images/c67-1.png",
+      description: "Used for face milling operations, featuring h6 tolerance and balanced to G6.3, 3000RPM.",
+      series: "HSK-FMB Series",
+      interface: "HSK",
+      tolerance: "h6",
       balance: "G6.3 @ 3000 RPM",
-      cooling: "Central Cooling (DIN69871-AD)",
-      application: "High-speed face milling operations",
-      pageNumber: "HSK-FMB",
+      application: "High-speed face milling operations on HSK machines",
+      pageNumber: "C67",
     },
     {
       id: "face-mill-004",
-      name: "DAT/FMB High-Precision Face Milling Holder",
-      image: "/images/dat-fmb-holder.png",
-      description: "High-precision 7/24 taper with AT3 tolerance",
-      series: "DAT/FMB Series",
-      interface: "DAT30/40/50",
-      tolerance: "7/24 Taper: AT3, D1: h6",
+      name: "DAT-FMB Milling Machine Tool Holder",
+      image: "/images/c68-1.png",
+      description: "Applicable for face milling operations, with h6 tolerance and a 7/24 taper tolerance of AT3. Dynamically balanced to G6.3, 8000RPM.",
+      series: "DAT-FMB Series",
+      interface: "DAT",
+      tolerance: "h6, 7/24 Taper: AT3",
       balance: "G6.3 @ 8000 RPM",
-      cooling: "Central Cooling (DIN69871-AD)",
-      application: "Ultra-precision face milling applications",
-      pageNumber: "DAT-FMB",
+      application: "Ultra-precision face milling with strict tolerance requirements",
+      pageNumber: "C68",
     },
     {
       id: "face-mill-005",
-      name: "NT/FM Face Milling Holder",
-      image: "/images/nt-fm-holder.png",
-      description: "NT interface holder with spindle protection ring",
-      series: "NT/FM Series",
-      interface: "NT30/40/50",
-      tolerance: "D1: h6",
-      balance: "G6.3 @ 8000 RPM",
-      features: "Plastic Ring Protection",
-      application: "Traditional milling machines with NT interface",
-      pageNumber: "NT-FM",
-    },
-    {
-      id: "face-mill-006",
-      name: "BT40-FMA-25.4-60 Face Mill Holder",
-      image: "/images/bt40-fma-25-60.png",
-      description: "Specific configuration for 25.4mm mounting diameter",
-      series: "BT-FMA Series",
-      interface: "BT40",
-      mountingDiameter: "25.4mm",
-      length: "60mm",
-      application: "Medium-diameter face mills on BT40 machines",
-      pageNumber: "BT40-FMA-25",
-    },
-    {
-      id: "face-mill-007",
-      name: "BT50-FMB-32-80 Face Mill Holder",
-      image: "/images/bt50-fmb-32-80.png",
-      description: "Large diameter configuration with central cooling",
-      series: "BT-FMB Series",
-      interface: "BT50",
-      mountingDiameter: "32mm",
-      length: "80mm",
-      cooling: "Central Cooling",
-      application: "Large face mills with cooling requirements",
-      pageNumber: "BT50-FMB-32",
-    },
-    {
-      id: "face-mill-008",
-      name: "HSK63A-FMB-40-100 High-Speed Holder",
-      image: "/images/hsk63a-fmb-40-100.png",
-      description: "High-speed configuration for large face mills",
-      series: "HSK/FMB Series",
-      interface: "HSK63A",
-      mountingDiameter: "40mm",
-      length: "100mm",
-      balance: "G6.3 @ 3000 RPM",
-      application: "High-speed large diameter face milling",
-      pageNumber: "HSK63A-FMB-40",
-    },
-    {
-      id: "face-mill-009",
-      name: "DAT40-FMB-27-70 Precision Holder",
-      image: "/images/dat40-fmb-27-70.png",
-      description: "Ultra-precision holder with AT3 taper tolerance",
-      series: "DAT/FMB Series",
-      interface: "DAT40",
-      mountingDiameter: "27mm",
-      length: "70mm",
-      tolerance: "AT3",
-      application: "Ultra-precision face milling operations",
-      pageNumber: "DAT40-FMB-27",
-    },
-    {
-      id: "face-mill-010",
-      name: "NT50-FM-35-90 Traditional Holder",
-      image: "/images/nt50-fm-35-90.png",
-      description: "Traditional NT interface with spindle protection",
-      series: "NT/FM Series",
-      interface: "NT50",
-      mountingDiameter: "35mm",
-      length: "90mm",
-      features: "Spindle Protection Ring",
-      application: "Traditional heavy-duty face milling",
-      pageNumber: "NT50-FM-35",
+      name: "NT-FMA Milling Machine Tool Holder",
+      image: "/images/c69-1.png",
+      description: "Utilized for face milling operations, featuring h6 tolerance, and includes a plastic ring at the shank end to protect the spindle.",
+      series: "NT-FMA Series",
+      interface: "NT",
+      tolerance: "h6",
+      features: "Plastic ring for spindle protection",
+      application: "Traditional face milling with spindle protection",
+      pageNumber: "C69",
     },
   ]
 
@@ -320,17 +254,19 @@ export default function FaceMillingPage() {
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
-                <div className="prose prose-sm max-w-none">
-                  <p className="mb-4 text-base leading-normal text-gray-700">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="prose prose-xs max-w-none">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
                     The performance of a Face Milling Tool Holder is measured by its ability to provide a <strong>stable, precise, and reliable connection between the machine spindle and the large face mill</strong>. The system guarantees exceptional accuracy through its <strong>D1 tolerance of h6</strong>. This tight tolerance on the mounting diameter ensures a precise, snug fit for the face mill cutter, minimizing runout and eliminating any potential for wobble or vibration at the tool-holder interface.
                   </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    A key performance characteristic is the standard <strong>dynamic balance of G6.3 at 8000 RPM</strong> (or G6.3 at 3000 RPM for HSK models). This pre-balancing is vital for modern high-speed machining, drastically reducing vibrations throughout the spindle-holder-tool assembly. The inclusion of <strong>side locking screws </strong> provides a powerful and reliable clamping mechanism, ensuring the face mill is locked rigidly against the holder's face and pilot diameter.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    The presence of <strong>central cooling </strong>, conforming to the DIN69871-AD standard, is a significant performance-enhancing feature. By delivering coolant directly through the holder to the center of the cutter, it effectively cools the cutting inserts at the point of action. Certain models, such as the <strong>NT/FM series</strong>, incorporate a <strong>plastic ring</strong> at the end of the shank to protect the machine's spindle taper from accidental damage.
-                  </p>
-                </div>
+                                        <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                        A key performance characteristic is the standard <strong>dynamic balance of G6.3 at 8000 RPM</strong> (or G6.3 at 3000 RPM for HSK models). This pre-balancing is vital for modern high-speed machining, drastically reducing vibrations throughout the spindle-holder-tool assembly. The inclusion of <strong>side locking screws </strong> provides a powerful and reliable clamping mechanism, ensuring the face mill is locked rigidly against the holder's face and pilot diameter.
+                      </p>
+                                        <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                        The presence of <strong>central cooling </strong>, conforming to the DIN69871-AD standard, is a significant performance-enhancing feature. By delivering coolant directly through the holder to the center of the cutter, it effectively cools the cutting inserts at the point of action. Certain models, such as the <strong>NT/FM series</strong>, incorporate a <strong>plastic ring</strong> at the end of the shank to protect the machine's spindle taper from accidental damage.
+                      </p>
+                    </div>
+                  </div>
               </div>
               <div>
                 <div className="bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
@@ -387,67 +323,29 @@ export default function FaceMillingPage() {
                   key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
                 >
-                  <div className="relative w-full bg-white" style={{ height: "200px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                     <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
                       fill
-                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
                   <div className="p-5 border-t">
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
                       <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.pageNumber}</span>
                     </div>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs">
                       {product.series && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Series:</span>
                           <span className="text-gray-900">{product.series}</span>
                         </div>
                       )}
-                      {product.interface && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Interface:</span>
-                          <span className="text-gray-900">{product.interface}</span>
-                        </div>
-                      )}
-                      {product.tolerance && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Tolerance:</span>
-                          <span className="text-gray-900 text-xs">{product.tolerance}</span>
-                        </div>
-                      )}
-                      {product.balance && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Balance:</span>
-                          <span className="text-gray-900 text-xs">{product.balance}</span>
-                        </div>
-                      )}
-                      {product.cooling && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Cooling:</span>
-                          <span className="text-gray-900 text-xs">{product.cooling}</span>
-                        </div>
-                      )}
-                      {product.mountingDiameter && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Diameter:</span>
-                          <span className="text-gray-900">{product.mountingDiameter}</span>
-                        </div>
-                      )}
-                      {product.features && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Features:</span>
-                          <span className="text-gray-900 text-xs">{product.features}</span>
-                        </div>
-                      )}
-                      {product.application && (
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-xs text-gray-600">{product.application}</p>
+                        <p className="text-xs text-gray-600">{product.description}</p>
                         </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -659,41 +557,98 @@ export default function FaceMillingPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "OZ Tool Holder",
-                  image: "/images/oz-tool-holder.jpg",
-                  description: "Heavy-duty tool holders for high-load operations",
-                  url: "/standard-tools/milling-tool-holder/oz-tool-holder",
-                },
-                {
-                  title: "Tapping Tool Holder",
-                  image: "/images/tapping-tool-holder.jpg", 
-                  description: "Specialized holders for internal threading operations",
-                  url: "/standard-tools/milling-tool-holder/tapping-tool-holder",
-                },
-                {
-                  title: "Drill Chuck",
-                  image: "/images/drill-chuck.jpg",
-                  description: "Precision chuck systems for drilling operations",
-                  url: "/standard-tools/milling-tool-holder/drill-chuck",
-                },
-                {
-                  title: "ER Tool Holders",
-                  image: "/images/er-tool-holders.jpg",
-                  description: "Versatile collet chuck systems for various applications",
-                  url: "/standard-tools/milling-tool-holder/er-tool-holder",
-                },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Tool Holders" />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {(() => {
+                // 从本分类产品中随机获取图片的函数
+                const getRandomProductImage = () => {
+                  const randomIndex = Math.floor(Math.random() * products.length);
+                  return products[randomIndex].image;
+                };
+                
+                // 定义同目录下的所有分类（排除当前的face-milling）
+                const allToolHolderCategories = [
+                  {
+                    title: "Side Lock",
+                    image: getRandomProductImage(),
+                    description: "侧锁刀柄，快速更换工具",
+                    url: "/standard-tools/milling-tool-holder/side-lock",
+                  },
+                  {
+                    title: "Morse Taper",
+                    image: getRandomProductImage(),
+                    description: "莫氏锥度刀柄，标准锥度连接",
+                    url: "/standard-tools/milling-tool-holder/morse-taper",
+                  },
+                  {
+                    title: "Drill Chuck",
+                    image: getRandomProductImage(),
+                    description: "钻夹头，钻削加工专用",
+                    url: "/standard-tools/milling-tool-holder/drill-chuck",
+                  },
+                  {
+                    title: "Tapping Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "攻丝刀柄，螺纹加工专用",
+                    url: "/standard-tools/milling-tool-holder/tapping-tool-holder",
+                  },
+                  {
+                    title: "OZ Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "OZ刀柄系统，高精度应用",
+                    url: "/standard-tools/milling-tool-holder/oz-tool-holder",
+                  },
+                  {
+                    title: "ER Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "ER夹头系统刀柄，多功能应用",
+                    url: "/standard-tools/milling-tool-holder/er-tool-holder",
+                  },
+                  {
+                    title: "Power Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "强力刀柄，适用于重载加工",
+                    url: "/standard-tools/milling-tool-holder/power-tool-holder",
+                  },
+                  {
+                    title: "ADS Pull Back",
+                    image: getRandomProductImage(),
+                    description: "ADS拉钉刀柄，自动换刀",
+                    url: "/standard-tools/milling-tool-holder/ads-pull-back",
+                  },
+                  {
+                    title: "SK High Speed",
+                    image: getRandomProductImage(),
+                    description: "SK高速刀柄，高速精密加工",
+                    url: "/standard-tools/milling-tool-holder/sk-high-speed",
+                  },
+                  {
+                    title: "SR Shrink Fit",
+                    image: getRandomProductImage(),
+                    description: "热缩刀柄，用于精密应用",
+                    url: "/standard-tools/milling-tool-holder/sr-shrink-fit",
+                  },
+                  {
+                    title: "HM Hydraulic",
+                    image: getRandomProductImage(),
+                    description: "液压刀柄，提供最大夹紧力",
+                    url: "/standard-tools/milling-tool-holder/hm-hydraulic",
+                  },
+                ];
+                
+                // 随机选择最多5个分类
+                const shuffled = [...allToolHolderCategories].sort(() => 0.5 - Math.random());
+                const selectedCategories = shuffled.slice(0, 5);
+                
+                return selectedCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Tool Holders" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gray-900 text-white py-16">
+        <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 text-white py-16 animate-gradient-xy">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Need High-Performance Face Milling Solutions?</h2>

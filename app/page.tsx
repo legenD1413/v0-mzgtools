@@ -226,7 +226,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-blue-950 py-20 text-white">
+      <section className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 py-20 text-white animate-gradient-x">
         <div className="container mx-auto px-4 text-center">
           <h2 className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl">
             Ready to Optimize Your Manufacturing Process?

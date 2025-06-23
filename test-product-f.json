@@ -1,0 +1,26 @@
+[
+  {
+    "product_code": "F101",
+    "category": "钻头",
+    "category_id": "C001",
+    "title": "高速钢钻头",
+    "application": "钢材钻孔加工",
+    "page": "P-21"
+  },
+  {
+    "product_code": "F102", 
+    "category": "铣刀",
+    "category_id": "C002",
+    "title": "硬质合金立铣刀",
+    "application": "铝合金铣削加工",
+    "page": "P-22"
+  },
+  {
+    "product_code": "F103",
+    "category": "车刀",
+    "category_id": "C003", 
+    "title": "陶瓷车削刀片",
+    "application": "不锈钢车削加工",
+    "page": "P-23"
+  }
+] 

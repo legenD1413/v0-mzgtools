@@ -10,84 +10,45 @@ export default function ADSPullBackPage() {
   const products = [
     {
       id: "ads-001",
-      name: "BT30-ADS Pull-Back Tool Holder",
-      image: "/images/ads-bt30.png",
-      description: "BT30 interface pull-back tool holder with side locking mechanism",
-      series: "BT-ADS Series",
+      name: "BT-ADS Collect Chuck",
+      image: "/images/C29-1.png",
+      description: "Features convenient side locking without the need to remove pull studs. Ideal for high-speed precision machining with a 0.003mm runout accuracy. Can be paired with HSK dual-contact for enhanced lateral stability.",
+      series: "BT-ADS",
       speedRange: "Up to 30,000 RPM",
-      application: "High-speed machining centers, precision milling operations",
-      pageNumber: "A15",
+      application: "High-speed precision machining, enhanced lateral stability",
+      pageNumber: "C29",
     },
     {
       id: "ads-002",
-      name: "BT40-ADS Pull-Back Tool Holder",
-      image: "/images/ads-bt40.png",
-      description: "BT40 interface pull-back tool holder for heavy-duty applications",
-      series: "BT-ADS Series",
+      name: "EXTENSION ROD AFTER PULL",
+      image: "/images/C30-1.png",
+      description: "A side-locking pull-back tool holder suitable for high-speed precision machining.",
+      series: "Extension Rod",
       speedRange: "Up to 25,000 RPM",
-      application: "Medium to heavy machining operations, side milling",
-      pageNumber: "A16",
+      application: "High-speed precision machining, extended reach",
+      pageNumber: "C30",
     },
     {
       id: "ads-003",
-      name: "BT50-ADS Pull-Back Tool Holder",
-      image: "/images/ads-bt50.png",
-      description: "BT50 interface pull-back tool holder for maximum rigidity",
-      series: "BT-ADS Series",
-      speedRange: "Up to 20,000 RPM",
-      application: "Heavy-duty machining, large diameter tools",
-      pageNumber: "A17",
+      name: "HSK-ADS Milling Machine Tool Holder",
+      image: "/images/C31-1.png",
+      description: "A side-locking pull-back tool holder designed for high-speed precision machining, featuring an HSK interface for enhanced stability.",
+      series: "HSK-ADS",
+      speedRange: "Up to 30,000 RPM",
+      application: "High-speed precision machining, HSK interface stability",
+      pageNumber: "C31",
     },
     {
       id: "ads-004",
-      name: "HSK50A-ADS Pull-Back Tool Holder",
-      image: "/images/ads-hsk50a.png",
-      description: "HSK50A interface with dual-contact stability enhancement",
-      series: "HSK-ADS Series",
+      name: "SK-ADS Milling Machine Tool Holder",
+      image: "/images/C32-1.png",
+      description: "A side-locking pull-back tool holder suitable for high-speed precision machining.",
+      series: "SK-ADS",
       speedRange: "Up to 30,000 RPM",
-      application: "High-speed machining with enhanced lateral stability",
-      pageNumber: "A18",
+      application: "High-speed precision machining, SK interface",
+      pageNumber: "C32",
     },
-    {
-      id: "ads-005",
-      name: "HSK63A-ADS Pull-Back Tool Holder",
-      image: "/images/ads-hsk63a.png",
-      description: "HSK63A interface for maximum precision and stability",
-      series: "HSK-ADS Series",
-      speedRange: "Up to 25,000 RPM",
-      application: "Precision finishing, complex geometry machining",
-      pageNumber: "A19",
-    },
-    {
-      id: "ads-006",
-      name: "SK30-ADS Pull-Back Tool Holder",
-      image: "/images/ads-sk30.png",
-      description: "SK30 interface pull-back tool holder for compact applications",
-      series: "SK-ADS Series",
-      speedRange: "Up to 30,000 RPM",
-      application: "Small diameter tools, precision drilling",
-      pageNumber: "A20",
-    },
-    {
-      id: "ads-007",
-      name: "SK40-ADS Pull-Back Tool Holder",
-      image: "/images/ads-sk40.png",
-      description: "SK40 interface with optimized balance for high-speed operations",
-      series: "SK-ADS Series",
-      speedRange: "Up to 25,000 RPM",
-      application: "General purpose milling, drilling operations",
-      pageNumber: "A21",
-    },
-    {
-      id: "ads-008",
-      name: "C-ADS Extension Rod",
-      image: "/images/ads-c-extension.png",
-      description: "Straight shank pull-back extension rod for extended reach",
-      series: "C-ADS Series",
-      speedRange: "Up to 20,000 RPM",
-      application: "Deep cavity machining, extended reach applications",
-      pageNumber: "A22",
-    },
+
   ]
 
   // Performance features
@@ -359,15 +320,9 @@ export default function ADSPullBackPage() {
                           <span className="text-gray-900">{product.series}</span>
                         </div>
                       )}
-                      {product.speedRange && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Speed:</span>
-                          <span className="text-gray-900">{product.speedRange}</span>
-                        </div>
-                      )}
-                      {product.application && (
+                      {product.description && (
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-xs text-gray-600">{product.application}</p>
+                          <p className="text-xs text-gray-600">{product.description}</p>
                         </div>
                       )}
                     </div>

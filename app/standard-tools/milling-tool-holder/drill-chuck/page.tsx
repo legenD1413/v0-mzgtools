@@ -10,106 +10,83 @@ export default function DrillChuckPage() {
   const products = [
     {
       id: "drill-chuck-001",
-      name: "APU08 Integrated Drill Chuck",
-      image: "/images/apu08-drill-chuck.png",
-      description: "High-precision one-piece design with 0.015mm concentricity",
+      name: "APU Milling Machine Tool Holder",
+      image: "/images/C59-1.png",
+      description: "An integrated drill chuck specifically for milling machine applications",
       series: "APU Series",
-      capacity: "Up to 8mm",
-      concentricity: "0.015mm",
-      application: "High-precision drilling on CNC machines",
-      pageNumber: "APU08",
+      connection: "Integrated Chuck",
+      application: "Milling machine applications",
+      pageNumber: "C59",
     },
     {
-      id: "drill-chuck-002",
-      name: "APU13 Integrated Drill Chuck",
-      image: "/images/apu13-drill-chuck.png",
-      description: "High-precision one-piece design for medium-diameter tools",
-      series: "APU Series",
-      capacity: "Up to 13mm",
-      concentricity: "0.015mm",
-      application: "Precision drilling with extended-length drills",
-      pageNumber: "APU13",
+      id: "drill-chuck-002", 
+      name: "JM Drill Chuck Milling Machine Tool Holder",
+      image: "/images/C60-1.png",
+      description: "An integrated drill chuck specifically for milling machine applications",
+      series: "JM Series",
+      connection: "Integrated Chuck",
+      application: "Milling machine applications",
+      pageNumber: "C60",
     },
     {
       id: "drill-chuck-003",
-      name: "APU16 Integrated Drill Chuck",
-      image: "/images/apu16-drill-chuck.png",
-      description: "High-precision one-piece design for larger diameter tools",
-      series: "APU Series",
-      capacity: "Up to 16mm",
-      concentricity: "0.015mm",
-      application: "Large diameter precision drilling operations",
-      pageNumber: "APU16",
+      name: "J Keyless Drill Chuck",
+      image: "/images/C61-1.png", 
+      description: "An automatic keyless drill chuck suitable for various clamping ranges",
+      series: "J Series",
+      connection: "Keyless Chuck",
+      application: "Various clamping ranges",
+      pageNumber: "C61",
     },
     {
       id: "drill-chuck-004",
-      name: "JM High-Speed Drill Chuck (M-Type)",
-      image: "/images/jm-m-drill-chuck.png",
-      description: "Engineered for high-RPM environments and speed applications",
-      series: "JM Series",
-      type: "M-Type",
-      application: "High-speed drilling operations",
-      pageNumber: "JM-M",
+      name: "J Spanner Drill Chuck",
+      image: "/images/C62-1.png",
+      description: "Suitable for medium and heavy duty drilling use. For milling machine, lathe, drill machine, CNC & wood working machine. High speed drilling can be performed for possessing high cutting power",
+      series: "J Series",
+      connection: "Spanner Chuck",
+      application: "Medium & heavy duty drilling for CNC and woodworking machines",
+      pageNumber: "C62",
     },
     {
       id: "drill-chuck-005",
-      name: "JM High-Speed Drill Chuck (P-Type)",
-      image: "/images/jm-p-drill-chuck.png",
-      description: "High-speed performance with enhanced precision features",
-      series: "JM Series",
-      type: "P-Type",
-      application: "High-speed precision drilling",
-      pageNumber: "JM-P",
+      name: "Three-sided Milling Cutter Arbor (-XS)",
+      image: "/images/C62-2.png",
+      description: "An arbor specifically for three-sided milling cutters, including saw blade milling cutters",
+      series: "Arbor Series",
+      connection: "Three-sided Arbor",
+      application: "Three-sided milling cutters and saw blade milling cutters",
+      pageNumber: "C62",
     },
     {
       id: "drill-chuck-006",
-      name: "J31 Spanner Drill Chuck (H-Type)",
-      image: "/images/j31-h-drill-chuck.png",
-      description: "Built for medium to heavy-duty drilling with robust construction",
-      series: "J31 Series",
-      type: "H-Type",
-      application: "Medium and heavy-duty drilling operations",
-      pageNumber: "J31-H",
+      name: "Morse Taper Drill Chuck Arbors (MT/JT)",
+      image: "/images/C63-1.png",
+      description: "Arbors featuring a Morse taper, specifically designed for connecting drill chucks",
+      series: "Arbor Series",
+      connection: "MT/JT",
+      application: "Morse taper drill chuck connections",
+      pageNumber: "C63",
     },
     {
       id: "drill-chuck-007",
-      name: "J31 Spanner Drill Chuck (L-Type)",
-      image: "/images/j31-l-drill-chuck.png",
-      description: "Heavy-duty drilling with powerful clamping force",
-      series: "J31 Series",
-      type: "L-Type",
-      application: "Heavy-duty drilling with high torque",
-      pageNumber: "J31-L",
+      name: "Cylindrical Drill Chuck Arbors (C/JT)",
+      image: "/images/C63-2.png",
+      description: "Arbors with cylindrical shanks, used for connecting drill chucks",
+      series: "Arbor Series",
+      connection: "C/JT",
+      application: "Cylindrical shank drill chuck connections",
+      pageNumber: "C63",
     },
     {
       id: "drill-chuck-008",
-      name: "Self-Tightening Drill Chuck",
-      image: "/images/self-tightening-chuck.png",
-      description: "Keyless design for convenience with various taper mounts",
-      series: "Self-Tightening",
-      features: "Keyless Operation",
-      application: "Quick tool changes and general-purpose drilling",
-      pageNumber: "ST",
-    },
-    {
-      id: "drill-chuck-009",
-      name: "MT/JT Drill Chuck Arbor",
-      image: "/images/mt-jt-arbor.png",
-      description: "Connects Morse Taper spindles to JT taper chucks",
+      name: "R8 Drill Chuck Arbors (R8/JT)",
+      image: "/images/C63-3.png",
+      description: "Arbors with an R8 taper, designed for connecting drill chucks",
       series: "Arbor Series",
-      connection: "MT to JT",
-      application: "Morse Taper spindle adaptation",
-      pageNumber: "MT-JT",
-    },
-    {
-      id: "drill-chuck-010",
-      name: "R8/JT Drill Chuck Arbor",
-      image: "/images/r8-jt-arbor.png",
-      description: "Connects R8 spindles to JT taper chucks",
-      series: "Arbor Series",
-      connection: "R8 to JT",
-      application: "R8 spindle adaptation for drill chucks",
-      pageNumber: "R8-JT",
+      connection: "R8/JT",
+      application: "R8 taper drill chuck connections",
+      pageNumber: "C63",
     },
   ]
 
@@ -209,14 +186,14 @@ export default function DrillChuckPage() {
 
   // Specifications
   const specifications = [
-    { label: "Main Types", value: "APU, JM, J31, Self-Tightening" },
+    { label: "Main Types", value: "APU, JM, J Series, Arbor Series" },
     { label: "Concentricity (APU)", value: "0.015mm" },
-    { label: "Capacity Range", value: "Up to 16mm (APU16)" },
+    { label: "Chuck Types", value: "Integrated, Keyless, Spanner" },
     { label: "Interface Types", value: "BT, SK, NT, HSK, CAT, ISO, C" },
-    { label: "Arbor Connections", value: "MT/JT, R8/JT, C/JT, C/MT" },
+    { label: "Arbor Connections", value: "MT/JT, R8/JT, C/JT, Three-sided" },
     { label: "Clamping Method", value: "Special Wrench + Hand Tightening" },
     { label: "Speed Rating", value: "High-Speed (JM Series)" },
-    { label: "Duty Rating", value: "Heavy-Duty (J31 Series)" },
+    { label: "Applications", value: "Milling, Lathe, CNC, Woodworking" },
   ]
 
   return (
@@ -297,13 +274,13 @@ export default function DrillChuckPage() {
               <div className="md:col-span-2">
                 <div className="prose prose-sm max-w-none">
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    The performance of a Drill Chuck Tool Holder system is defined by its <strong>accuracy, clamping strength, and adaptability to different operational demands</strong>. A key performance metric for modern drill chucks is their accuracy. The <strong>APU series (一体式钻夹头)</strong> stands out by delivering exceptional precision, maintaining a concentricity (runout) <strong>within 0.015mm</strong>. This level of accuracy is crucial for producing precisely located and sized holes.
+                    The performance of a Drill Chuck Tool Holder system is defined by its accuracy, clamping strength, and adaptability to different operational demands. A key performance metric for modern drill chucks is their accuracy. The APU series stands out by delivering exceptional precision, maintaining a concentricity (runout) within 0.015mm. This level of accuracy is crucial for producing precisely located and sized holes.
                   </p>
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    The system is not limited to standard operations. The <strong>JM series (JM一体式钻夹头)</strong> is specifically designated as a <strong>high-speed</strong> product, engineered to perform reliably in high-RPM environments. Conversely, the <strong>J31 Spanner Drill Chuck (扳手钻夹头)</strong> is built for <strong>medium and heavy-duty drilling</strong>, providing the robust construction and powerful clamping force needed to withstand high torque and feed rates.
+                    The system is not limited to standard operations. The JM series is specifically designated as a high-speed product, engineered to perform reliably in high-RPM environments. Conversely, the J31 Spanner Drill Chuck is built for medium and heavy-duty drilling, providing the robust construction and powerful clamping force needed to withstand high torque and feed rates.
                   </p>
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    The core function of clamping is achieved with reliability. The mechanism, typically requiring a <strong>special wrench for final firm locking</strong>, ensures that the tool is held securely, preventing slippage during cutting. One of the system's most significant performance advantages is its vast compatibility with interfaces like <strong>BT, SK, NT, HSK, CAT, ISO, and Straight Shank (C)</strong>, enabling direct mounting on nearly any milling machine or CNC center.
+                    The core function of clamping is achieved with reliability. The mechanism, typically requiring a special wrench for final firm locking, ensures that the tool is held securely, preventing slippage during cutting. One of the system's most significant performance advantages is its vast compatibility with interfaces like BT, SK, NT, HSK, CAT, ISO, and Straight Shank (C), enabling direct mounting on nearly any milling machine or CNC center.
                   </p>
                 </div>
               </div>
@@ -382,34 +359,34 @@ export default function DrillChuckPage() {
                           <span className="text-gray-900">{product.series}</span>
                         </div>
                       )}
-                      {product.capacity && (
+                      {(product as any).capacity && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Capacity:</span>
-                          <span className="text-gray-900">{product.capacity}</span>
+                          <span className="text-gray-900">{(product as any).capacity}</span>
                         </div>
                       )}
-                      {product.concentricity && (
+                      {(product as any).concentricity && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Concentricity:</span>
-                          <span className="text-gray-900">{product.concentricity}</span>
+                          <span className="text-gray-900">{(product as any).concentricity}</span>
                         </div>
                       )}
-                      {product.type && (
+                      {(product as any).type && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Type:</span>
-                          <span className="text-gray-900">{product.type}</span>
+                          <span className="text-gray-900">{(product as any).type}</span>
                         </div>
                       )}
-                      {product.features && (
+                      {(product as any).features && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Features:</span>
-                          <span className="text-gray-900">{product.features}</span>
+                          <span className="text-gray-900">{(product as any).features}</span>
                         </div>
                       )}
-                      {product.connection && (
+                      {(product as any).connection && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Connection:</span>
-                          <span className="text-gray-900">{product.connection}</span>
+                          <span className="text-gray-900">{(product as any).connection}</span>
                         </div>
                       )}
                       {product.application && (
@@ -423,6 +400,8 @@ export default function DrillChuckPage() {
               ))}
             </div>
           </div>
+
+
 
           {/* Technical Parameters */}
           <div className="mb-16">
@@ -459,6 +438,35 @@ export default function DrillChuckPage() {
             </div>
           </div>
 
+          {/* Critical Operating Instructions */}
+          <div className="mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-1 bg-red-600 mr-4"></div>
+              <h2 className="text-3xl font-bold">Critical Operating Instructions</h2>
+            </div>
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg mb-6">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <Info className="h-5 w-5 text-yellow-400" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-lg font-medium text-yellow-800">Important Tool Insertion Requirements</h3>
+                  <div className="mt-2 text-sm text-yellow-700">
+                    <p className="mb-2">
+                      <strong>Please insert the cutting tool handle completely after the cartridge, to ensure the handle part insertion into cartridge.</strong> Locks when the cutting tool is properly positioned and the handle diameter part is fully inserted.
+                    </p>
+                    <p className="mb-2">
+                      <strong>Especially in trial situations, please confirm that the precision requirements are met.</strong> Verify concentricity and tool positioning before beginning operations.
+                    </p>
+                    <p>
+                      <strong>When clamping the cutting tool, the cutting tool inserts the cartridge first, turns tight with the hand, finally uses the special spanner force to lock.</strong> This sequence ensures proper tool retention and optimal performance.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Clamping and Removal Procedure */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
@@ -472,19 +480,22 @@ export default function DrillChuckPage() {
                     <Tool className="h-5 w-5 text-green-400" />
                   </div>
                   <div className="ml-3">
-                    <h3 className="text-lg font-medium text-green-800">Clamping Procedure</h3>
+                    <h3 className="text-lg font-medium text-green-800">Detailed Clamping Procedure</h3>
                     <div className="mt-2 text-sm text-green-700">
                       <p className="mb-2">
-                        1. Insert tool shank fully into the chuck
+                        1. <strong>Insert cutting tool handle completely into the cartridge</strong> - Ensure handle diameter part is fully inserted
                       </p>
                       <p className="mb-2">
-                        2. Hand-tighten the chuck initially
+                        2. <strong>Hand-tighten the chuck initially</strong> - Turn tight with hand to secure basic positioning
                       </p>
                       <p className="mb-2">
-                        3. Use the special wrench for firm locking
+                        3. <strong>Use special spanner for final locking</strong> - Apply proper force to achieve firm lock
+                      </p>
+                      <p className="mb-2">
+                        4. <strong>Confirm precision in trial situations</strong> - Verify runout and concentricity for critical applications
                       </p>
                       <p>
-                        4. Confirm runout for small diameter tools
+                        5. Validate tool positioning before starting operations
                       </p>
                     </div>
                   </div>

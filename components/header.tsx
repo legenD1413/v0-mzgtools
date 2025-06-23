@@ -1,15 +1,66 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronDown, CircleDashed, Drill, Gauge, Layers, Wrench, FileText, Film, BookOpen } from "lucide-react"
+import { ChevronDown, CircleDashed, Drill, Gauge, Layers, Wrench, FileText, Film, BookOpen, Settings, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<string | null>("milling")
+
+  // 添加 ESC 键关闭菜单和点击外部关闭菜单的功能
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleMenuClose()
+        setMobileMenuOpen(false)
+      }
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element
+      
+      // 检查是否点击了菜单按钮
+      const isMenuButton = target.closest('button[data-menu]')
+      if (isMenuButton) {
+        return // 不关闭菜单，让按钮处理逻辑
+      }
+      
+      // 检查是否点击了下拉菜单内容
+      const isDropdownContent = target.closest('[data-dropdown-content]')
+      if (isDropdownContent) {
+        return // 不关闭菜单
+      }
+      
+      // 如果点击了其他地方，关闭所有菜单
+      if (activeMenu) {
+        handleMenuClose()
+      }
+      
+      // 检查移动端菜单
+      if (mobileMenuOpen) {
+        const mobileMenu = document.querySelector('[data-mobile-menu]')
+        const menuButton = document.querySelector('[data-mobile-menu-button]')
+        
+        if (mobileMenu && !mobileMenu.contains(target) && menuButton && !menuButton.contains(target)) {
+          setMobileMenuOpen(false)
+        }
+      }
+    }
+
+    // 添加事件监听器
+    document.addEventListener('keydown', handleEscapeKey)
+    document.addEventListener('mousedown', handleClickOutside)
+
+    // 清理事件监听器
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey)
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [activeMenu, mobileMenuOpen])
 
   const handleMenuOpen = (menu: string) => {
     setActiveMenu(menu === activeMenu ? null : menu)
@@ -36,8 +87,8 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/80 border-b border-gray-100/50 shadow-sm">
+      <div className="container mx-auto flex h-16 items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image src="/images/mzg-logo.png" alt="MZG Tools" width={80} height={30} className="h-auto" />
@@ -48,18 +99,21 @@ export default function Header() {
           {/* Standard Tools */}
           <div className="static">
             <button
-              className={`flex items-center ${
-                activeMenu === "standard" ? "text-red-600" : "text-gray-700"
-              } hover:text-red-600`}
+              className={`flex items-center font-medium text-sm px-3 py-2 rounded-full transition-all duration-200 ${
+                activeMenu === "standard" 
+                  ? "text-red-600 bg-red-50" 
+                  : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
+              }`}
               onClick={() => handleMenuOpen("standard")}
+              data-menu="standard"
             >
               Standard Tools <ChevronDown className="ml-1 h-4 w-4" />
             </button>
 
             {activeMenu === "standard" && (
               <>
-                <div className="fixed inset-0 z-5 bg-black/5" onClick={handleMenuClose}></div>
-                <div className="absolute left-0 right-0 top-16 z-30 w-screen border-t border-gray-100 shadow-lg">
+                <div className="fixed inset-0 z-10 bg-black/5" onClick={handleMenuClose}></div>
+                <div className="absolute left-0 right-0 top-16 z-40 w-screen border-t border-gray-100 shadow-lg" data-dropdown-content="standard">
                   <div className="w-full bg-white">
                     <div className="container mx-auto flex max-h-[calc(100vh-4rem)] overflow-hidden">
                       {/* 左侧分类菜单 - 深色背景 */}
@@ -84,6 +138,25 @@ export default function Header() {
                                   }`}
                                 />
                                 <span className="text-[14px] font-medium">Milling Cutting Tools</span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
+                                  activeCategory === "clamp-type-milling"
+                                    ? "bg-white text-red-600 shadow-sm"
+                                    : "text-gray-800 hover:bg-gray-100"
+                                }`}
+                                onMouseEnter={() => handleCategoryHover("clamp-type-milling")}
+                              >
+                                <Settings
+                                  className={`mr-3 h-5 w-5 ${
+                                    activeCategory === "clamp-type-milling"
+                                      ? "text-red-600"
+                                      : "text-gray-600 group-hover:text-red-500"
+                                  }`}
+                                />
+                                <span className="text-[14px] font-medium">Clamp Type Milling Cutter</span>
                               </button>
                             </li>
                             <li>
@@ -141,6 +214,25 @@ export default function Header() {
                                   }`}
                                 />
                                 <span className="text-[14px] font-medium">Hole Machining Systems</span>
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                className={`group flex w-full items-center rounded-md py-2 px-3 transition-colors ${
+                                  activeCategory === "lathe-turning-inserts"
+                                    ? "bg-white text-red-600 shadow-sm"
+                                    : "text-gray-800 hover:bg-gray-100"
+                                }`}
+                                onMouseEnter={() => handleCategoryHover("lathe-turning-inserts")}
+                              >
+                                <RotateCcw
+                                  className={`mr-3 h-5 w-5 ${
+                                    activeCategory === "lathe-turning-inserts"
+                                      ? "text-red-600"
+                                      : "text-gray-600 group-hover:text-red-500"
+                                  }`}
+                                />
+                                <span className="text-[14px] font-medium">Lathe Turning Inserts</span>
                               </button>
                             </li>
                             <li>
@@ -310,6 +402,120 @@ export default function Header() {
                           </div>
                         )}
 
+                        {/* Clamp Type Milling Cutter 子菜单 */}
+                        {activeCategory === "clamp-type-milling" && (
+                          <div>
+                            <h3 className="mb-6 text-xl font-bold text-gray-800">Clamp Type Milling Cutter</h3>
+                            <div className="grid grid-cols-3 gap-x-8 gap-y-8">
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Face & Shoulder Mills</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/face-milling-cutters"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Face Milling Cutters
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/right-angle-square-shoulder"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Right Angle / Square Shoulder Milling Cutters
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/ball-end-milling-cutters"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Ball End Milling Cutters
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Mills</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/fillet-corner-rounding"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Fillet / Corner Rounding Milling Cutter
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/high-feed-milling-cutter"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      High Feed Milling Cutter
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/grooving-slotting"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Grooving & Slotting Milling Cutters
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Advanced Mills</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/chamfering-cutters"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Chamfering Cutters
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/corn-roughing"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Corn / Roughing Milling Cutter
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/clamp-type-milling/screwed-modular-tool-holders"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Screwed / Modular Tool Holders
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="mt-10 p-4 bg-gray-50 rounded-lg">
+                              <h4 className="font-medium text-gray-800 mb-2">Advanced Clamp Type Milling Solutions</h4>
+                              <p className="text-sm text-gray-600">
+                                Our clamp type milling cutters provide superior performance with indexable inserts for cost-effective machining and extended tool life.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
                         {/* 螺纹加工工具子菜单 */}
                         {activeCategory === "threading" && (
                           <div>
@@ -317,7 +523,7 @@ export default function Header() {
                             <div className="grid grid-cols-1 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Internal Threading</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/standard-tools/threading/taps"
@@ -437,9 +643,9 @@ export default function Header() {
                         {activeCategory === "milling-tool-holder" && (
                           <div>
                             <h3 className="mb-6 text-xl font-bold text-gray-800">Milling Tool Holder</h3>
-                            <div className="grid grid-cols-3 gap-x-8 gap-y-8">
+                            <div className="grid grid-cols-3 gap-x-6 gap-y-6">
                               <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">High Precision Holders</h4>
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">High Precision Series</h4>
                                 <ul className="space-y-2">
                                   <li>
                                     <Link
@@ -456,7 +662,7 @@ export default function Header() {
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      HM Hydraulic
+                                      HM Hydraulic Tool Holder
                                     </Link>
                                   </li>
                                   <li>
@@ -470,27 +676,18 @@ export default function Header() {
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/milling-tool-holder/sr-shrink-fit-extension"
+                                      href="/standard-tools/milling-tool-holder/power-tool-holder"
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      SR Shrink Fit Tool Holder (Extension Rod)
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling-tool-holder/shrink-fit-heating-machine"
-                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Shrink Fit Heating Machine
+                                      Strong Tool Holder
                                     </Link>
                                   </li>
                                 </ul>
                               </div>
 
                               <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Standard Holders</h4>
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Standard Series</h4>
                                 <ul className="space-y-2">
                                   <li>
                                     <Link
@@ -498,16 +695,7 @@ export default function Header() {
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      ADS Pull Back Tool Holder
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling-tool-holder/power-tool-holder"
-                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Power Tool Holder
+                                      Pull Back Tool Holder
                                     </Link>
                                   </li>
                                   <li>
@@ -521,15 +709,6 @@ export default function Header() {
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/milling-tool-holder/er-tool-holder-extension"
-                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      ER Tool Holder (Extension Rod)
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
                                       href="/standard-tools/milling-tool-holder/oz-tool-holder"
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
@@ -537,11 +716,20 @@ export default function Header() {
                                       OZ Tool Holder
                                     </Link>
                                   </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/milling-tool-holder/morse-taper"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Morse Taper Tool Holder
+                                    </Link>
+                                  </li>
                                 </ul>
                               </div>
 
                               <div className="space-y-4">
-                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Holders</h4>
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty & Application</h4>
                                 <ul className="space-y-2">
                                   <li>
                                     <Link
@@ -572,29 +760,11 @@ export default function Header() {
                                   </li>
                                   <li>
                                     <Link
-                                      href="/standard-tools/milling-tool-holder/morse-taper"
-                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Morse Taper Tool Holder
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
                                       href="/standard-tools/milling-tool-holder/side-lock"
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Side Lock Tool Holder
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/milling-tool-holder/accessory"
-                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Accessory
                                     </Link>
                                   </li>
                                 </ul>
@@ -605,6 +775,102 @@ export default function Header() {
                               <h4 className="font-medium text-gray-800 mb-2">Precision Tool Holding Solutions</h4>
                               <p className="text-sm text-gray-600">
                                 Our comprehensive range of milling tool holders provides superior clamping force and precision for all your machining applications.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Lathe Turning Inserts 子菜单 */}
+                        {activeCategory === "lathe-turning-inserts" && (
+                          <div>
+                            <h3 className="mb-6 text-xl font-bold text-gray-800">Lathe Turning Inserts</h3>
+                            <div className="grid grid-cols-3 gap-x-8 gap-y-8">
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Basic Turning</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/lathe-turning-inserts/turning-inserts"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Turning Inserts
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/lathe-turning-inserts/back-turning-inserts"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Back Turning Inserts
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Grooving & Threading</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/lathe-turning-inserts/grooving-cut-off-turning-inserts"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Grooving/Cut-off Turning Inserts
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/lathe-turning-inserts/internal-grooving-inserts"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Internal Grooving Inserts
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/lathe-turning-inserts/threading-inserts"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Threading Inserts
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Inserts</h4>
+                                <ul className="space-y-2">
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/lathe-turning-inserts/milling-inserts"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Milling Inserts
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      href="/standard-tools/lathe-turning-inserts/drilling-inserts"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
+                                    >
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
+                                      Drilling Inserts
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="mt-10 p-4 bg-gray-50 rounded-lg">
+                              <h4 className="font-medium text-gray-800 mb-2">Complete Lathe Turning Solutions</h4>
+                              <p className="text-sm text-gray-600">
+                                Our comprehensive range of lathe turning inserts provides superior cutting performance and precision for all your turning applications, from basic turning to specialized operations.
                               </p>
                             </div>
                           </div>
@@ -633,18 +899,21 @@ export default function Header() {
           {/* Custom Tools - 使用相同的结构 */}
           <div className="static">
             <button
-              className={`flex items-center ${
-                activeMenu === "custom" ? "text-red-600" : "text-gray-700"
-              } hover:text-red-600`}
+              className={`flex items-center font-medium text-sm px-3 py-2 rounded-full transition-all duration-200 ${
+                activeMenu === "custom" 
+                  ? "text-red-600 bg-red-50" 
+                  : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
+              }`}
               onClick={() => handleMenuOpen("custom")}
+              data-menu="custom"
             >
               Custom Tools <ChevronDown className="ml-1 h-4 w-4" />
             </button>
 
             {activeMenu === "custom" && (
               <>
-                <div className="fixed inset-0 z-5 bg-black/5" onClick={handleMenuClose}></div>
-                <div className="absolute left-0 right-0 top-16 z-30 w-screen border-t border-gray-100 shadow-lg">
+                <div className="fixed inset-0 z-10 bg-black/5" onClick={handleMenuClose}></div>
+                <div className="absolute left-0 right-0 top-16 z-40 w-screen border-t border-gray-100 shadow-lg" data-dropdown-content="custom">
                   <div className="w-full bg-white">
                     <div className="container mx-auto flex max-h-[calc(100vh-4rem)] overflow-hidden">
                       {/* 左侧分类菜单 - 深色背景 */}
@@ -670,7 +939,7 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">TOOL HOLDERS</span>
+                                <span className="text-sm font-medium">Tool Holders</span>
                               </button>
                             </li>
                             <li>
@@ -689,7 +958,7 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">TURNING SOLUTIONS</span>
+                                <span className="text-sm font-medium">TURNING SOLUTIONS</span>
                               </button>
                             </li>
                             <li>
@@ -708,7 +977,7 @@ export default function Header() {
                                       : "text-gray-600 group-hover:text-red-500"
                                   }`}
                                 />
-                                <span className="text-[14px] font-medium">SPECIAL INSERTS</span>
+                                <span className="text-sm font-medium">SPECIAL INSERTS</span>
                               </button>
                             </li>
                           </ul>
@@ -724,22 +993,22 @@ export default function Header() {
                             <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialized Holders</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/custom-tools/tool-holders/adapters"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Special Adapters
                                     </Link>
                                   </li>
                                   <li>
                                     <Link
                                       href="/custom-tools/tool-holders/boring-bars"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
+                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
                                       Custom Boring Bars
                                     </Link>
                                   </li>
@@ -748,11 +1017,11 @@ export default function Header() {
 
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Custom Solutions</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/custom-tools/tool-holders/collet-chucks"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Special Collet Chucks
@@ -761,7 +1030,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/custom-tools/tool-holders/extensions"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Tool Extensions
@@ -788,11 +1057,11 @@ export default function Header() {
                             <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Custom Tools</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/custom-tools/turning-solutions/tools"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Custom Turning Tools
@@ -801,7 +1070,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/custom-tools/turning-solutions/inserts"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Special Inserts
@@ -812,11 +1081,11 @@ export default function Header() {
 
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Operations</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/custom-tools/turning-solutions/grooving"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Custom Grooving Tools
@@ -825,7 +1094,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/custom-tools/turning-solutions/threading"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Custom Threading Tools
@@ -852,11 +1121,11 @@ export default function Header() {
                             <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Turning & Milling</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/custom-tools/special-inserts/turning"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Custom Turning Inserts
@@ -865,7 +1134,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/custom-tools/special-inserts/milling"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Custom Milling Inserts
@@ -876,11 +1145,11 @@ export default function Header() {
 
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Operations</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/custom-tools/special-inserts/grooving"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Custom Grooving Inserts
@@ -889,7 +1158,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/custom-tools/special-inserts/threading"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Custom Threading Inserts
@@ -932,18 +1201,21 @@ export default function Header() {
           {/* Resources - 使用相同的结构 */}
           <div className="static">
             <button
-              className={`flex items-center ${
-                activeMenu === "resources" ? "text-red-600" : "text-gray-700"
-              } hover:text-red-600`}
+              className={`flex items-center font-medium text-sm px-3 py-2 rounded-full transition-all duration-200 ${
+                activeMenu === "resources" 
+                  ? "text-red-600 bg-red-50" 
+                  : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
+              }`}
               onClick={() => handleMenuOpen("resources")}
+              data-menu="resources"
             >
               Resources <ChevronDown className="ml-1 h-4 w-4" />
             </button>
 
             {activeMenu === "resources" && (
               <>
-                <div className="fixed inset-0 z-5 bg-black/5" onClick={handleMenuClose}></div>
-                <div className="absolute left-0 right-0 top-16 z-30 w-screen border-t border-gray-100 shadow-lg">
+                <div className="fixed inset-0 z-10 bg-black/5" onClick={handleMenuClose}></div>
+                <div className="absolute left-0 right-0 top-16 z-40 w-screen border-t border-gray-100 shadow-lg" data-dropdown-content="resources">
                   <div className="w-full bg-white">
                     <div className="container mx-auto flex max-h-[calc(100vh-4rem)] overflow-hidden">
                       {/* 左侧分类菜单 - 深色背景 */}
@@ -1021,11 +1293,11 @@ export default function Header() {
                             <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Guides & Notes</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/resources/technical/guides"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Technical Guides
@@ -1034,7 +1306,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/technical/application-notes"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Application Notes
@@ -1045,11 +1317,11 @@ export default function Header() {
 
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Material Data</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/resources/technical/material-specs"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Material Specifications
@@ -1058,7 +1330,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/technical/hardness-conversion"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Hardness Conversion Charts
@@ -1085,11 +1357,11 @@ export default function Header() {
                             <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Standard Tools</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/resources/catalogs/milling"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Milling Tools Catalog
@@ -1098,7 +1370,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/catalogs/turning"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Turning Tools Catalog
@@ -1107,7 +1379,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/catalogs/drilling"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Drilling Tools Catalog
@@ -1118,11 +1390,11 @@ export default function Header() {
 
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Specialty Tools</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/resources/catalogs/threading"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Threading Tools Catalog
@@ -1131,7 +1403,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/catalogs/tool-holders"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Tool Holders Catalog
@@ -1158,11 +1430,11 @@ export default function Header() {
                             <div className="grid grid-cols-2 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Videos</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/resources/media/product-demos"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Product Demonstration Videos
@@ -1171,7 +1443,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/media/application-examples"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Application Example Videos
@@ -1182,11 +1454,11 @@ export default function Header() {
 
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Images</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/resources/media/product-images"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Product Images
@@ -1195,7 +1467,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/media/application-images"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Application Images
@@ -1221,11 +1493,11 @@ export default function Header() {
                             <div className="grid grid-cols-1 gap-x-8 gap-y-8">
                               <div className="space-y-4">
                                 <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3">Success Stories</h4>
-                                <ul className="space-y-3">
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
                                       href="/resources/case-studies/automotive"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Automotive Industry Case Study
@@ -1234,7 +1506,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/case-studies/aerospace"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Aerospace Industry Case Study
@@ -1243,7 +1515,7 @@ export default function Header() {
                                   <li>
                                     <Link
                                       href="/resources/case-studies/medical"
-                                      className="flex items-center hover:text-red-600 py-1.5 transition-colors"
+                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span>
                                       Medical Device Manufacturing Case Study
@@ -1284,19 +1556,19 @@ export default function Header() {
           </div>
 
           {/* Blog */}
-          <Link href="/mzgblog" className="text-gray-700 hover:text-red-600">
+          <Link href="/mzgblog" className="font-medium text-sm px-3 py-2 rounded-full text-gray-700 hover:text-red-600 hover:bg-gray-50 transition-all duration-200">
             Blog
           </Link>
 
-          {/* About Us - moved to second-to-last position */}
-          <Link href="/about" className="text-gray-700 hover:text-red-600">
+          {/* About Us */}
+          <Link href="/about" className="font-medium text-sm px-3 py-2 rounded-full text-gray-700 hover:text-red-600 hover:bg-gray-50 transition-all duration-200">
             About Us
           </Link>
         </nav>
 
         {/* Desktop Action Buttons */}
         <div className="hidden items-center lg:flex">
-          <Button asChild className="bg-red-600 text-white hover:bg-red-700">
+          <Button asChild className="bg-red-600 text-white hover:bg-red-700 rounded-full px-6 py-2 font-medium text-sm shadow-sm hover:shadow-md transition-all duration-200">
             <Link href="/custom-quote">Custom Quote</Link>
           </Button>
         </div>
@@ -1305,6 +1577,7 @@ export default function Header() {
         <button
           className="lg:hidden text-gray-700 hover:text-red-600"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          data-mobile-menu-button
         >
           {/* You can use an icon here, e.g., a hamburger icon */}
           Menu
@@ -1313,7 +1586,9 @@ export default function Header() {
 
       {/* Mobile Menu (conditionally rendered) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-gray-50 py-2">
+        <>
+          <div className="fixed inset-0 z-10 bg-black/20 lg:hidden" onClick={() => setMobileMenuOpen(false)}></div>
+          <div className="lg:hidden bg-gray-50 py-2 relative z-20" data-mobile-menu>
           {/* Mobile menu items go here */}
           <Link href="/" className="block px-4 py-2 text-gray-700 hover:text-red-600">
             Home
@@ -1333,7 +1608,8 @@ export default function Header() {
           <Link href="/about" className="block px-4 py-2 text-gray-700 hover:text-red-600">
             About Us
           </Link>
-        </div>
+          </div>
+        </>
       )}
     </header>
   )

@@ -1,0 +1,211 @@
+import { neon } from "@neondatabase/serverless"
+
+// 创建数据库连接
+export const sql = neon(process.env.DATABASE_URL!)
+
+// 数据库表初始化
+export async function initializeTables() {
+  try {
+    // 创建管理员用户表
+    await sql`
+      CREATE TABLE IF NOT EXISTS admin_users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        email VARCHAR(100),
+        role VARCHAR(20) DEFAULT 'admin',
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建产品分类表
+    await sql`
+      CREATE TABLE IF NOT EXISTS product_categories (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        slug VARCHAR(100) UNIQUE NOT NULL,
+        description TEXT,
+        parent_id INTEGER REFERENCES product_categories(id),
+        sort_order INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建产品系列表
+    await sql`
+      CREATE TABLE IF NOT EXISTS product_series (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        code VARCHAR(50) UNIQUE NOT NULL,
+        description TEXT,
+        category_id INTEGER REFERENCES product_categories(id),
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建产品表
+    await sql`
+      CREATE TABLE IF NOT EXISTS products (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(200) NOT NULL,
+        code VARCHAR(100) UNIQUE NOT NULL,
+        description TEXT,
+        series_id INTEGER REFERENCES product_series(id),
+        image_url VARCHAR(500),
+        page_number VARCHAR(50),
+        specifications JSONB,
+        features JSONB,
+        applications JSONB,
+        is_active BOOLEAN DEFAULT true,
+        sort_order INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建报价请求表
+    await sql`
+      CREATE TABLE IF NOT EXISTS quote_requests (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        company VARCHAR(200),
+        phone VARCHAR(20),
+        requirements TEXT NOT NULL,
+        status VARCHAR(20) DEFAULT 'new',
+        priority VARCHAR(10) DEFAULT 'normal',
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建管理员会话表
+    await sql`
+      CREATE TABLE IF NOT EXISTS admin_sessions (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES admin_users(id),
+        token VARCHAR(255) UNIQUE NOT NULL,
+        expires_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建前台用户表
+    await sql`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        first_name VARCHAR(50),
+        last_name VARCHAR(50),
+        company VARCHAR(200),
+        phone VARCHAR(20),
+        address TEXT,
+        city VARCHAR(100),
+        state VARCHAR(100),
+        country VARCHAR(100),
+        postal_code VARCHAR(20),
+        avatar_url VARCHAR(500),
+        bio TEXT,
+        user_type VARCHAR(20) DEFAULT 'customer',
+        subscription_level VARCHAR(20) DEFAULT 'basic',
+        credit_limit DECIMAL(12,2) DEFAULT 0.00,
+        is_active BOOLEAN DEFAULT true,
+        email_verified BOOLEAN DEFAULT false,
+        last_login TIMESTAMP,
+        login_count INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建用户会话表
+    await sql`
+      CREATE TABLE IF NOT EXISTS user_sessions (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        token VARCHAR(255) UNIQUE NOT NULL,
+        device_info VARCHAR(500),
+        ip_address VARCHAR(45),
+        expires_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 创建用户活动日志表
+    await sql`
+      CREATE TABLE IF NOT EXISTS user_activity_logs (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        action VARCHAR(100) NOT NULL,
+        details JSONB,
+        ip_address VARCHAR(45),
+        user_agent TEXT,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 插入默认管理员用户（如果不存在）
+    const existingAdmin = await sql`
+      SELECT id FROM admin_users WHERE username = 'admin'
+    `
+
+    if (existingAdmin.length === 0) {
+      // 简单密码哈希（生产环境应使用bcrypt）
+      const passwordHash = Buffer.from('mzgtools2024').toString('base64')
+      
+      await sql`
+        INSERT INTO admin_users (username, password_hash, email, role)
+        VALUES ('admin', ${passwordHash}, 'admin@mzgtools.com', 'super_admin')
+      `
+      console.log('默认管理员用户已创建')
+    }
+
+    console.log('数据库表初始化完成')
+  } catch (error) {
+    console.error('数据库初始化错误:', error)
+    throw error
+  }
+}
+
+// 验证数据库连接
+export async function testConnection() {
+  try {
+    const result = await sql`SELECT NOW() as current_time`
+    console.log('数据库连接成功:', result[0].current_time)
+    return true
+  } catch (error) {
+    console.error('数据库连接失败:', error)
+    return false
+  }
+}
+
+// 辅助函数：将蛇形命名转换为驼峰命名
+export function snakeToCamel(obj: Record<string, any>): Record<string, any> {
+  const result: Record<string, any> = {}
+
+  for (const key in obj) {
+    const camelKey = key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase())
+    result[camelKey] = obj[key]
+  }
+
+  return result
+}
+
+// 辅助函数：将驼峰命名转换为蛇形命名
+export function camelToSnake(obj: Record<string, any>): Record<string, any> {
+  const result: Record<string, any> = {}
+
+  for (const key in obj) {
+    const snakeKey = key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
+    result[snakeKey] = obj[key]
+  }
+
+  return result
+} 

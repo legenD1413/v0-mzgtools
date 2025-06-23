@@ -10,83 +10,93 @@ export default function PowerToolHolderPage() {
   const products = [
     {
       id: "power-001",
-      name: "BT-C Strong Tool Holder",
-      image: "/images/bt-c-strong.png",
-      description: "6-slot inner bore design with two-line needle bearings for maximum clamping force",
-      series: "BT-C Series",
-      concentricity: "0.015mm",
-      application: "Heavy-duty roughing, flat-tail Morse taper drills",
-      pageNumber: "P15",
+      name: "DAT-C Milling Machine Tool Holder",
+      image: "/images/c34-1.png",
+      description: "Incorporates a slotted inner bore to prevent slippage and enhance clamping force, along with roller bearings to minimize friction and detachment. It is waterproof and dustproof with end face contact clamping, preventing overtightening. Its sealed structure protects against dirt and debris. Dynamic balance is up to G6.3, 8000RPM (customizable for higher performance).",
+      series: "DAT-C Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "High-strength clamping applications with slotted inner bore design",
+      pageNumber: "C34",
     },
     {
       id: "power-002",
-      name: "DAT-C Strong Tool Holder",
-      image: "/images/dat-c-strong.png",
-      description: "DAT interface with waterproof/dustproof design for harsh environments",
-      series: "DAT-C Series",
-      concentricity: "0.015mm",
-      application: "Industrial drilling, heavy machining operations",
-      pageNumber: "P16",
+      name: "BT-MLT Milling Machine Tool Holder",
+      image: "/images/c35-1.png",
+      description: "Offers waterproof and dustproof capabilities with end face contact clamping. Its design prevents overtightening damage, and a sealed structure eliminates dirt and debris harm. Dynamic balance is achievable up to G6.3, 8000RPM (with options for higher performance).",
+      series: "BT-MLT Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "Waterproof sealed structure applications with overtightening protection",
+      pageNumber: "C35",
     },
     {
       id: "power-003",
-      name: "BT-MLT High Precision Strong Holder",
-      image: "/images/bt-mlt-strong.png",
-      description: "High precision strong holder with superior concentricity",
-      series: "BT-MLT Series",
-      concentricity: "0.001-0.005mm",
-      application: "Precision heavy-duty operations, semi-finishing",
-      pageNumber: "P17",
+      name: "DAT-MLT Milling Machine Tool Holder",
+      image: "/images/c36-1.png",
+      description: "Provides waterproof and dustproof features with end face contact clamping. Its design prevents overtightening, and a sealed structure protects against contamination. Achieves dynamic balance up to G6.3, 8000RPM (with customizable higher levels).",
+      series: "DAT-MLT Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "Contamination-resistant applications with end face contact clamping",
+      pageNumber: "C36",
     },
     {
       id: "power-004",
-      name: "DAT-MLT High Precision Strong Holder",
-      image: "/images/dat-mlt-strong.png",
-      description: "DAT interface with enhanced precision and waterproof design",
-      series: "DAT-MLT Series",
-      concentricity: "0.001-0.005mm",
-      application: "High-precision roughing, demanding applications",
-      pageNumber: "P18",
+      name: "HSK-MLT Milling Machine Tool Holder",
+      image: "/images/c37-1.png",
+      description: "Features waterproof and dustproof design with end face contact clamping and a sealed structure to prevent damage. Capable of dynamic balance up to G6.3, 8000RPM (higher options available).",
+      series: "HSK-MLT Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "HSK interface applications with sealed structure protection",
+      pageNumber: "C37",
     },
     {
       id: "power-005",
-      name: "HSK-MLT Strong Tool Holder",
-      image: "/images/hsk-mlt-strong.png",
-      description: "HSK interface with dual-contact stability and high precision",
-      series: "HSK-MLT Series",
-      concentricity: "0.001-0.005mm",
-      application: "High-speed heavy machining, aerospace applications",
-      pageNumber: "P19",
+      name: "NT-MLC Milling Machine Tool Holder",
+      image: "/images/c37-2.png",
+      description: "Utilizes a high-strength brass retainer to guide roller bearings for perfect sliding motion, and employs special hydraulic oil that prevents solidification.",
+      series: "NT-MLC Series",
+      specialFeature: "High-strength brass retainer with hydraulic oil",
+      application: "High-precision sliding motion with special hydraulic system",
+      pageNumber: "C37",
     },
     {
       id: "power-006",
-      name: "NT-MLC Strong Tool Holder",
-      image: "/images/nt-mlc-strong.png",
-      description: "High-strength brass fixer with special hydraulic oil system",
-      series: "NT-MLC Series",
-      concentricity: "0.010mm",
-      application: "Consistent heavy-duty operations, long service life",
-      pageNumber: "P20",
+      name: "NT-MCST Milling Machine Tool Holder",
+      image: "/images/c38-1.png",
+      description: "Designed to be waterproof and dustproof with end face contact clamping. Its sealed structure prevents damage from dirt and debris. Achieves dynamic balance up to G6.3, 8000RPM (customizable for higher levels).",
+      series: "NT-MCST Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "NT interface with sealed structure for contamination protection",
+      pageNumber: "C38",
     },
     {
       id: "power-007",
-      name: "MCST Strong Collet Chuck",
-      image: "/images/mcst-strong.png",
-      description: "General-purpose strong collet chuck with robust clamping",
-      series: "MCST Series",
-      concentricity: "0.020mm",
-      application: "Versatile heavy-duty clamping, various tool types",
-      pageNumber: "P21",
+      name: "BT-MCST Milling Machine Tool Holder",
+      image: "/images/c38-2.png",
+      description: "Features a waterproof and dustproof design with end face contact clamping, and a sealed structure to eliminate dirt and debris damage. Capable of dynamic balance up to G6.3, 8000RPM (higher options available).",
+      series: "BT-MCST Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "BT interface with enhanced contamination elimination",
+      pageNumber: "C38",
     },
     {
       id: "power-008",
-      name: "R8 Strong Tool Holder",
-      image: "/images/r8-strong.png",
-      description: "R8 interface strong holder for milling machine applications",
-      series: "R8 Series",
-      concentricity: "0.015mm",
-      application: "Milling machines, heavy-duty drilling operations",
-      pageNumber: "P22",
+      name: "DAT-MCST Milling Machine Tool Holder",
+      image: "/images/c39-1.png",
+      description: "Offers waterproof and dustproof properties with end face contact clamping and a sealed structure for protection. Achieves dynamic balance up to G6.3, 8000RPM (customizable for higher performance).",
+      series: "DAT-MCST Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "DAT interface with comprehensive protection features",
+      pageNumber: "C39",
+    },
+    {
+      id: "power-009",
+      name: "MCST Collets Chuck Kit",
+      image: "/images/c40-1.png",
+      description: "A comprehensive set of strong type collet chuck tool holders, featuring waterproof and dustproof design, balanced to G6.3, 8000RPM.",
+      series: "MCST Kit Series",
+      dynamicBalance: "G6.3, 8000RPM",
+      application: "Complete collet chuck system for strong type applications",
+      pageNumber: "C40",
     },
   ]
 
@@ -359,15 +369,21 @@ export default function PowerToolHolderPage() {
                           <span className="text-gray-900">{product.series}</span>
                         </div>
                       )}
-                      {product.concentricity && (
+                      {product.dynamicBalance && (
                         <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Concentricity:</span>
-                          <span className="text-gray-900">{product.concentricity}</span>
+                          <span className="font-medium text-gray-700">Dynamic Balance:</span>
+                          <span className="text-gray-900">{product.dynamicBalance}</span>
                         </div>
                       )}
-                      {product.application && (
+                      {product.specialFeature && (
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-700">Special Feature:</span>
+                          <span className="text-gray-900">{product.specialFeature}</span>
+                        </div>
+                      )}
+                      {product.description && (
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-xs text-gray-600">{product.application}</p>
+                          <p className="text-xs text-gray-600 line-clamp-3">{product.description}</p>
                         </div>
                       )}
                     </div>

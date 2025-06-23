@@ -270,7 +270,7 @@ export default function ProductDetail() {
         {/* Technical Support */}
         <section className="bg-white py-12">
           <div className="container mx-auto px-4">
-            <div className="rounded-xl bg-blue-950 p-8 text-white md:p-12">
+            <div className="rounded-xl bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 p-8 text-white md:p-12 animate-gradient-xy">
               <div className="grid gap-8 md:grid-cols-2">
                 <div>
                   <h2 className="text-2xl font-bold md:text-3xl">Need Technical Support?</h2>

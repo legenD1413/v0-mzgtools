@@ -10,133 +10,66 @@ export default function SideLockPage() {
   const products = [
     {
       id: "side-lock-001",
-      name: "BT-SLN Side Lock Holder",
-      image: "/images/bt-sln-holder.png",
-      description: "Standard BT interface holder with side locking mechanism",
+      name: "BT-SLN Side Lock End Mill Holder",
+      image: "/images/c78-1.png",
+      description: "Features an H5 inner hole tolerance, side locking screws, and central cooling. Dynamically balanced to G6.3, 8000RPM (higher speeds on request).",
       series: "BT-SLN Series",
-      interface: "BT30/40/50",
       tolerance: "Inner Bore: H5",
       balance: "G6.3 @ 8000 RPM",
-      cooling: "Central Cooling (DIN69871-AD)",
-      application: "Heavy roughing and high-torque operations on BT machines",
-      pageNumber: "BT-SLN",
+      cooling: "Central Cooling",
+      locking: "Side Locking Screws",
+      application: "Features an H5 inner hole tolerance, side locking screws, and central cooling",
+      pageNumber: "C78",
     },
     {
       id: "side-lock-002",
-      name: "DAT-SLN Side Lock Holder",
-      image: "/images/dat-sln-holder.png",
-      description: "DAT interface holder for precision side locking applications",
-      series: "DAT-SLN Series",
-      interface: "DAT30/40/50",
+      name: "NT-SLN Milling Machine Tool Holder",
+      image: "/images/c79-1.png",
+      description: "Features an H5 inner hole tolerance, side locking screws, and central cooling. Dynamically balanced to G6.3, 8000RPM (higher speeds on request).",
+      series: "NT-SLN Series",
       tolerance: "Inner Bore: H5",
       balance: "G6.3 @ 8000 RPM",
-      cooling: "Central Cooling (DIN69871-AD)",
-      application: "Precision heavy-duty machining on DAT machines",
-      pageNumber: "DAT-SLN",
+      cooling: "Central Cooling",
+      locking: "Side Locking Screws",
+      application: "Features an H5 inner hole tolerance, side locking screws, and central cooling",
+      pageNumber: "C79",
     },
     {
       id: "side-lock-003",
-      name: "NT-SLN Side Lock Holder",
-      image: "/images/nt-sln-holder.png",
-      description: "NT interface holder requiring pull rod specification",
-      series: "NT-SLN Series",
-      interface: "NT30/40/50",
-      tolerance: "Inner Bore: H5",
+      name: "DAT-SLN Milling Machine Tool Holder",
+      image: "/images/c80-1.png",
+      description: "Features an H5 inner hole tolerance. The shank diameter's dynamic balance complies with DIN-1835-B (h6~h7 tolerance); includes side locking screws. Dynamically balanced to G6.3, 8000RPM (higher speeds on request).",
+      series: "DAT-SLN Series",
+      tolerance: "Inner Bore: H5, Shank: h6~h7",
       balance: "G6.3 @ 8000 RPM",
-      cooling: "Central Cooling (DIN69871-AD)",
-      pullRod: "Metric/Imperial confirmation required",
-      application: "Traditional heavy-duty milling operations",
-      pageNumber: "NT-SLN",
+      standard: "DIN-1835-B",
+      locking: "Side Locking Screws",
+      application: "Features an H5 inner hole tolerance with DIN-1835-B compliant dynamic balance",
+      pageNumber: "C80",
     },
     {
       id: "side-lock-004",
-      name: "HSK-SLN High-Speed Side Lock Holder",
-      image: "/images/hsk-sln-holder.png",
-      description: "High-speed HSK interface for modern machining centers",
+      name: "HSK-SLN Milling Machine Tool Holder",
+      image: "/images/c81-1.png",
+      description: "Features an H5 inner hole tolerance. The shank diameter's dynamic balance complies with DIN-1835-B (h6~h7 tolerance); includes side locking screws. Dynamically balanced to G6.3, 8000RPM (higher speeds on request).",
       series: "HSK-SLN Series",
-      interface: "HSK50A/63A/100A",
-      tolerance: "Inner Bore: H5",
+      tolerance: "Inner Bore: H5, Shank: h6~h7",
       balance: "G6.3 @ 8000 RPM",
-      cooling: "Central Cooling (DIN69871-AD)",
-      application: "High-speed heavy roughing operations",
-      pageNumber: "HSK-SLN",
+      standard: "DIN-1835-B",
+      locking: "Side Locking Screws",
+      application: "Features an H5 inner hole tolerance with DIN-1835-B compliant dynamic balance",
+      pageNumber: "C81",
     },
     {
       id: "side-lock-005",
-      name: "BT40-SLN-16-100 Side Lock Holder",
-      image: "/images/bt40-sln-16-100.png",
-      description: "Specific configuration for 16mm tools with 100mm length",
-      series: "BT-SLN Series",
-      interface: "BT40",
-      toolDiameter: "16mm",
-      length: "100mm",
-      standard: "DIN-1835-B",
-      application: "Medium-diameter end mills for roughing",
-      pageNumber: "BT40-SLN-16",
-    },
-    {
-      id: "side-lock-006",
-      name: "BT50-SLN-25-120 Side Lock Holder",
-      image: "/images/bt50-sln-25-120.png",
-      description: "Large diameter configuration for heavy-duty operations",
-      series: "BT-SLN Series",
-      interface: "BT50",
-      toolDiameter: "25mm",
-      length: "120mm",
-      standard: "DIN-1835-B",
-      application: "Large end mills for aggressive material removal",
-      pageNumber: "BT50-SLN-25",
-    },
-    {
-      id: "side-lock-007",
-      name: "HSK63A-SLN-20-110 High-Speed Holder",
-      image: "/images/hsk63a-sln-20-110.png",
-      description: "High-speed configuration for 20mm tools",
-      series: "HSK-SLN Series",
-      interface: "HSK63A",
-      toolDiameter: "20mm",
-      length: "110mm",
-      balance: "G6.3 @ 8000 RPM",
-      application: "High-speed roughing with 20mm end mills",
-      pageNumber: "HSK63A-SLN-20",
-    },
-    {
-      id: "side-lock-008",
-      name: "DAT40-SLN-12-80 Precision Holder",
-      image: "/images/dat40-sln-12-80.png",
-      description: "Precision DAT holder for 12mm tools",
-      series: "DAT-SLN Series",
-      interface: "DAT40",
-      toolDiameter: "12mm",
-      length: "80mm",
-      tolerance: "H5",
-      application: "Precision roughing with 12mm end mills",
-      pageNumber: "DAT40-SLN-12",
-    },
-    {
-      id: "side-lock-009",
-      name: "Small Diameter Extended Rod",
-      image: "/images/small-diameter-rod.png",
-      description: "Straight shank extension for increased reach",
+      name: "Small Diameter Side Fixed Extended Connecting Rod",
+      image: "/images/c82-1.png",
+      description: "Extension rods featuring side locking, available for various diameters.",
       series: "Extension Series",
-      interface: "Straight Shank",
-      material: "High-grade steel",
-      treatment: "Precision ground",
-      application: "Extended reach applications with side lock",
-      pageNumber: "EXT-SLN",
-    },
-    {
-      id: "side-lock-010",
-      name: "NT50-SLN-32-140 Heavy-Duty Holder",
-      image: "/images/nt50-sln-32-140.png",
-      description: "Heavy-duty NT holder for large diameter tools",
-      series: "NT-SLN Series",
-      interface: "NT50",
-      toolDiameter: "32mm",
-      length: "140mm",
-      pullRod: "Thread confirmation required",
-      application: "Heavy-duty roughing with large end mills",
-      pageNumber: "NT50-SLN-32",
+      locking: "Side Locking",
+      feature: "Various Diameters Available",
+      application: "Extension rods featuring side locking, available for various diameters",
+      pageNumber: "C82",
     },
   ]
 
@@ -409,53 +342,9 @@ export default function SideLockPage() {
                           <span className="text-gray-900">{product.series}</span>
                         </div>
                       )}
-                      {product.interface && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Interface:</span>
-                          <span className="text-gray-900">{product.interface}</span>
-                        </div>
-                      )}
-                      {product.tolerance && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Tolerance:</span>
-                          <span className="text-gray-900 text-xs">{product.tolerance}</span>
-                        </div>
-                      )}
-                      {product.balance && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Balance:</span>
-                          <span className="text-gray-900 text-xs">{product.balance}</span>
-                        </div>
-                      )}
-                      {product.cooling && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Cooling:</span>
-                          <span className="text-gray-900 text-xs">{product.cooling}</span>
-                        </div>
-                      )}
-                      {product.toolDiameter && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Tool Ø:</span>
-                          <span className="text-gray-900">{product.toolDiameter}</span>
-                        </div>
-                      )}
-                      {product.standard && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Standard:</span>
-                          <span className="text-gray-900 text-xs">{product.standard}</span>
-                        </div>
-                      )}
-                      {product.pullRod && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Pull Rod:</span>
-                          <span className="text-gray-900 text-xs">{product.pullRod}</span>
-                        </div>
-                      )}
-                      {product.application && (
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-xs text-gray-600">{product.application}</p>
+                        <p className="text-xs text-gray-600">{product.description}</p>
                         </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -667,35 +556,92 @@ export default function SideLockPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {(() => {
+                // 从本分类产品中随机获取图片的函数
+                const getRandomProductImage = () => {
+                  const randomIndex = Math.floor(Math.random() * products.length);
+                  return products[randomIndex].image;
+                };
+                
+                // 定义同目录下的所有分类（milling-tool-holder目录下的其他分类，排除当前的side-lock）
+                const allMillingToolHolderCategories = [
                 {
                   title: "Face Milling",
-                  image: "/images/face-milling.jpg",
-                  description: "High-precision holders for large surface machining",
+                    image: getRandomProductImage(),
+                    description: "面铣刀夹头，用于大面积表面加工",
                   url: "/standard-tools/milling-tool-holder/face-milling",
                 },
                 {
                   title: "Morse Taper",
-                  image: "/images/morse-taper.jpg", 
-                  description: "Self-locking taper system for drilling and reaming",
+                    image: getRandomProductImage(),
+                    description: "莫氏锥度夹头，自锁式锥度系统",
                   url: "/standard-tools/milling-tool-holder/morse-taper",
                 },
+                  {
+                    title: "Drill Chuck",
+                    image: getRandomProductImage(),
+                    description: "钻夹头，精密钻孔作业系统",
+                    url: "/standard-tools/milling-tool-holder/drill-chuck",
+                  },
+                  {
+                    title: "ER Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "ER夹头，多规格刀具夹持系统",
+                    url: "/standard-tools/milling-tool-holder/er-tool-holder",
+                  },
+                  {
+                    title: "Power Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "强力夹头，重载高扭矩应用",
+                    url: "/standard-tools/milling-tool-holder/power-tool-holder",
+                  },
+                  {
+                    title: "Tapping Tool Holder",
+                    image: getRandomProductImage(),
+                    description: "攻丝夹头，专用螺纹加工夹具",
+                    url: "/standard-tools/milling-tool-holder/tapping-tool-holder",
+                  },
                 {
                   title: "OZ Tool Holder",
-                  image: "/images/oz-tool-holder.jpg",
-                  description: "Heavy-duty tool holders for high-load operations",
+                    image: getRandomProductImage(),
+                    description: "OZ夹头，重型工件加工夹具",
                   url: "/standard-tools/milling-tool-holder/oz-tool-holder",
                 },
                 {
-                  title: "Drill Chuck",
-                  image: "/images/drill-chuck.jpg",
-                  description: "Precision chuck systems for drilling operations",
-                  url: "/standard-tools/milling-tool-holder/drill-chuck",
-                },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Tool Holders" />
-              ))}
+                    title: "Shrink Fit",
+                    image: getRandomProductImage(),
+                    description: "热装夹头，高精度收缩配合系统",
+                    url: "/standard-tools/milling-tool-holder/sr-shrink-fit",
+                  },
+                  {
+                    title: "Hydraulic Chuck",
+                    image: getRandomProductImage(),
+                    description: "液压夹头，超精密液压夹持技术",
+                    url: "/standard-tools/milling-tool-holder/hm-hydraulic",
+                  },
+                  {
+                    title: "High-Speed Chuck",
+                    image: getRandomProductImage(),
+                    description: "高速夹头，高速加工专用夹具",
+                    url: "/standard-tools/milling-tool-holder/sk-high-speed",
+                  },
+                  {
+                    title: "Pull Back System",
+                    image: getRandomProductImage(),
+                    description: "拉爪系统，先进拉回机构夹持",
+                    url: "/standard-tools/milling-tool-holder/ads-pull-back",
+                  }
+                ];
+                
+                // 随机选择最多5个分类
+                const shuffled = [...allMillingToolHolderCategories].sort(() => 0.5 - Math.random());
+                const selectedCategories = shuffled.slice(0, 5);
+                
+                return selectedCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Tool Holders" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>

@@ -10,84 +10,45 @@ export default function HMHydraulicPage() {
   const products = [
     {
       id: "hm-001",
-      name: "BT30-EHC Hydraulic Chuck",
-      image: "/images/bt30-ehc-hydraulic.png",
-      description: "BT30 taper hydraulic chuck with ultra-high precision clamping",
-      series: "BT30-EHC",
-      application: "High-speed finishing, precision reaming, profile milling",
+      name: "BT30 Hydraulic Chucks",
+      image: "/images/C09-1.png",
+      description: "BT30 interface hydraulic chuck for precise tool holding and superior clamping force distribution",
+      series: "BT30-HM",
+      application: "Medium-duty precision machining, compact tool holders",
       runout: "≤ 3µm",
-      pageNumber: "H11",
+      pageNumber: "C09",
     },
     {
-      id: "hm-002", 
-      name: "BT50-EHC Hydraulic Chuck",
-      image: "/images/bt50-ehc-hydraulic.png",
-      description: "BT50 taper hydraulic chuck for heavy-duty high-precision applications",
-      series: "BT50-EHC",
-      application: "Heavy-duty machining, large component finishing",
+      id: "hm-002",
+      name: "BT50 Hydraulic Chucks",
+      image: "/images/C10-1.png",
+      description: "BT50 interface hydraulic chuck designed for heavy-duty applications with exceptional rigidity",
+      series: "BT50-HM",
+      application: "Heavy-duty machining, high-torque applications",
       runout: "≤ 3µm",
-      pageNumber: "H12",
+      pageNumber: "C10",
     },
     {
       id: "hm-003",
-      name: "HSK63A-EHC Hydraulic Chuck", 
-      image: "/images/hsk63a-ehc-hydraulic.png",
-      description: "HSK63A hydraulic chuck with superior vibration damping",
-      series: "HSK63A-EHC",
-      application: "High-speed machining centers, precision milling",
+      name: "HSK63A Hydraulic Chucks",
+      image: "/images/C11-1.png",
+      description: "HSK63A interface hydraulic chuck for high-speed applications with superior balance and precision",
+      series: "HSK63A-HM",
+      application: "High-speed machining, precision applications",
       runout: "≤ 3µm",
-      pageNumber: "H13",
+      pageNumber: "C11",
     },
     {
       id: "hm-004",
-      name: "HSK100A-EHC Hydraulic Chuck",
-      image: "/images/hsk100a-ehc-hydraulic.png", 
-      description: "HSK100A hydraulic chuck for maximum stability and precision",
-      series: "HSK100A-EHC",
-      application: "Heavy-duty precision machining, large tool applications",
+      name: "HSK100A Hydraulic Chucks",
+      image: "/images/C12-1.png",
+      description: "HSK100A interface hydraulic chuck for heavy-duty high-speed machining with maximum stability",
+      series: "HSK100A-HM",
+      application: "Heavy-duty high-speed machining, large tool applications",
       runout: "≤ 3µm",
-      pageNumber: "H14",
+      pageNumber: "C12",
     },
-    {
-      id: "hm-005",
-      name: "HM Hydraulic Extension Rod",
-      image: "/images/hm-hydraulic-extension.png",
-      description: "Hydraulic extension rod for deep cavity machining",
-      series: "HM-EXT",
-      application: "Deep cavity machining, extended reach applications",
-      runout: "≤ 5µm",
-      pageNumber: "H15",
-    },
-    {
-      id: "hm-006",
-      name: "HM Hydraulic Boring Head",
-      image: "/images/hm-hydraulic-boring.png",
-      description: "Hydraulic boring head for ultra-precise hole machining",
-      series: "HM-BOR", 
-      application: "Precision boring, reaming operations",
-      runout: "≤ 2µm",
-      pageNumber: "H16",
-    },
-    {
-      id: "hm-007",
-      name: "HM Hydraulic Micro Chuck",
-      image: "/images/hm-hydraulic-micro.png",
-      description: "Micro hydraulic chuck for small diameter tools",
-      series: "HM-MICRO",
-      application: "Micro-machining, small feature creation",
-      runout: "≤ 2µm", 
-      pageNumber: "H17",
-    },
-    {
-      id: "hm-008",
-      name: "HM Hydraulic Collet Chuck",
-      image: "/images/hm-hydraulic-collet.png",
-      description: "Hydraulic collet chuck system for versatile tool holding",
-      series: "HM-COL",
-      application: "General precision machining, versatile applications",
-      runout: "≤ 3µm",
-      pageNumber: "H18",
-    },
+
   ]
 
   // Performance features based on the provided content
@@ -353,12 +314,6 @@ export default function HMHydraulicPage() {
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Series:</span>
                           <span className="text-gray-900">{product.series}</span>
-                    </div>
-                      )}
-                      {product.runout && (
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Runout:</span>
-                          <span className="text-gray-900">{product.runout}</span>
                     </div>
                       )}
                       {product.application && (
