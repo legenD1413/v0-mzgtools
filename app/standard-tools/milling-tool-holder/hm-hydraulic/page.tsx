@@ -159,10 +159,10 @@ export default function HMHydraulicPage() {
       <div className="bg-white">
         {/* Hero Section */}
         <div className="relative bg-white text-gray-900">
-          <div className="relative container mx-auto px-4 py-20 md:py-28">
+          <div className="relative container mx-auto px-4 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
-                <div className="inline-block bg-red-600 px-4 py-1 rounded-full text-sm font-medium mb-4">
+                <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
                   Hydraulic Precision Expert Guide
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
@@ -200,7 +200,7 @@ export default function HMHydraulicPage() {
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         </div>
 
         {/* Performance Features */}
@@ -229,16 +229,18 @@ export default function HMHydraulicPage() {
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
-                <div className="prose prose-sm max-w-none">
-                  <p className="mb-4 text-base leading-normal text-gray-700">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="prose prose-xs max-w-none">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
                     The performance of the HM Hydraulic Tool Holder is defined by its ability to maintain extreme accuracy even while operating at high RPMs. This is achieved through a unique internal hydraulic clamping mechanism that provides distinct advantages. The entire system is engineered and balanced for high-speed machining (HSM) with a standard <strong>precision balance grade of G2.5</strong> and is certified for stable, safe operation at rotational speeds of <strong>up to 25,000 RPM</strong>.
                   </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
                     The core of the HM holder is its hydraulic clamping system that exerts perfectly uniform, 360-degree pressure on the tool shank, resulting in exceptional centering accuracy. This translates to a guaranteed runout of <strong>3µm (0.00012 inches)</strong> or less. This level of precision ensures even cutting load on all tool flutes, leading to superior workpiece accuracy and significantly extended tool life.
                   </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
                     A key intrinsic benefit of the hydraulic design is its vibration-damping effect. The internal fluid chamber acts as a shock absorber, absorbing micro-vibrations generated at the tool's cutting edge. This dampening leads to a remarkably stable cutting process, directly resulting in superior surface finishes that can reduce or eliminate the need for secondary polishing operations.
                   </p>
+                  </div>
                 </div>
               </div>
               <div>
@@ -296,7 +298,7 @@ export default function HMHydraulicPage() {
                 key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
               >
-                  <div className="relative w-full bg-white" style={{ height: "200px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                   <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
@@ -306,7 +308,7 @@ export default function HMHydraulicPage() {
                 </div>
                                     <div className="p-5 border-t">
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
                       <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.pageNumber}</span>
                     </div>
                     <div className="space-y-2 text-sm">
@@ -330,34 +332,40 @@ export default function HMHydraulicPage() {
 
           {/* Technical Parameters */}
           <div className="mb-16">
-            <div className="flex items-center mb-8">
+            <div className="flex items-center mb-12">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Technical Parameters</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-8">
               {/* Technical Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Technical Specifications</h3>
-                <div className="p-4 space-y-4">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100/50 overflow-hidden hover:shadow-md transition-all duration-300">
+                <div className="p-6 border-b border-gray-100/50">
+                  <h3 className="text-xl font-semibold text-gray-900">Technical Specifications</h3>
+                </div>
+                <div className="p-6 space-y-6">
                   {technicalSpecs.map((spec, index) => (
-                    <div key={index} className={`border-l-4 ${spec.color} pl-4 py-2`}>
-                      <h4 className="font-bold text-base mb-1">{spec.title}</h4>
-                      <p className="text-gray-600 text-sm">{spec.description}</p>
+                    <div key={index} className={`border-l-4 ${spec.color} pl-6 py-3 bg-gray-50/50 rounded-r-xl hover:bg-gray-50 transition-colors duration-200`}>
+                      <h4 className="font-semibold text-base mb-2 text-gray-900">{spec.title}</h4>
+                      <p className="text-gray-600 text-sm leading-relaxed">{spec.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Specifications</h3>
-                <div className="divide-y divide-gray-100">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100/50 overflow-hidden hover:shadow-md transition-all duration-300">
+                <div className="p-6 border-b border-gray-100/50">
+                  <h3 className="text-xl font-semibold text-gray-900">Specifications</h3>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-2">
                   {specifications.map((spec, index) => (
-                    <div key={index} className="flex justify-between items-center p-4">
+                      <div key={index} className="flex justify-between items-center py-2 px-4 bg-white rounded-xl hover:bg-gray-50/30 transition-colors duration-200">
                       <span className="font-medium text-sm text-gray-700">{spec.label}:</span>
-                      <span className="text-sm text-right text-gray-900">{spec.value}</span>
+                        <span className="text-sm text-right text-gray-900 font-medium">{spec.value}</span>
                     </div>
                   ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -365,54 +373,60 @@ export default function HMHydraulicPage() {
 
           {/* Application Scenarios */}
           <div className="mb-16">
-            <div className="flex items-center mb-8">
+            <div className="flex items-center mb-12">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Application Scenarios & Processing</h2>
+              <h2 className="text-3xl font-bold">Application Scenarios</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-8">
               {/* Industries Served */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Settings className="h-5 w-5 text-red-600 mr-2" />
-                  Industries Served
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100/50 h-full hover:shadow-md transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center mr-4">
+                    <Settings className="h-5 w-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Industries Served</h3>
+                </div>
+                <div className="space-y-1">
                   {industries.map((industry, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{industry}</span>
+                    <div key={index} className="flex items-center py-1 group">
+                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-4 shrink-0 group-hover:scale-125 transition-transform duration-200"></div>
+                      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{industry}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Applications */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Tool className="h-5 w-5 text-red-600 mr-2" />
-                  Application Processing
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100/50 h-full hover:shadow-md transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center mr-4">
+                    <Tool className="h-5 w-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Application Processing</h3>
+                </div>
+                <div className="space-y-1">
                   {applications.map((application, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{application}</span>
+                    <div key={index} className="flex items-center py-1 group">
+                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-4 shrink-0 group-hover:scale-125 transition-transform duration-200"></div>
+                      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{application}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Material Compatibility */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Info className="h-5 w-5 text-red-600 mr-2" />
-                  Material Compatibility
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100/50 h-full hover:shadow-md transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center mr-4">
+                    <Info className="h-5 w-5 text-red-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">Material Compatibility</h3>
+                </div>
+                <div className="space-y-1">
                   {compatibleMaterials.map((material, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{material}</span>
+                    <div key={index} className="flex items-center py-1 group">
+                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-4 shrink-0 group-hover:scale-125 transition-transform duration-200"></div>
+                      <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{material}</span>
                     </div>
                   ))}
                 </div>
@@ -424,22 +438,12 @@ export default function HMHydraulicPage() {
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Main Function</h2>
+              <h2 className="text-3xl font-bold">Primary Functions</h2>
             </div>
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg mb-8">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <Target className="h-5 w-5 text-blue-400" />
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-lg font-medium text-blue-800">Primary Function</h3>
-                  <div className="mt-2 text-sm text-blue-700">
-                    <p>
-                      The main function of the HM Hydraulic Milling Tool Holder is <strong>to provide an ultra-precise, high-speed interface between the cutting tool and the machine spindle.</strong> By leveraging a hydraulic clamping system, it achieves a market-leading runout of 3µm and a G2.5 balance for speeds up to 25,000 RPM, making it the definitive choice for demanding finishing and high-precision machining operations.
+            <div className="bg-gray-50 rounded-xl p-8 border border-gray-200 mb-8">
+              <p className="text-lg leading-relaxed text-gray-700">
+                The main function of the HM Hydraulic Milling Tool Holder is <strong>to provide an ultra-precise, high-speed interface between the cutting tool and the machine spindle</strong>. By leveraging a hydraulic clamping system, it achieves a market-leading runout of 3µm and a G2.5 balance for speeds up to 25,000 RPM, making it the definitive choice for demanding finishing and high-precision machining operations.
                     </p>
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
@@ -494,35 +498,50 @@ export default function HMHydraulicPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              {(() => {
+                // 从本分类产品中随机获取图片的函数
+                const getRandomProductImage = () => {
+                  const randomIndex = Math.floor(Math.random() * products.length);
+                  return products[randomIndex].image;
+                };
+                
+                // 定义同目录下的所有分类
+                const allMillingToolHolderCategories = [
                 {
                   title: "SK High Speed",
-                  image: "/images/sk-high-speed.jpg",
-                  description: "High-speed precision tool holders with SK collet system",
+                    image: getRandomProductImage(),
+                    description: "高精度高速刀柄，适用于高转速加工",
                   url: "/standard-tools/milling-tool-holder/sk-high-speed",
                 },
                 {
                   title: "SR Shrink Fit",
-                  image: "/images/sr-shrink-fit.jpg", 
-                  description: "Shrink fit tool holders for maximum rigidity",
+                    image: getRandomProductImage(),
+                    description: "热装刀柄，最大刚性和精度",
                   url: "/standard-tools/milling-tool-holder/sr-shrink-fit",
                 },
                 {
                   title: "ER Tool Holder",
-                  image: "/images/er-tool-holder.jpg",
-                  description: "Versatile ER collet system tool holders",
+                    image: getRandomProductImage(),
+                    description: "ER筒夹刀柄，通用性强",
                   url: "/standard-tools/milling-tool-holder/er-tool-holder",
                 },
                 {
                   title: "Power Tool Holder",
-                  image: "/images/power-tool-holder.jpg",
-                  description: "Heavy-duty tool holders for demanding applications",
+                    image: getRandomProductImage(),
+                    description: "强力刀柄，重载应用",
                   url: "/standard-tools/milling-tool-holder/power-tool-holder",
                 },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Tool Holders" />
-              ))}
+                ];
+                
+                // 随机选择最多5个分类（排除当前分类）
+                const shuffled = [...allMillingToolHolderCategories].sort(() => 0.5 - Math.random());
+                const selectedCategories = shuffled.slice(0, Math.min(5, allMillingToolHolderCategories.length));
+                
+                return selectedCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Milling Tool Holder" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>

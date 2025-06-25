@@ -590,7 +590,7 @@ export default function Header() {
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Drill Bit
+                                      Drill Point and Drill Pipe
                                     </Link>
                                   </li>
                                 </ul>
