@@ -677,7 +677,7 @@ export default function FilletEndMillsPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
               {(() => {
                 // Define all categories in the same milling directory
                 const allMillingCategories = [
@@ -704,6 +704,12 @@ export default function FilletEndMillsPage() {
                     image: "/images/4FS.png",
                     description: "High material removal rate cutters",
                   url: "/standard-tools/milling/roughing",
+                },
+                {
+                  title: "Corner Radius End Mills",
+                    image: "/images/2F45CR.png",
+                    description: "Enhanced corner strength and finish",
+                  url: "/standard-tools/milling/corner-radius",
                 },
                 ];
                 

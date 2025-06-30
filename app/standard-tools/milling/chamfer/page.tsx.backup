@@ -9,15 +9,17 @@ import ProductCard from "@/components/product-card"
 import FAQSectionEn from "@/components/faq-section-en"
 import { useState, useEffect } from "react"
 
-export default function ChamferEndMillsPage() {
+export default function ChamferPage() {
   // Chamfer相关的默认图片
   const defaultChamferImages = [
     "/images/WGDDZ.png",
-    "/images/WGDDZB.png", 
+    "/images/WGDDZB.png",
     "/images/WGDDZT.png",
     "/images/WGDJD.png",
     "/images/WGDJDB.png",
-    "/images/WGDJDT.png"
+    "/images/WGDJDT.png",
+    "/images/SWA45.png",
+    "/images/SWCS45.png"
   ];
 
   // Gallery images for rotation - will be loaded from API
@@ -75,67 +77,87 @@ export default function ChamferEndMillsPage() {
     return () => clearInterval(interval);
   }, [galleryImages.length]);
 
-  // Product data based on provided content
+  // Product data based on chamfer tools
   const products = [
     {
       id: "WGDDZ",
       name: "Tungsten Steel Fixed-Point Drill (Uncoated)",
       series: "WGDDZ Series",
       image: "/images/WGDDZ.png",
-      description: "Uncoated tungsten steel spotting drill for aluminum and non-ferrous metals",
-      specifications: "60°, 90°, 120° angles, Uncoated tungsten steel",
+      description: "Tungsten steel fixed-point drill for aluminum and non-ferrous metals",
+      specifications: "Uncoated tungsten steel, 60°/90°/120° angles",
       application: "Aluminum, aluminum alloy, die-cast aluminum",
-      page: "F31",
+      pageNumber: "F31",
     },
     {
       id: "WGDDZB",
       name: "Tungsten Steel Fixed-Point Drill (Bronze Coated)",
-      series: "WGDDZB",
+      series: "WGDDZB Series",
       image: "/images/WGDDZB.png",
-      description: "Bronze coated tungsten steel spotting drill for hardened materials",
-      specifications: "60°, 90°, 120° angles, Bronze coated",
-      application: "Die prehardened steel, quenched steel, alloy steel up to HRC45°",
-      page: "F31",
+      description: "Bronze coated tungsten steel fixed-point drill for hardened steels",
+      specifications: "Bronze coated tungsten steel, 60°/90°/120° angles",
+      application: "Die prehardened steel, quenched steel, alloy steel, tool steel",
+      pageNumber: "F31",
     },
     {
       id: "WGDDZT",
       name: "Tungsten Steel Fixed-Point Drill (Nano Coated)",
-      series: "WGDDZT",
+      series: "WGDDZT Series",
       image: "/images/WGDDZT.png",
-      description: "Nano coated tungsten steel spotting drill for extreme hardness materials",
-      specifications: "60°, 90°, 120° angles, Nano coated",
-      application: "Tool steel, gray cast iron, common die steel up to HRC65°",
-      page: "F31",
+      description: "Nano coated tungsten steel fixed-point drill for high-strength materials",
+      specifications: "Nano coated tungsten steel, 60°/90°/120° angles",
+      application: "Hardened steels up to HRC65°, stainless steel, cast iron",
+      pageNumber: "F31",
     },
     {
       id: "WGDJD",
       name: "3-Edge Tungsten Steel Chamfering Cutter (Uncoated)",
-      series: "WGDJD",
+      series: "WGDJD Series",
       image: "/images/WGDJD.png",
       description: "3-edge uncoated tungsten steel chamfering cutter for soft materials",
-      specifications: "3-edge, 60°, 90°, 120° angles, Uncoated",
+      specifications: "3-edge uncoated tungsten steel, 60°/90°/120° angles",
       application: "Aluminum, aluminum alloy, die-cast aluminum",
-      page: "F32",
+      pageNumber: "F32",
     },
     {
       id: "WGDJDB",
       name: "3-Edge Tungsten Steel Chamfering Cutter (Bronze Coated)",
-      series: "WGDJDB",
+      series: "WGDJDB Series",
       image: "/images/WGDJDB.png",
-      description: "3-edge bronze coated tungsten steel chamfering cutter for steel",
-      specifications: "3-edge, 60°, 90°, 120° angles, Bronze coated",
+      description: "3-edge bronze coated tungsten steel chamfering cutter",
+      specifications: "3-edge bronze coated tungsten steel, 60°/90°/120° angles",
       application: "Die prehardened steel, quenched steel, alloy steel",
-      page: "F32",
+      pageNumber: "F32",
     },
     {
       id: "WGDJDT",
       name: "3-Edge Tungsten Steel Chamfering Cutter (Nano Coated)",
-      series: "WGDJDT",
+      series: "WGDJDT Series",
       image: "/images/WGDJDT.png",
-      description: "3-edge nano coated tungsten steel chamfering cutter for hardened steel",
-      specifications: "3-edge, 60°, 90°, 120° angles, Nano coated",
-      application: "Tool steel, gray cast iron, stainless steel up to HRC65°",
-      page: "F32",
+      description: "3-edge nano coated tungsten steel chamfering cutter for extreme hardness",
+      specifications: "3-edge nano coated tungsten steel, 60°/90°/120° angles",
+      application: "Hardened steels up to HRC65°, tool steel, stainless steel",
+      pageNumber: "F32",
+    },
+    {
+      id: "SWA45",
+      name: "Welding Edge Type Ultra-fine Particle Tungsten Steel Chamfering Cutter",
+      series: "SWA 45° Series",
+      image: "/images/SWA45.png",
+      description: "Welded edge construction for superior performance and durability",
+      specifications: "Ultra-fine particle tungsten steel, 45° angle, multiple flutes",
+      application: "Precision chamfering, deburring, angle forming",
+      pageNumber: "F33",
+    },
+    {
+      id: "SWCS45",
+      name: "Welding Edge Type Inner Hole Chamfering Cutter",
+      series: "SWCS 45° Series",
+      image: "/images/SWCS45.png",
+      description: "Specialized for inner hole chamfering operations",
+      specifications: "Ultra-fine particle tungsten steel, 45° angle, 1-blade/3-blade",
+      application: "Inner hole chamfering, deburring internal features",
+      pageNumber: "F33",
     },
   ]
 
@@ -143,18 +165,18 @@ export default function ChamferEndMillsPage() {
   const performanceFeatures = [
     {
       icon: "Shield",
-      title: "Precision Angle Formation",
-      description: "Specialized geometry creates precise angled edges and chamfers on workpieces, enhancing aesthetics while removing sharp burrs that could cause injury or impede assembly operations.",
+      title: "Precision Angle Creation",
+      description: "Specialized geometry creates precise 45°, 60°, 90°, and 120° chamfers for deburring, edge preparation, and aesthetic enhancement. Essential for removing sharp burrs and facilitating component assembly.",
     },
     {
       icon: "Zap", 
       title: "Advanced Coating Technology",
-      description: "Multi-layer coating options including bronze and nano coatings provide enhanced hardness, wear resistance, and thermal protection for materials up to HRC65°.",
+      description: "Available in uncoated, bronze-coated, and nano-coated variants. Coated versions suitable for hardened steels up to HRC65°, while uncoated tools excel in aluminum and non-ferrous materials.",
     },
     {
       icon: "Target",
       title: "Versatile Material Processing",
-      description: "Optimized for diverse materials from soft aluminum alloys to hardened tool steels, with uncoated versions for non-ferrous metals and coated variants for ferrous applications.",
+      description: "Comprehensive material compatibility from soft aluminum alloys to hardened tool steels. Specialized welding edge construction for ultra-fine particle tungsten steel delivers exceptional durability.",
     },
   ]
 
@@ -176,15 +198,15 @@ export default function ChamferEndMillsPage() {
   const technicalSpecs = [
     {
       title: "Material & Construction",
-      description: "Manufactured from ultra-fine particle tungsten steel providing exceptional hardness and wear resistance. Available in single-edge and three-edge configurations for optimal chip evacuation and cutting stability across different applications.",
+      description: "Ultra-fine particle tungsten steel construction provides exceptional hardness, wear resistance, and toughness. Available in single-edge (1-flute) and three-edge (3-flute) configurations for optimized chip evacuation and cutting stability in various material applications.",
     },
     {
-      title: "Coating & Surface Treatment",
-      description: "Multiple coating options including uncoated for aluminum/non-ferrous metals, bronze coating for general steel applications, and nano coating for hardened steels up to HRC65°. Each coating optimized for specific material compatibility.",
+      title: "Angle Specifications & Coatings",
+      description: "Precise angles including 45°, 60°, 90°, and 120° for diverse chamfering requirements. Coating options include uncoated for nonferrous metals, bronze coating for enhanced performance, and nano coating for extreme hardness materials up to HRC65°.",
     },
     {
-      title: "Geometric Specifications",
-      description: "Precision angles including 45°, 60°, 90°, and 120° options. Key parameters include outer diameter (D), shank diameter (d), total length (L), flute length (H), and chamfering angle (α°) with tight tolerances for consistent results.",
+      title: "Dimensional Parameters",
+      description: "Key specifications include outer diameter (D), shank diameter (d), total length (L), flute length (H), and chamfering angle (α°). Tolerances such as +0.5 +0 for cutting diameter and (h7) for shank diameter ensure precise fitment and performance.",
     },
   ]
 
@@ -204,7 +226,7 @@ export default function ChamferEndMillsPage() {
                   MZG Chamfer End Mill System
                 </h1>
                 <p className="text-sm mb-8 text-gray-600 leading-relaxed">
-                  Chamfer, also known as a chamfering tool, is a specialized milling cutter designed for creating angled edges or chamfers on workpieces. These tools are critical in various machining processes for deburring, preparing edges for assembly, or for aesthetic purposes. A chamfer, in metalworking, refers to a beveled or angled edge created on a workpiece, which contrasts with a sharp, perpendicular edge.
+                  Chamfer, also known as a chamfering tool, is a specialized milling cutter designed for creating angled edges or chamfers on workpieces. These tools are critical in various machining processes for deburring, preparing edges for assembly, or for aesthetic purposes. A chamfer refers to a beveled or angled edge created on a workpiece, contrasting with sharp, perpendicular edges, essential for finishing operations, improving part aesthetics, removing burrs, and facilitating assembly.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button
@@ -230,8 +252,17 @@ export default function ChamferEndMillsPage() {
                       alt="MZG Professional Chamfer End Mill System"
                       width={563}
                       height={400}
-                      className="object-contain"
+                      className="object-contain transition-opacity duration-1000"
+                      onError={() => {
+                        // 如果当前图片加载失败，切换到下一张
+                        setCurrentMainImage((prev) => (prev + 1) % galleryImages.length);
+                      }}
                     />
+                  )}
+                  {isLoadingImages && (
+                    <div className="w-full h-full bg-gray-100 animate-pulse rounded-lg flex items-center justify-center">
+                      <span className="text-gray-400">Loading...</span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -262,7 +293,7 @@ export default function ChamferEndMillsPage() {
           <div className="mb-16">
             <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">System Performance Analysis</h2>
+              <h2 className="text-3xl font-bold">Product Performance and Features</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
@@ -272,13 +303,13 @@ export default function ChamferEndMillsPage() {
                       Chamfering tools are typically manufactured from <strong>ultra-fine particle tungsten steel</strong>, providing exceptional hardness and wear resistance, which is vital for precise chamfering operations. Many chamfering tools are available with different coatings, such as bronze-colored coating or nano-coating, to enhance their performance and extend tool life.
                     </p>
                     <p className="mb-3 text-sm leading-relaxed text-gray-700">
-                      <strong>Uncoated versions</strong> are frequently used for milling steel and non-ferrous metals like copper and aluminum. The selection of coating depends on the material being machined and the desired finish. <strong>Nano-coating</strong> is well-suited for hardened steels, alloy steels, and cast iron, whereas uncoated tools are generally recommended for aluminum and its alloys.
+                      <strong>Uncoated versions</strong> are also available and are frequently used for milling steel and non-ferrous metals like copper and aluminum. The selection of coating depends on the material being machined and the desired finish. For instance, <strong>nano-coating</strong> is well-suited for hardened steels, alloy steels, and cast iron, whereas uncoated tools are generally recommended for aluminum and its alloys.
                     </p>
                     <p className="mb-3 text-sm leading-relaxed text-gray-700">
-                      These tools often feature <strong>multiple cutting edges</strong>; commonly, 3-edge designs are used for tungsten steel chamfering cutters. The number of flutes influences chip evacuation and the rigidity of the cutting process. Chamfering tools can be designed with various angles, including <strong>45°, 60°, 90°, and 120°</strong>, allowing for a diverse range of chamfer geometries.
+                      These tools often feature multiple cutting edges; commonly, <strong>3-edge designs</strong> are used for tungsten steel chamfering cutters. However, single-blade hand-type and three-blade machine-type inner hole chamfering cutters are also available. The number of flutes influences chip evacuation and the rigidity of the cutting process.
                     </p>
                     <p className="mb-3 text-sm leading-relaxed text-gray-700">
-                      Specialized chamfering tools are engineered for particular applications, including inner hole chamfering and welding edge type ultra-fine particle tungsten steel chamfering cutters for enhanced cutting performance and durability.
+                      Chamfering tools can be designed with various angles, including <strong>45°, 60°, 90°, and 120°</strong>, allowing for a diverse range of chamfer geometries. Specialized chamfering tools, such as welding edge type ultra-fine particle tungsten steel chamfering cutters, are engineered for particular applications, including inner hole chamfering.
                     </p>
                   </div>
                 </div>
@@ -296,11 +327,11 @@ export default function ChamferEndMillsPage() {
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
-                      <span className="text-sm"><strong>Edge Options:</strong> Single-edge & 3-edge configurations</span>
+                      <span className="text-sm"><strong>Flute Options:</strong> 1-edge, 3-edge configurations</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
-                      <span className="text-sm"><strong>Angles:</strong> 45°, 60°, 90°, 120° options</span>
+                      <span className="text-sm"><strong>Angles:</strong> 45°, 60°, 90°, 120°</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
@@ -308,7 +339,7 @@ export default function ChamferEndMillsPage() {
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
-                      <span className="text-sm"><strong>Coating:</strong> Uncoated, Bronze, Nano coating options</span>
+                      <span className="text-sm"><strong>Coating:</strong> Uncoated, Bronze, Nano coating</span>
                     </li>
                   </ul>
                 </div>
@@ -339,19 +370,19 @@ export default function ChamferEndMillsPage() {
                   <div className="p-5 border-t">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
-                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.page}</span>
-                      </div>
+                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.pageNumber}</span>
+                    </div>
                     <div className="space-y-2 text-xs">
                       {product.series && (
                         <div className="flex justify-between">
                           <span className="font-medium text-gray-700">Series:</span>
                           <span className="text-gray-900 text-right">{product.series}</span>
-                      </div>
+                        </div>
                       )}
                       {product.application && (
                         <div className="pt-2 border-t border-gray-100">
-                          <p className="text-xs text-gray-600">{product.application}</p>
-                      </div>
+                          <p className="text-xs text-gray-600 line-clamp-2">{product.application}</p>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -360,75 +391,16 @@ export default function ChamferEndMillsPage() {
             </div>
           </div>
 
-          {/* Product Gallery */}
-          <div className="mb-12">
-            <div className="flex items-center mb-8">
-              <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Product Gallery</h2>
-              {isLoadingImages && (
-                <div className="ml-4 flex items-center text-sm text-gray-500">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600 mr-2"></div>
-                  Loading latest images...
-                </div>
-              )}
-            </div>
-            <div className="grid grid-cols-6 grid-rows-4 gap-3 h-[300px]">
-              {/* Large center-left image - 主要轮播图 */}
-              <div className="col-span-2 row-span-4 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center overflow-hidden group">
-                {galleryImages.length > 0 ? (
-                  <Image
-                    src={galleryImages[currentMainImage] || defaultChamferImages[0]}
-                    alt="Chamfer End Mill Product"
-                    width={480}
-                    height={480}
-                    quality={100}
-                    priority
-                    className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400">
-                    <div className="animate-pulse">Loading...</div>
-                  </div>
-                )}
-              </div>
-              
-              {/* Middle section and Right section - 小图片网格 */}
-              {Array.from({ length: 8 }, (_, index) => {
-                const imageIndex = (currentMainImage + index + 1) % galleryImages.length;
-                const imageSrc = galleryImages.length > 0 
-                  ? galleryImages[imageIndex] || defaultChamferImages[imageIndex % defaultChamferImages.length]
-                  : defaultChamferImages[index % defaultChamferImages.length];
-                
-                return (
-                  <div 
-                    key={index}
-                    className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                    onClick={() => galleryImages.length > 0 && setCurrentMainImage((currentMainImage + index + 1) % galleryImages.length)}
-                  >
-                    <Image
-                      src={imageSrc}
-                      alt={`Chamfer End Mill Product ${index + 1}`}
-                      width={280}
-                      height={280}
-                      quality={100}
-                      className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Technical Specifications */}
+          {/* Technical Information */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Technical Specifications</h2>
+              <h2 className="text-3xl font-bold">Technical Parameters</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {technicalSpecs.map((spec, index) => (
                 <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-semibold mb-4 text-gray-900">{spec.title}</h3>
+                  <h3 className="text-lg font-bold mb-4 text-gray-900">{spec.title}</h3>
                   <p className="text-sm text-gray-700 leading-relaxed">{spec.description}</p>
                 </div>
               ))}
@@ -451,23 +423,23 @@ export default function ChamferEndMillsPage() {
                 <ul className="space-y-3 text-sm text-gray-700">
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Chamfering and Angle Forming:</strong> Primary purpose for creating precise chamfers and specific angles on workpieces for enhanced aesthetics and assembly facilitation</span>
+                    <span><strong>Chamfering and Angle Forming:</strong> Primary purpose for creating precise chamfers and forming specific angles on workpieces for aesthetic appeal and burr removal</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Drill Point Angling/Spot Drilling:</strong> Dual role as chamfering tools and pilot hole creation with specific angles like 60°, 90°, or 120°</span>
+                    <span><strong>Drill Point Angling/Spot Drilling:</strong> Dual role tools for creating pilot holes with specific angles (60°, 90°, 120°) while simultaneously creating chamfers</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Deburring Operations:</strong> Essential for removing sharp burrs that could cause injury or impede component assembly</span>
+                    <span><strong>Material Processing:</strong> Versatile machining of materials from soft aluminum to hardened steels up to HRC65°</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Inner Hole Chamfering:</strong> Specialized tools for creating chamfers inside holes and cavities</span>
+                    <span><strong>Inner Hole Chamfering:</strong> Specialized tools for deburring and chamfering internal features and holes</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Edge Preparation:</strong> Preparing edges for welding, coating, or secondary operations</span>
+                    <span><strong>Assembly Preparation:</strong> Facilitating component mating by removing sharp edges and creating lead-in angles</span>
                   </li>
                 </ul>
               </div>
@@ -476,28 +448,28 @@ export default function ChamferEndMillsPage() {
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                 <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
                   <Settings className="h-6 w-6 text-green-600 mr-3" />
-                  Material Processing
+                  Machining Operations
                 </h3>
                 <ul className="space-y-3 text-sm text-gray-700">
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Soft Materials (Uncoated):</strong> Aluminum, aluminum alloys, die-cast aluminum, copper, and non-ferrous metals</span>
+                    <span><strong>Edge Deburring:</strong> Removal of sharp burrs and creating smooth, safe edges on machined components</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Medium Hardness (Bronze Coated):</strong> Die prehardened steel, quenched steel, alloy steel up to HRC45°</span>
+                    <span><strong>Countersinking:</strong> Creating conical recesses for screw heads and aesthetic finishing</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Hard Materials (Nano Coated):</strong> Tool steel, gray cast iron, stainless steel up to HRC65°</span>
+                    <span><strong>Angle Milling:</strong> Precision machining of specific angular surfaces and beveled edges</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>General Steel Processing:</strong> Common die steel, structural steel, and general machining applications</span>
+                    <span><strong>Spot Drilling:</strong> Creating accurate pilot holes with integrated chamfering in single operation</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Precision Operations:</strong> High-accuracy chamfering for aerospace and medical device manufacturing</span>
+                    <span><strong>Surface Preparation:</strong> Preparing surfaces for welding, coating, or subsequent machining operations</span>
                   </li>
                 </ul>
               </div>
@@ -508,50 +480,50 @@ export default function ChamferEndMillsPage() {
           <div className="mb-12">
             <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Main Functions</h2>
+              <h2 className="text-3xl font-bold">Types and Series</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                 <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
                   <Target className="h-5 w-5 text-red-600 mr-2" />
-                  Primary Functions
+                  Coating Variants
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Precise Angle Creation:</strong> Creates accurate chamfers and beveled edges with angles from 45° to 120° for various design requirements</span>
+                    <span><strong>Uncoated Chamfering End Mills:</strong> Ideal for nonferrous materials, aluminum alloys, and applications requiring sharp, uncoated edges to minimize built-up edge formation</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Edge Deburring:</strong> Removes sharp burrs and dangerous edges to improve safety and facilitate assembly operations</span>
+                    <span><strong>Bronze Colored Coating:</strong> Enhanced coating for demanding applications with improved wear resistance and heat dissipation</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Aesthetic Enhancement:</strong> Improves part appearance with clean, professional-looking chamfered edges</span>
+                    <span><strong>Nano Coating:</strong> Advanced coating for hardened steels up to HRC65°, providing superior hardness, wear resistance, and thermal protection</span>
                   </li>
                 </ul>
-                  </div>
+              </div>
               
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                 <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
                   <Zap className="h-5 w-5 text-blue-600 mr-2" />
-                  Performance Benefits
+                  Specialized Series
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Material Versatility:</strong> Optimized coating options for materials from soft aluminum to hardened steel up to HRC65°</span>
+                    <span><strong>WGDJD Series:</strong> 3-edge tungsten steel chamfering cutters available in multiple angles (60°, 90°, 120°) with coating options</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Multi-Edge Design:</strong> Single and 3-edge configurations for optimal chip evacuation and cutting stability</span>
+                    <span><strong>SWA Series:</strong> Welding edge type ultra-fine particle tungsten steel construction for enhanced cutting performance and durability</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
-                    <span><strong>Extended Tool Life:</strong> Advanced tungsten steel construction and coating technology for enhanced durability</span>
+                    <span><strong>SWCS Series:</strong> Specialized inner hole chamfering cutters with 1-blade (hand type) and 3-blade (machine type) configurations</span>
                   </li>
                 </ul>
-                </div>
+              </div>
             </div>
           </div>
 
@@ -576,30 +548,30 @@ export default function ChamferEndMillsPage() {
                     description: "3D contouring and curved surface machining",
                     url: "/standard-tools/milling/ball-end",
                   },
-                {
-                  title: "Right Angle Flat End Mills",
+                  {
+                    title: "Right Angle Flat End Mills",
                     image: "/images/2F45C-JST.png",
                     description: "Flat end mills for precise surfaces",
-                  url: "/standard-tools/milling/right-angle-flat",
-                },
-                {
+                    url: "/standard-tools/milling/right-angle-flat",
+                  },
+                  {
                     title: "Deep Ditch End Mills",
                     image: "/images/SG2F60C.png",
                     description: "Deep groove and cavity milling",
                     url: "/standard-tools/milling/deep-ditch",
-                },
-                {
-                  title: "Fillet End Mills",
+                  },
+                  {
+                    title: "Fillet End Mills",
                     image: "/images/2F45CR.png",
-                    description: "Corner radius and fillet operations",
-                  url: "/standard-tools/milling/fillet",
-                },
-                {
-                  title: "Roughing End Mills",
+                    description: "Corner radius and fillet machining",
+                    url: "/standard-tools/milling/fillet",
+                  },
+                  {
+                    title: "Roughing End Mills",
                     image: "/images/4FS.png",
                     description: "High material removal rate cutters",
-                  url: "/standard-tools/milling/roughing",
-                },
+                    url: "/standard-tools/milling/roughing",
+                  },
                 ];
                 
                 return allMillingCategories.map((category, index) => (
@@ -616,7 +588,7 @@ export default function ChamferEndMillsPage() {
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Need Professional Chamfer End Mill Solutions?</h2>
               <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select optimal chamfering tools for precise angle formation, deburring, and edge preparation applications. From aluminum processing to hardened steel machining up to HRC65°, we provide comprehensive chamfering solutions.
+                Our technical team can help you select optimal chamfering tools for specific angle creation, deburring operations, and edge preparation applications. From aluminum alloys to hardened steels up to HRC65°, we provide comprehensive chamfering solutions.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">

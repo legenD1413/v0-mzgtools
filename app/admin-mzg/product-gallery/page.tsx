@@ -308,6 +308,17 @@ export default function ProductGalleryPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    // 添加表单验证
+    if (!formData.pagePath) {
+      toast.error("请选择页面路径或输入自定义路径")
+      return
+    }
+    
+    if (!formData.imageUrl) {
+      toast.error("请输入图片名称")
+      return
+    }
+    
     try {
       const url = editingImage 
         ? `/api/admin-mzg/product-gallery/${editingImage.id}`
@@ -320,18 +331,27 @@ export default function ProductGalleryPage() {
         ? formData.imageUrl 
         : `/images/${formData.imageUrl}`
       
+      const requestData = {
+        ...formData,
+        imageUrl
+      }
+      
+      // 添加调试日志
+      console.log("提交数据:", requestData)
+      
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          ...formData,
-          imageUrl
-        })
+        body: JSON.stringify(requestData)
       })
 
+      console.log("响应状态:", response.status)
+      
       if (response.ok) {
+        const result = await response.json()
+        console.log("成功响应:", result)
         toast.success(editingImage ? "图片更新成功" : "图片添加成功")
         setIsAddDialogOpen(false)
         setEditingImage(null)
@@ -347,14 +367,21 @@ export default function ProductGalleryPage() {
           isActive: true
         })
         fetchImages()
-      } else {
-        const error = await response.json()
-        toast.error(error.message || "操作失败")
+              } else {
+          const errorText = await response.text()
+          console.error("错误响应:", errorText)
+          try {
+            const error = JSON.parse(errorText) as { message?: string }
+            toast.error(error.message || "操作失败")
+          } catch {
+            toast.error(`请求失败 (${response.status}): ${errorText}`)
+          }
+        }
+          } catch (err) {
+        console.error("提交失败:", err)
+        const errorMessage = err instanceof Error ? err.message : "未知错误"
+        toast.error(`网络错误: ${errorMessage}`)
       }
-    } catch (error) {
-      console.error("提交失败:", error)
-      toast.error("操作失败")
-    }
   }
 
   // 批量上传处理

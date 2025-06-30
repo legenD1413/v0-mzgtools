@@ -159,6 +159,12 @@ export default function DatabaseManagementPage() {
   const [exporting, setExporting] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [creatingTable, setCreatingTable] = useState(false)
+  const [backingUp, setBackingUp] = useState(false)
+  const [showBackupDialog, setShowBackupDialog] = useState(false)
+  const [showBackupHistory, setShowBackupHistory] = useState(false)
+  const [backupHistoryLoading, setBackupHistoryLoading] = useState(false)
+  const [backupHistory, setBackupHistory] = useState<any[]>([])
+  const [deletingBackup, setDeletingBackup] = useState<string | null>(null)
   
   const [databaseInfo, setDatabaseInfo] = useState<DatabaseInfo | null>(null)
   const [connectionTest, setConnectionTest] = useState<ConnectionTest | null>(null)
@@ -197,6 +203,14 @@ export default function DatabaseManagementPage() {
   const [tableOptions, setTableOptions] = useState({
     addAutoId: true,
     addTimestamps: true
+  })
+  
+  // 备份配置状态
+  const [backupOptions, setBackupOptions] = useState({
+    format: 'json' as 'json' | 'csv',
+    includeSchema: true,
+    selectedTables: [] as string[],
+    selectAll: true
   })
   
   const [error, setError] = useState<string | null>(null)
@@ -774,6 +788,178 @@ export default function DatabaseManagementPage() {
     }
   }
 
+  // 数据库备份功能
+  const createBackup = async () => {
+    setBackingUp(true)
+    setError(null)
+    
+    try {
+      const requestBody = {
+        format: backupOptions.format,
+        includeSchema: backupOptions.includeSchema,
+        tables: backupOptions.selectAll ? [] : backupOptions.selectedTables
+      }
+      
+      console.log('备份请求:', requestBody)
+      
+      const response = await fetch('/api/admin-mzg/database/backup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      })
+      
+      if (handleAuthError(response)) {
+        return
+      }
+      
+      if (response.ok) {
+        // 处理文件下载
+        const blob = await response.blob()
+        const contentDisposition = response.headers.get('Content-Disposition')
+        const filename = contentDisposition?.match(/filename="([^"]+)"/)?.[1] || 
+          `database-backup-${new Date().toISOString().split('T')[0]}.${backupOptions.format}`
+        
+        // 创建下载链接
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+        
+        setSuccess(`数据库备份成功！文件已下载: ${filename}`)
+        setShowBackupDialog(false)
+      } else {
+        const errorResult = await response.json()
+        setError(errorResult.message || '备份失败')
+      }
+    } catch (err) {
+      console.error('备份错误:', err)
+      const errorMessage = err instanceof Error ? err.message : '未知错误'
+      setError(`备份失败: ${errorMessage}`)
+    } finally {
+      setBackingUp(false)
+    }
+  }
+
+  // 处理表选择
+  const handleTableSelection = (tableName: string, selected: boolean) => {
+    setBackupOptions(prev => ({
+      ...prev,
+      selectedTables: selected
+        ? [...prev.selectedTables, tableName]
+        : prev.selectedTables.filter(t => t !== tableName),
+      selectAll: false // 手动选择时取消全选
+    }))
+  }
+
+  // 全选/取消全选
+  const handleSelectAllTables = (selectAll: boolean) => {
+    setBackupOptions(prev => ({
+      ...prev,
+      selectAll,
+      selectedTables: selectAll ? [] : []
+    }))
+  }
+
+  // 获取备份历史
+  const fetchBackupHistory = async () => {
+    setBackupHistoryLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch('/api/admin-mzg/database/backup-history')
+      
+      if (handleAuthError(response)) {
+        return
+      }
+      
+      const result = await response.json()
+      
+      if (result.success) {
+        setBackupHistory(result.backups || [])
+      } else {
+        setError(result.message || '获取备份历史失败')
+      }
+    } catch (err) {
+      console.error('获取备份历史错误:', err)
+      const errorMessage = err instanceof Error ? err.message : '未知错误'
+      setError(`获取备份历史失败: ${errorMessage}`)
+    } finally {
+      setBackupHistoryLoading(false)
+    }
+  }
+
+  // 下载备份文件
+  const downloadBackup = async (backupId: string, filename: string) => {
+    try {
+      setError(null)
+      
+      const response = await fetch(`/api/admin-mzg/database/download/${backupId}`)
+      
+      if (handleAuthError(response)) {
+        return
+      }
+      
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+        
+        setSuccess(`文件 ${filename} 下载成功`)
+      } else {
+        const errorResult = await response.json()
+        setError(errorResult.message || '下载失败')
+      }
+    } catch (err) {
+      console.error('下载备份文件错误:', err)
+      const errorMessage = err instanceof Error ? err.message : '未知错误'
+      setError(`下载失败: ${errorMessage}`)
+    }
+  }
+
+  // 删除备份记录
+  const deleteBackupRecord = async (backupId: string) => {
+    setDeletingBackup(backupId)
+    setError(null)
+    
+    try {
+      const response = await fetch(`/api/admin-mzg/database/backup-history?id=${backupId}`, {
+        method: 'DELETE'
+      })
+      
+      if (handleAuthError(response)) {
+        return
+      }
+      
+      const result = await response.json()
+      
+      if (result.success) {
+        setSuccess('备份记录删除成功')
+        // 刷新备份历史列表
+        fetchBackupHistory()
+      } else {
+        setError(result.message || '删除失败')
+      }
+    } catch (err) {
+      console.error('删除备份记录错误:', err)
+      const errorMessage = err instanceof Error ? err.message : '未知错误'
+      setError(`删除失败: ${errorMessage}`)
+    } finally {
+      setDeletingBackup(null)
+    }
+  }
+
   // 页面加载时获取基本信息
   useEffect(() => {
     fetchDatabaseInfo()
@@ -781,7 +967,7 @@ export default function DatabaseManagementPage() {
   }, [])
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 lg:p-6 space-y-3 lg:space-y-4">
       <div className="flex items-center gap-3">
         <Database className="w-8 h-8 text-blue-600" />
         <div>
@@ -805,99 +991,167 @@ export default function DatabaseManagementPage() {
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* 数据库基本信息 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
+        {/* 数据库信息与连接测试 */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0 pb-2">
             <div>
-              <CardTitle className="text-lg">数据库信息</CardTitle>
-              <CardDescription>查看当前数据库基本配置</CardDescription>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Database className="w-4 h-4 text-blue-600" />
+                数据库信息
+              </CardTitle>
+              <CardDescription className="text-xs">查看数据库配置并测试连接状态</CardDescription>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={fetchDatabaseInfo}
-              disabled={loading}
-            >
-              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-              刷新
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={fetchDatabaseInfo}
+                disabled={loading}
+                className="w-full sm:w-auto h-7 px-2 text-xs"
+              >
+                <RefreshCw className={`w-3 h-3 mr-1 ${loading ? 'animate-spin' : ''}`} />
+                刷新
+              </Button>
+              <Button
+                onClick={testConnection}
+                disabled={connectionTesting}
+                size="sm"
+                className="w-full sm:w-auto h-7 px-2 text-xs bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                <Activity className={`w-3 h-3 mr-1 ${connectionTesting ? 'animate-pulse' : ''}`} />
+                {connectionTesting ? '测试中...' : '测试连接'}
+              </Button>
+            </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pb-3">
             {loading ? (
-              <div className="flex items-center justify-center py-8">
-                <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
-              </div>
-            ) : databaseInfo ? (
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">数据库名称:</span>
-                  <Badge variant="outline">{databaseInfo.database_name}</Badge>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">当前用户:</span>
-                  <Badge variant="outline">{databaseInfo.current_user}</Badge>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">连接时间:</span>
-                  <span className="text-sm font-mono">
-                    {new Date(databaseInfo.current_time).toLocaleString()}
-                  </span>
-                </div>
-                <div className="mt-4">
-                  <span className="text-sm text-gray-600">版本信息:</span>
-                  <p className="text-xs text-gray-500 mt-1 font-mono leading-relaxed">
-                    {databaseInfo.version}
-                  </p>
-                </div>
+              <div className="flex items-center justify-center py-4">
+                <RefreshCw className="w-4 h-4 animate-spin text-gray-400" />
+                <span className="ml-2 text-gray-500 text-xs">加载中...</span>
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                暂无数据
+              <div className="space-y-3">
+                {/* 数据库基本信息 */}
+                {databaseInfo ? (
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="bg-gray-50 rounded p-2">
+                        <div className="text-xs text-gray-500">数据库</div>
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {databaseInfo.database_name}
+                        </Badge>
+                      </div>
+                      <div className="bg-gray-50 rounded p-2">
+                        <div className="text-xs text-gray-500">用户</div>
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {databaseInfo.current_user}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 rounded p-2">
+                      <div className="text-xs text-gray-500">连接时间</div>
+                      <div className="text-xs font-mono text-gray-700">
+                        {new Date(databaseInfo.current_time).toLocaleString('zh-CN', {
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-3 text-gray-500">
+                    <Database className="w-6 h-6 text-gray-300 mx-auto mb-1" />
+                    <p className="text-xs">暂无数据库信息</p>
+                  </div>
+                )}
+
+                {/* 连接测试结果 */}
+                {connectionTest && (
+                  <div className="bg-green-50 rounded border border-green-200 p-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <CheckCircle className="w-3 h-3 text-green-600" />
+                      <span className="text-xs font-medium text-green-800">连接正常</span>
+                      <Badge variant="default" className="bg-green-100 text-green-700 border-green-300 text-xs px-1 py-0">
+                        在线
+                      </Badge>
+                    </div>
+                    <div className="text-xs text-gray-600">
+                      {new Date(connectionTest.currentTime).toLocaleString('zh-CN', {
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* 数据库连接测试 */}
+        {/* 数据库备份 */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">连接测试</CardTitle>
-            <CardDescription>测试数据库连接状态</CardDescription>
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0 pb-2">
+            <div>
+              <CardTitle className="text-base flex items-center gap-2">
+                <FileDown className="w-4 h-4 text-green-600" />
+                数据库备份
+              </CardTitle>
+              <CardDescription className="text-xs">创建和管理数据库备份文件</CardDescription>
+            </div>
+            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300 text-xs px-2 py-0.5">
+              {backupHistory.length} 个备份
+            </Badge>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <Button
-                onClick={testConnection}
-                disabled={connectionTesting}
-                className="w-full"
-              >
-                <Activity className={`w-4 h-4 mr-2 ${connectionTesting ? 'animate-pulse' : ''}`} />
-                {connectionTesting ? '测试中...' : '测试连接'}
-              </Button>
+          <CardContent className="pb-3">
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setShowBackupDialog(true)}
+                  disabled={backingUp || tablesLoading}
+                  className="flex-1 h-7 px-2 text-xs bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <FileDown className={`w-3 h-3 mr-1 ${backingUp ? 'animate-pulse' : ''}`} />
+                  {backingUp ? '备份中...' : '创建备份'}
+                </Button>
+                
+                <Button
+                  onClick={() => {
+                    setShowBackupHistory(true)
+                    fetchBackupHistory()
+                  }}
+                  variant="outline"
+                  className="flex-1 h-7 px-2 text-xs border-green-300 text-green-700 hover:bg-green-50"
+                >
+                  <FileText className="w-3 h-3 mr-1" />
+                  备份历史
+                </Button>
+              </div>
               
-              {connectionTest && (
-                <div className="space-y-3 p-4 bg-green-50 rounded-lg border border-green-200">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span className="font-medium text-green-800">连接成功</span>
+              <div className="bg-gray-50 rounded p-2">
+                <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                    JSON/CSV
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">服务器时间:</span>
-                      <span className="font-mono">
-                        {new Date(connectionTest.currentTime).toLocaleString()}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600">数据库版本:</span>
-                      <p className="text-xs text-gray-500 mt-1 font-mono">
-                        {connectionTest.version}
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                    表结构
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                    选择表
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                    时间戳
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -905,22 +1159,22 @@ export default function DatabaseManagementPage() {
 
       {/* 数据库表列表 */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardHeader className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-2 lg:space-y-0 pb-3">
           <div>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <TableIcon className="w-5 h-5" />
+            <CardTitle className="text-base flex items-center gap-2">
+              <TableIcon className="w-4 h-4" />
               数据库表
             </CardTitle>
-            <CardDescription>查看数据库中的所有表结构</CardDescription>
+            <CardDescription className="text-xs">查看数据库中的所有表结构</CardDescription>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-1">
             <Button
               onClick={() => setShowCustomCreateDialog(true)}
               disabled={loading}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full sm:w-auto h-7 px-2 text-xs bg-blue-600 hover:bg-blue-700 text-white"
             >
-              <Database className="w-4 h-4 mr-2" />
-              创建数据库表
+              <Database className="w-3 h-3 mr-1" />
+              创建表
             </Button>
 
             <Button
@@ -928,81 +1182,84 @@ export default function DatabaseManagementPage() {
               size="sm"
               onClick={createTestTable}
               disabled={loading}
+              className="w-full sm:w-auto h-7 px-2 text-xs"
             >
-              <Database className="w-4 h-4 mr-2" />
-              创建测试表
+              <Database className="w-3 h-3 mr-1" />
+              测试表
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={fetchTables}
               disabled={tablesLoading}
+              className="w-full sm:w-auto h-7 px-2 text-xs"
             >
-              <RefreshCw className={`w-4 h-4 mr-2 ${tablesLoading ? 'animate-spin' : ''}`} />
-              刷新表列表
+              <RefreshCw className={`w-3 h-3 mr-1 ${tablesLoading ? 'animate-spin' : ''}`} />
+              刷新
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pb-3">
           {tablesLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
+            <div className="flex items-center justify-center py-4">
+              <RefreshCw className="w-4 h-4 animate-spin text-gray-400" />
             </div>
           ) : tables.length > 0 ? (
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <Info className="w-4 h-4" />
-                <span>共找到 {tables.length} 个表</span>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs text-gray-600">
+                <Info className="w-3 h-3" />
+                <span>共 {tables.length} 个表</span>
               </div>
               
-              <div className="rounded-md border">
+              <div className="rounded border">
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead>表名</TableHead>
-                      <TableHead>所有者</TableHead>
-                      <TableHead>记录数</TableHead>
-                      <TableHead>索引</TableHead>
-                      <TableHead>规则</TableHead>
-                      <TableHead>触发器</TableHead>
-                      <TableHead>操作</TableHead>
+                    <TableRow className="h-8">
+                      <TableHead className="text-xs font-medium py-2">表名</TableHead>
+                      <TableHead className="text-xs font-medium py-2">所有者</TableHead>
+                      <TableHead className="text-xs font-medium py-2">记录数</TableHead>
+                      <TableHead className="text-xs font-medium py-2">索引</TableHead>
+                      <TableHead className="text-xs font-medium py-2">规则</TableHead>
+                      <TableHead className="text-xs font-medium py-2">触发器</TableHead>
+                      <TableHead className="text-xs font-medium py-2">操作</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {tables.map((table) => (
-                      <TableRow key={table.tablename}>
-                        <TableCell className="font-medium font-mono">
+                      <TableRow key={table.tablename} className="h-12">
+                        <TableCell className="font-medium font-mono text-xs py-2">
                           {table.tablename}
                         </TableCell>
-                        <TableCell>{table.tableowner}</TableCell>
-                        <TableCell>
-                          <Badge variant="secondary">
+                        <TableCell className="text-xs py-2">{table.tableowner}</TableCell>
+                        <TableCell className="py-2">
+                          <Badge variant="secondary" className="text-xs px-1.5 py-0.5">
                             {table.rowCount.toLocaleString()}
                           </Badge>
                         </TableCell>
-                        <TableCell>
-                          <Badge variant={table.hasindexes ? "default" : "outline"}>
+                        <TableCell className="py-2">
+                          <Badge variant={table.hasindexes ? "default" : "outline"} className="text-xs px-1.5 py-0.5">
                             {table.hasindexes ? "是" : "否"}
                           </Badge>
                         </TableCell>
-                        <TableCell>
-                          <Badge variant={table.hasrules ? "default" : "outline"}>
+                        <TableCell className="py-2">
+                          <Badge variant={table.hasrules ? "default" : "outline"} className="text-xs px-1.5 py-0.5">
                             {table.hasrules ? "是" : "否"}
                           </Badge>
                         </TableCell>
-                        <TableCell>
-                          <Badge variant={table.hastriggers ? "default" : "outline"}>
+                        <TableCell className="py-2">
+                          <Badge variant={table.hastriggers ? "default" : "outline"} className="text-xs px-1.5 py-0.5">
                             {table.hastriggers ? "是" : "否"}
                           </Badge>
                         </TableCell>
-                        <TableCell>
-                          <div className="flex gap-1 flex-wrap">
+                        <TableCell className="py-2">
+                          <div className="flex gap-2 flex-wrap">
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => fetchTableDetails(table.tablename)}
                               disabled={tableDetailsLoading}
                               title="查看表详情"
+                              className="h-8 w-8 p-0 hover:bg-blue-50"
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
@@ -1012,6 +1269,7 @@ export default function DatabaseManagementPage() {
                               onClick={() => fetchTableRecords(table.tablename)}
                               disabled={tableRecordsLoading}
                               title="查看记录"
+                              className="h-8 w-8 p-0 hover:bg-blue-50"
                             >
                               <FileText className="w-4 h-4" />
                             </Button>
@@ -1021,6 +1279,7 @@ export default function DatabaseManagementPage() {
                               onClick={() => fetchTableStructure(table.tablename)}
                               disabled={tableStructureLoading}
                               title="查看表结构"
+                              className="h-8 w-8 p-0 hover:bg-blue-50"
                             >
                               <Settings className="w-4 h-4" />
                             </Button>
@@ -1030,6 +1289,7 @@ export default function DatabaseManagementPage() {
                               onClick={() => showImportDialogForTable(table.tablename)}
                               disabled={importing}
                               title="导入数据"
+                              className="h-8 w-8 p-0 hover:bg-green-50"
                             >
                               <Upload className="w-4 h-4" />
                             </Button>
@@ -1039,6 +1299,7 @@ export default function DatabaseManagementPage() {
                               onClick={() => exportTableData(table.tablename, 'json')}
                               disabled={exporting}
                               title="导出JSON"
+                              className="h-8 w-8 p-0 hover:bg-green-50"
                             >
                               <Download className="w-4 h-4" />
                             </Button>
@@ -1049,7 +1310,7 @@ export default function DatabaseManagementPage() {
                                 onClick={() => showDeleteDialogForTable(table.tablename)}
                                 disabled={deleting}
                                 title="删除表"
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
@@ -1059,7 +1320,7 @@ export default function DatabaseManagementPage() {
                                 size="sm"
                                 disabled
                                 title="系统表，禁止删除"
-                                className="text-gray-300"
+                                className="h-8 w-8 p-0 text-gray-300"
                               >
                                 <Shield className="w-4 h-4" />
                               </Button>
@@ -1073,9 +1334,9 @@ export default function DatabaseManagementPage() {
               </div>
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-500">
-              <TableIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-              <p>暂无数据表</p>
+            <div className="text-center py-4 text-gray-500">
+              <TableIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+              <p className="text-sm">暂无数据表</p>
             </div>
           )}
         </CardContent>
@@ -1969,6 +2230,336 @@ export default function DatabaseManagementPage() {
                   )}
                 </Button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 数据库备份对话框 */}
+      {showBackupDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b">
+              <div className="flex items-center gap-3">
+                <FileDown className="w-6 h-6 text-green-600" />
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">创建数据库备份</h3>
+                  <p className="text-sm text-gray-600">选择备份选项和要备份的表</p>
+                </div>
+              </div>
+              <Button variant="ghost" size="sm" onClick={() => setShowBackupDialog(false)}>
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <div className="p-6 space-y-6">
+              {/* 备份选项 */}
+              <div className="space-y-4">
+                <h4 className="font-medium text-gray-900">备份选项</h4>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium">备份格式</Label>
+                    <Select
+                      value={backupOptions.format}
+                      onValueChange={(value: 'json' | 'csv') => 
+                        setBackupOptions(prev => ({ ...prev, format: value }))
+                      }
+                    >
+                      <SelectTrigger className="mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="json">JSON (推荐)</SelectItem>
+                        <SelectItem value="csv">CSV</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-gray-500 mt-1">
+                      JSON格式包含完整结构，CSV仅包含数据
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2 pt-6">
+                    <Checkbox
+                      id="includeSchema"
+                      checked={backupOptions.includeSchema}
+                      onCheckedChange={(checked) => 
+                        setBackupOptions(prev => ({ ...prev, includeSchema: !!checked }))
+                      }
+                    />
+                    <Label htmlFor="includeSchema" className="text-sm">
+                      包含表结构
+                    </Label>
+                  </div>
+                </div>
+              </div>
+
+              {/* 表选择 */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-medium text-gray-900">选择要备份的表</h4>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="selectAllTables"
+                      checked={backupOptions.selectAll}
+                      onCheckedChange={handleSelectAllTables}
+                    />
+                    <Label htmlFor="selectAllTables" className="text-sm">
+                      全选 ({tables.length} 个表)
+                    </Label>
+                  </div>
+                </div>
+                
+                <div className="border rounded-lg p-4 max-h-60 overflow-y-auto">
+                  {tables.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-2">
+                      {tables.map((table) => (
+                        <div key={table.tablename} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`table-${table.tablename}`}
+                            checked={
+                              backupOptions.selectAll || 
+                              backupOptions.selectedTables.includes(table.tablename)
+                            }
+                            onCheckedChange={(checked) => 
+                              handleTableSelection(table.tablename, !!checked)
+                            }
+                            disabled={backupOptions.selectAll}
+                          />
+                          <Label 
+                            htmlFor={`table-${table.tablename}`} 
+                            className="text-sm font-mono cursor-pointer"
+                          >
+                            {table.tablename}
+                          </Label>
+                          <Badge variant="outline" className="text-xs">
+                            {table.rowCount} 行
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-4 text-gray-500">
+                      没有找到表
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 备份摘要 */}
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <h5 className="font-medium text-gray-900 mb-2">备份摘要</h5>
+                <div className="text-sm text-gray-600 space-y-1">
+                  <p>• 格式: {backupOptions.format.toUpperCase()}</p>
+                  <p>• 包含结构: {backupOptions.includeSchema ? '是' : '否'}</p>
+                  <p>• 备份表数: {backupOptions.selectAll ? tables.length : backupOptions.selectedTables.length}</p>
+                  <p>• 文件名: database-backup-{new Date().toISOString().split('T')[0]}.{backupOptions.format}</p>
+                </div>
+              </div>
+
+              {/* 操作按钮 */}
+              <div className="flex gap-3 justify-end pt-4 border-t">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowBackupDialog(false)}
+                  disabled={backingUp}
+                >
+                  取消
+                </Button>
+                <Button
+                  onClick={createBackup}
+                  disabled={
+                    backingUp || 
+                    (!backupOptions.selectAll && backupOptions.selectedTables.length === 0)
+                  }
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  {backingUp ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                      创建备份中...
+                    </>
+                  ) : (
+                    <>
+                      <FileDown className="w-4 h-4 mr-2" />
+                      创建备份
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 备份历史对话框 */}
+      {showBackupHistory && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b">
+              <div className="flex items-center gap-3">
+                <FileText className="w-6 h-6 text-blue-600" />
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">备份历史</h3>
+                  <p className="text-sm text-gray-600">查看和管理数据库备份文件</p>
+                </div>
+              </div>
+              <Button variant="ghost" size="sm" onClick={() => setShowBackupHistory(false)}>
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <div className="p-6">
+              {backupHistoryLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
+                  <span className="ml-2 text-gray-500">加载备份历史...</span>
+                </div>
+              ) : backupHistory.length > 0 ? (
+                <div className="space-y-4">
+                  {/* 操作按钮 */}
+                  <div className="flex justify-between items-center">
+                    <p className="text-sm text-gray-600">
+                      共 {backupHistory.length} 个备份文件
+                    </p>
+                    <Button
+                      onClick={fetchBackupHistory}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      刷新
+                    </Button>
+                  </div>
+
+                  {/* 备份列表 */}
+                  <div className="border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>文件名</TableHead>
+                          <TableHead>格式</TableHead>
+                          <TableHead>大小</TableHead>
+                          <TableHead>表数量</TableHead>
+                          <TableHead>包含结构</TableHead>
+                          <TableHead>创建时间</TableHead>
+                          <TableHead>操作</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {backupHistory.map((backup) => (
+                          <TableRow key={backup.id}>
+                            <TableCell>
+                              <div className="font-mono text-sm">
+                                {backup.original_filename}
+                              </div>
+                              {backup.description && (
+                                <div className="text-xs text-gray-500 mt-1">
+                                  {backup.description}
+                                </div>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <Badge 
+                                variant={backup.format === 'json' ? 'default' : 'secondary'}
+                                className="uppercase"
+                              >
+                                {backup.format}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <span className="text-sm">{backup.file_size_mb} MB</span>
+                            </TableCell>
+                            <TableCell>
+                              <span className="text-sm">{backup.table_count} 个表</span>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant={backup.include_schema ? 'default' : 'outline'}>
+                                {backup.include_schema ? '是' : '否'}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <div className="text-sm">
+                                {backup.created_at_formatted}
+                              </div>
+                              {backup.created_by && (
+                                <div className="text-xs text-gray-500">
+                                  by {backup.created_by}
+                                </div>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex gap-2">
+                                <Button
+                                  onClick={() => downloadBackup(backup.id, backup.original_filename)}
+                                  size="sm"
+                                  variant="outline"
+                                  className="text-green-600 hover:text-green-700"
+                                >
+                                  <Download className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  onClick={() => {
+                                    if (confirm(`确定要删除备份文件 "${backup.original_filename}" 吗？此操作不可恢复。`)) {
+                                      deleteBackupRecord(backup.id)
+                                    }
+                                  }}
+                                  size="sm"
+                                  variant="outline"
+                                  className="text-red-600 hover:text-red-700"
+                                  disabled={deletingBackup === backup.id}
+                                >
+                                  {deletingBackup === backup.id ? (
+                                    <RefreshCw className="w-4 h-4 animate-spin" />
+                                  ) : (
+                                    <Trash2 className="w-4 h-4" />
+                                  )}
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+
+                  {/* 备份统计 */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="text-sm text-gray-600">总文件数</div>
+                      <div className="text-2xl font-bold text-gray-900">{backupHistory.length}</div>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="text-sm text-gray-600">总大小</div>
+                      <div className="text-2xl font-bold text-gray-900">
+                        {backupHistory.reduce((total, backup) => total + parseFloat(backup.file_size_mb), 0).toFixed(2)} MB
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="text-sm text-gray-600">最近备份</div>
+                      <div className="text-sm font-medium text-gray-900">
+                        {backupHistory[0]?.created_at_formatted || '无'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                  <h4 className="text-lg font-medium text-gray-900 mb-2">暂无备份记录</h4>
+                  <p className="text-gray-500 mb-4">还没有创建任何数据库备份</p>
+                  <Button
+                    onClick={() => {
+                      setShowBackupHistory(false)
+                      setShowBackupDialog(true)
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    <FileDown className="w-4 h-4 mr-2" />
+                    创建第一个备份
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>

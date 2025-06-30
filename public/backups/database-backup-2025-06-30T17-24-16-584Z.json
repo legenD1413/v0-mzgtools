@@ -1,0 +1,1732 @@
+{
+  "metadata": {
+    "timestamp": "2025-06-30T17:24:05.634Z",
+    "database": "neondb",
+    "format": "json",
+    "includeSchema": true,
+    "version": "1.0.0",
+    "tables": [
+      "admin_sessions",
+      "admin_users",
+      "backup_history",
+      "faqs",
+      "playing_with_neon",
+      "product_categories",
+      "product_f",
+      "product_gallery",
+      "product_series",
+      "products",
+      "quote_requests",
+      "user_activity_logs",
+      "user_sessions",
+      "users"
+    ]
+  },
+  "schema": {
+    "admin_sessions": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('admin_sessions_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "user_id",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "token",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "expires_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "admin_sessions_pkey",
+          "indexdef": "CREATE UNIQUE INDEX admin_sessions_pkey ON public.admin_sessions USING btree (id)"
+        },
+        {
+          "indexname": "admin_sessions_token_key",
+          "indexdef": "CREATE UNIQUE INDEX admin_sessions_token_key ON public.admin_sessions USING btree (token)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "admin_sessions_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "admin_sessions_token_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "admin_sessions_user_id_fkey",
+          "constraint_type": "FOREIGN KEY"
+        },
+        {
+          "constraint_name": "2200_41024_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_41024_3_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_41024_4_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "admin_users": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('admin_users_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "username",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "password_hash",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "email",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "role",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": "'admin'::character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "is_active",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "true",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "admin_users_pkey",
+          "indexdef": "CREATE UNIQUE INDEX admin_users_pkey ON public.admin_users USING btree (id)"
+        },
+        {
+          "indexname": "admin_users_username_key",
+          "indexdef": "CREATE UNIQUE INDEX admin_users_username_key ON public.admin_users USING btree (username)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "admin_users_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "admin_users_username_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "2200_40961_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_40961_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_40961_3_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "backup_history": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('backup_history_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "filename",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "original_filename",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "file_path",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "file_size",
+          "data_type": "bigint",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "format",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "include_schema",
+          "data_type": "boolean",
+          "is_nullable": "NO",
+          "column_default": "true",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "table_count",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "0",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "tables_included",
+          "data_type": "ARRAY",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp with time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_by",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "description",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "status",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": "'completed'::character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "backup_history_pkey",
+          "indexdef": "CREATE UNIQUE INDEX backup_history_pkey ON public.backup_history USING btree (id)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "backup_history_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "2200_131073_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_131073_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_131073_3_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_131073_4_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_131073_5_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_131073_6_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_131073_7_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_131073_8_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "faqs": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('faqs_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "question",
+          "data_type": "text",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "answer",
+          "data_type": "text",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "sort_order",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": "0",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "is_active",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "true",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "show_in_popular",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "false",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "page_urls",
+          "data_type": "jsonb",
+          "is_nullable": "YES",
+          "column_default": "'[]'::jsonb",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "categories",
+          "data_type": "jsonb",
+          "is_nullable": "YES",
+          "column_default": "'[]'::jsonb",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "faqs_pkey",
+          "indexdef": "CREATE UNIQUE INDEX faqs_pkey ON public.faqs USING btree (id)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "faqs_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "2200_106497_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_106497_3_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_106497_4_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "playing_with_neon": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('playing_with_neon_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "name",
+          "data_type": "text",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "value",
+          "data_type": "real",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 24,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "playing_with_neon_pkey",
+          "indexdef": "CREATE UNIQUE INDEX playing_with_neon_pkey ON public.playing_with_neon USING btree (id)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "playing_with_neon_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "2200_32769_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_32769_2_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "product_categories": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('product_categories_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "name",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "slug",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "description",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "parent_id",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "sort_order",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": "0",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "product_categories_pkey",
+          "indexdef": "CREATE UNIQUE INDEX product_categories_pkey ON public.product_categories USING btree (id)"
+        },
+        {
+          "indexname": "product_categories_slug_key",
+          "indexdef": "CREATE UNIQUE INDEX product_categories_slug_key ON public.product_categories USING btree (slug)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "product_categories_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "product_categories_slug_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "product_categories_parent_id_fkey",
+          "constraint_type": "FOREIGN KEY"
+        },
+        {
+          "constraint_name": "2200_73729_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_73729_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_73729_3_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "product_f": {
+      "columns": [
+        {
+          "column_name": "product_code",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "category",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "category_id",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "title",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 200,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "application",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 400,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "page",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "img_url",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 30,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "product_f_pkey",
+          "indexdef": "CREATE UNIQUE INDEX product_f_pkey ON public.product_f USING btree (product_code)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "product_f_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "2200_81920_1_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "product_gallery": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('product_gallery_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "page_path",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "image_url",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "title",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 200,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "description",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "sort_order",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": "0",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "is_active",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "true",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "product_gallery_pkey",
+          "indexdef": "CREATE UNIQUE INDEX product_gallery_pkey ON public.product_gallery USING btree (id)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "product_gallery_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "2200_98305_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_98305_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_98305_3_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "product_series": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('product_series_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "name",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "code",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "description",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "category_id",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "product_series_pkey",
+          "indexdef": "CREATE UNIQUE INDEX product_series_pkey ON public.product_series USING btree (id)"
+        },
+        {
+          "indexname": "product_series_code_key",
+          "indexdef": "CREATE UNIQUE INDEX product_series_code_key ON public.product_series USING btree (code)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "product_series_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "product_series_code_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "product_series_category_id_fkey",
+          "constraint_type": "FOREIGN KEY"
+        },
+        {
+          "constraint_name": "2200_73748_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_73748_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_73748_3_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "products": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('products_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "name",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 200,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "code",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "description",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "series_id",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "image_url",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "page_number",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "specifications",
+          "data_type": "jsonb",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "features",
+          "data_type": "jsonb",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "applications",
+          "data_type": "jsonb",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "is_active",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "true",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "sort_order",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": "0",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "products_pkey",
+          "indexdef": "CREATE UNIQUE INDEX products_pkey ON public.products USING btree (id)"
+        },
+        {
+          "indexname": "products_code_key",
+          "indexdef": "CREATE UNIQUE INDEX products_code_key ON public.products USING btree (code)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "products_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "products_code_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "products_series_id_fkey",
+          "constraint_type": "FOREIGN KEY"
+        },
+        {
+          "constraint_name": "2200_73766_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_73766_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_73766_3_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "quote_requests": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('quote_requests_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "name",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "email",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "company",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 200,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "phone",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "requirements",
+          "data_type": "text",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "status",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": "'new'::character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "priority",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": "'normal'::character varying",
+          "character_maximum_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "notes",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "quote_requests_pkey",
+          "indexdef": "CREATE UNIQUE INDEX quote_requests_pkey ON public.quote_requests USING btree (id)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "quote_requests_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "2200_41011_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_41011_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_41011_3_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_41011_6_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "user_activity_logs": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('user_activity_logs_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "user_id",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "action",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "details",
+          "data_type": "jsonb",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "ip_address",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 45,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "user_agent",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "user_activity_logs_pkey",
+          "indexdef": "CREATE UNIQUE INDEX user_activity_logs_pkey ON public.user_activity_logs USING btree (id)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "user_activity_logs_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "user_activity_logs_user_id_fkey",
+          "constraint_type": "FOREIGN KEY"
+        },
+        {
+          "constraint_name": "2200_49191_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_49191_3_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "user_sessions": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('user_sessions_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "user_id",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "token",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "device_info",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "ip_address",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 45,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "expires_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "user_sessions_pkey",
+          "indexdef": "CREATE UNIQUE INDEX user_sessions_pkey ON public.user_sessions USING btree (id)"
+        },
+        {
+          "indexname": "user_sessions_token_key",
+          "indexdef": "CREATE UNIQUE INDEX user_sessions_token_key ON public.user_sessions USING btree (token)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "user_sessions_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "user_sessions_token_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "user_sessions_user_id_fkey",
+          "constraint_type": "FOREIGN KEY"
+        },
+        {
+          "constraint_name": "2200_49174_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_49174_3_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_49174_6_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    },
+    "users": {
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "integer",
+          "is_nullable": "NO",
+          "column_default": "nextval('users_id_seq'::regclass)",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "username",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "email",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "password_hash",
+          "data_type": "character varying",
+          "is_nullable": "NO",
+          "column_default": null,
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "first_name",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "last_name",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "company",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 200,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "phone",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "address",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "city",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "state",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "country",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "postal_code",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "avatar_url",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "bio",
+          "data_type": "text",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "user_type",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": "'customer'::character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "subscription_level",
+          "data_type": "character varying",
+          "is_nullable": "YES",
+          "column_default": "'basic'::character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "credit_limit",
+          "data_type": "numeric",
+          "is_nullable": "YES",
+          "column_default": "0.00",
+          "character_maximum_length": null,
+          "numeric_precision": 12,
+          "numeric_scale": 2
+        },
+        {
+          "column_name": "is_active",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "true",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "email_verified",
+          "data_type": "boolean",
+          "is_nullable": "YES",
+          "column_default": "false",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "last_login",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": null,
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "login_count",
+          "data_type": "integer",
+          "is_nullable": "YES",
+          "column_default": "0",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp without time zone",
+          "is_nullable": "YES",
+          "column_default": "now()",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "users_pkey",
+          "indexdef": "CREATE UNIQUE INDEX users_pkey ON public.users USING btree (id)"
+        },
+        {
+          "indexname": "users_username_key",
+          "indexdef": "CREATE UNIQUE INDEX users_username_key ON public.users USING btree (username)"
+        },
+        {
+          "indexname": "users_email_key",
+          "indexdef": "CREATE UNIQUE INDEX users_email_key ON public.users USING btree (email)"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "users_pkey",
+          "constraint_type": "PRIMARY KEY"
+        },
+        {
+          "constraint_name": "users_username_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "users_email_key",
+          "constraint_type": "UNIQUE"
+        },
+        {
+          "constraint_name": "2200_49153_1_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_49153_2_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_49153_3_not_null",
+          "constraint_type": "CHECK"
+        },
+        {
+          "constraint_name": "2200_49153_4_not_null",
+          "constraint_type": "CHECK"
+        }
+      ]
+    }
+  },
+  "data": {
+    "admin_sessions": [],
+    "admin_users": [],
+    "backup_history": [],
+    "faqs": [],
+    "playing_with_neon": [],
+    "product_categories": [],
+    "product_f": [],
+    "product_gallery": [],
+    "product_series": [],
+    "products": [],
+    "quote_requests": [],
+    "user_activity_logs": [],
+    "user_sessions": [],
+    "users": []
+  }
+}
