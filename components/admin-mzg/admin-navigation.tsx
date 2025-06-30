@@ -14,7 +14,9 @@ import {
   Database, 
   LogOut, 
   Loader2,
-  Shield 
+  Shield,
+  Images,
+  HelpCircle
 } from "lucide-react"
 import { AdminUser } from "@/lib/auth-mzg"
 
@@ -66,9 +68,19 @@ export default function AdminNavigation({ user }: AdminNavigationProps) {
       icon: Package
     },
     {
+      name: "产品展示图",
+      href: "/admin-mzg/product-gallery",
+      icon: Images
+    },
+    {
       name: "报价请求",
       href: "/admin-mzg/quotes",
       icon: FileText
+    },
+    {
+      name: "FAQ管理",
+      href: "/admin-mzg/faqs",
+      icon: HelpCircle
     },
     {
       name: "用户管理",

@@ -151,6 +151,91 @@ export async function initializeTables() {
       )
     `
 
+    // 创建产品图片库表
+    await sql`
+      CREATE TABLE IF NOT EXISTS product_gallery (
+        id SERIAL PRIMARY KEY,
+        page_path VARCHAR(500) NOT NULL,
+        image_url VARCHAR(500) NOT NULL,
+        title VARCHAR(200),
+        description TEXT,
+        sort_order INTEGER DEFAULT 0,
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+    // 创建FAQ表
+    await sql`
+      CREATE TABLE IF NOT EXISTS faqs (
+        id SERIAL PRIMARY KEY,
+        page_urls JSONB NOT NULL DEFAULT '[]',
+        question TEXT NOT NULL,
+        answer TEXT NOT NULL,
+        categories JSONB NOT NULL DEFAULT '[]',
+        sort_order INTEGER DEFAULT 0,
+        is_active BOOLEAN DEFAULT true,
+        show_in_popular BOOLEAN DEFAULT false,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // 数据迁移：如果表已存在但使用旧结构，进行迁移
+    try {
+      // 检查是否存在旧的字段
+      const tableInfo = await sql`
+        SELECT column_name, data_type 
+        FROM information_schema.columns 
+        WHERE table_name = 'faqs' AND column_name IN ('page_url', 'category')
+      `
+      
+      if (tableInfo.length > 0) {
+        console.log('检测到FAQ表旧结构，开始迁移...')
+        
+        // 备份旧数据
+        const oldData = await sql`
+          SELECT id, page_url, category, question, answer, sort_order, is_active, show_in_popular, created_at, updated_at
+          FROM faqs
+        `
+        
+        // 添加新字段
+        await sql`ALTER TABLE faqs ADD COLUMN IF NOT EXISTS page_urls JSONB DEFAULT '[]'`
+        await sql`ALTER TABLE faqs ADD COLUMN IF NOT EXISTS categories JSONB DEFAULT '[]'`
+        
+        // 迁移数据：将单个值转换为数组
+        for (const row of oldData) {
+          const pageUrls = row.page_url ? [row.page_url] : []
+          const categories = row.category ? [row.category] : []
+          
+          await sql`
+            UPDATE faqs 
+            SET page_urls = ${JSON.stringify(pageUrls)}, 
+                categories = ${JSON.stringify(categories)}
+            WHERE id = ${row.id}
+          `
+        }
+        
+        // 删除旧字段
+        await sql`ALTER TABLE faqs DROP COLUMN IF EXISTS page_url`
+        await sql`ALTER TABLE faqs DROP COLUMN IF EXISTS category`
+        
+        console.log('FAQ表迁移完成')
+      }
+    } catch (error) {
+      console.log('FAQ表迁移处理:', error)
+    }
+
+    // 添加show_in_popular字段（如果表已存在但字段不存在）
+    try {
+      await sql`
+        ALTER TABLE faqs ADD COLUMN IF NOT EXISTS show_in_popular BOOLEAN DEFAULT false
+      `
+    } catch (error) {
+      // 忽略字段已存在的错误
+      console.log('FAQ表字段更新:', error)
+    }
+
     // 插入默认管理员用户（如果不存在）
     const existingAdmin = await sql`
       SELECT id FROM admin_users WHERE username = 'admin'

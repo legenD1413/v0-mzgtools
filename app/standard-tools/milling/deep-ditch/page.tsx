@@ -1,106 +1,120 @@
+"use client"
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target } from "lucide-react"
+import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target, Drill, Wrench, Cog, CircleDot, Crosshair } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ProductCard from "@/components/product-card"
+import FAQSectionEn from "@/components/faq-section-en"
+import { useState, useEffect } from "react"
 
-export default function DeepDitchMillingCutterPage() {
-  // Sample product data for deep ditch milling cutters
+export default function DeepDitchPage() {
+  // Gallery images for rotation - will be loaded from API
+  const [galleryImages, setGalleryImages] = useState<string[]>([
+    "/images/AL-SG2F60C.png",
+    "/images/SG2F60C.png",
+    "/images/AL-SG2F60C-R.png",
+    "/images/SG2F60C-R.png",
+    "/images/2F60C.png",
+    "/images/2F60C-R.png",
+    "/images/2F60CRB.png",
+    "/images/2F60CS.png"
+  ]);
+
+  // State for rotating images
+  const [currentMainImage, setCurrentMainImage] = useState(0);
+
+  // Load gallery images from API
+  const loadGalleryImages = async () => {
+    try {
+      const response = await fetch("/api/admin-mzg/product-gallery?pagePath=/standard-tools/milling/deep-ditch");
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.images.length > 0) {
+          const imageUrls = data.images.map((img: any) => img.imageUrl);
+          setGalleryImages(imageUrls);
+        }
+      }
+    } catch (error) {
+      console.error("加载图片失败:", error);
+      // 保持默认图片
+    }
+  };
+
+  // Auto-rotate effect
+  useEffect(() => {
+    // Load images from API
+    loadGalleryImages();
+    
+    const interval = setInterval(() => {
+      setCurrentMainImage((prev) => (prev + 1) % galleryImages.length);
+    }, 20000); // 每20秒轮换一次
+
+    return () => clearInterval(interval);
+  }, [galleryImages.length]);
+
+  // Product data based on provided content
   const products = [
+    
     {
-      id: "dd-001",
+      id: "AL-SG2F60C",
       name: "2 Edge Tungsten Steel Uncoated Deep Ditch End Milling Cutter",
+      series: "AL-SG2F60C", 
       image: "/images/AL-SG2F60C.png",
-      description: "Milling Steel And Nonferrous Metal Materials Such As Copper And Aluminum",
-      flutes: 2,
-      material: "Tungsten Steel",
-      coating: "Uncoated",
-      series: "AL-SG2F60C",
-      d: "0.5-4mm",
-      H: "0.8-6mm",
-      L1: "2-35mm",
-      L: "50-75mm",
-      D: "4-6mm",
-      hardness: "HRC60",
+      description: "Tungsten steel 2-edge uncoated deep ditch end mill for precision machining",
+      specifications: "2-edge, Uncoated tungsten steel",
       application: "Milling Steel And Nonferrous Metal Materials Such As Copper And Aluminum",
-      url: "/standard-tools/milling/deep-ditch/AL-SG2F60C",
+      pageNumber: "F11",
     },
     {
-      id: "dd-002",
+      id: "SG2F60C",
       name: "2 Edge Tungsten Steel Coated Deep Ditch End Milling Cutter",
-      image: "/images/SG2F60C.png",
-      description: "Milling HRC60° steel, cast iron and stainless steel",
-      flutes: 2,
-      material: "Tungsten Steel",
-      coating: "Coated",
       series: "SG2F60C",
-      d: "0.5-4mm",
-      H: "0.8-6mm",
-      L1: "2-35mm",
-      L: "50-75mm",
-      D: "4-6mm",
-      hardness: "HRC60",
-      application: "Milling HRC60° steel, cast iron and stainless steel",
-      url: "/standard-tools/milling/deep-ditch/SG2F60C",
+      image: "/images/SG2F60C.png",
+      description: "Tungsten steel 2-edge coated deep ditch end mill for high-performance machining",
+      specifications: "2-edge, Coated tungsten steel",
+      application: "Milling HRC60 ° steel, cast iron and stainless steel",
+      pageNumber: "F11",
     },
     {
-      id: "dd-003",
+      id: "AL-SG2F60C-R",
       name: "2 Edge Tungsten Steel Uncoated Deep Ditch Ball Head End Milling Cutter",
-      image: "/images/AL-SG2F60C-R.png",
-      description: "Milling Steel And Nonferrous Metal Materials Such As Copper And Aluminum",
-      flutes: 2,
-      material: "Tungsten Steel",
-      coating: "Uncoated",
       series: "AL-SG2F60C-R",
-      d: "0.25-2mm",
-      H: "0.8-6mm",
-      L1: "2-35mm",
-      L: "50-75mm",
-      D: "4-6mm",
-      hardness: "HRC60",
+      image: "/images/AL-SG2F60C-R.png",
+      description: "Tungsten steel 2-edge uncoated ball head deep ditch end mill for contour machining",
+      specifications: "2-edge, Ball head, Uncoated tungsten steel",
       application: "Milling Steel And Nonferrous Metal Materials Such As Copper And Aluminum",
-      url: "/standard-tools/milling/deep-ditch/AL-SG2F60C-R",
+      pageNumber: "F12",
     },
     {
-      id: "dd-004",
+      id: "SG2F60C-R",
       name: "2 Edge Tungsten Steel Coated Deep Ditch Ball Head End Milling Cutter",
-      image: "/images/SG2F60C-R.png",
-      description: "Milling HRC60° steel, cast iron and stainless steel",
-      flutes: 2,
-      material: "Tungsten Steel",
-      coating: "Coated",
       series: "SG2F60C-R",
-      d: "0.25-2mm",
-      H: "0.8-6mm",
-      L1: "2-35mm",
-      L: "50-75mm",
-      D: "4-6mm",
-      hardness: "HRC60",
-      application: "Milling HRC60° steel, cast iron and stainless steel",
-      url: "/standard-tools/milling/deep-ditch/SG2F60C-R",
+      image: "/images/SG2F60C-R.png",
+      description: "Tungsten steel 2-edge coated ball head deep ditch end mill for advanced machining",
+      specifications: "2-edge, Ball head, Coated tungsten steel",
+      application: "Milling HRC60 ° steel, cast iron and stainless steel",
+      pageNumber: "F12",
     },
   ]
 
-  // Performance features for the feature section
+  // Performance features
   const performanceFeatures = [
     {
       icon: "Shield",
-      title: "Extended Reach Design",
-      description:
-        "Long neck geometry with reduced diameter allows access to deep features while maintaining cutting precision and minimizing deflection in confined spaces.",
+      title: "Deep Cutting Excellence",
+      description: "Specialized design for deep grooves, slots, and cavities with extended flute length and optimized helix angles for superior chip evacuation and stability.",
     },
     {
-      icon: "Zap",
-      title: "Superior Chip Evacuation",
-      description:
-        "Optimized flute geometries and helix angles facilitate efficient chip removal from deep grooves, preventing chip packing and tool failure.",
+      icon: "Zap", 
+      title: "Advanced Geometries",
+      description: "Available in flat bottom and ball head configurations with 2-flute and 4-flute options, uncoated and nano-coated variants for different material applications.",
     },
     {
       icon: "Target",
-      title: "Tungsten Carbide Construction",
-      description:
-        "Solid tungsten carbide provides exceptional hardness, wear resistance, and thermal stability for demanding deep cutting applications.",
+      title: "Precision Performance",
+      description: "Diameter range from Ø0.5mm to Ø4mm with deep ditch lengths up to 35mm, suitable for materials from aluminum to HRC60° hardened steel.",
     },
   ]
 
@@ -118,74 +132,20 @@ export default function DeepDitchMillingCutterPage() {
     }
   }
 
-  // Industries served
-  const industries = [
-    "Mold and Die Making",
-    "Aerospace Industry",
-    "Automotive Industry",
-    "Oil and Gas Industry",
-    "Electronics Manufacturing",
-    "Medical Device Manufacturing",
-    "General Machining and Engineering",
-    "Tool and Die Manufacturing",
-  ]
-
-  // Machining operations
-  const machiningOperations = [
-    "Deep Slotting",
-    "Deep Pocketing",
-    "Deep Wall Milling",
-    "Shoulder Milling at Depth",
-    "Deep Groove Machining",
-    "Trochoidal Milling in Deep Cavities",
-    "High-Speed Milling (HSM)",
-    "Keyway Cutting",
-  ]
-
-  // Materials that can be machined
-  const machinableMaterials = [
-    "Carbon Steels",
-    "Alloy Steels",
-    "Tool Steels (P20, H13, etc.)",
-    "Stainless Steels",
-    "Cast Iron",
-    "Titanium Alloys",
-    "Heat-Resistant Superalloys (Inconel)",
-    "Aluminum and Copper Alloys",
-  ]
-
   // Technical specifications
   const technicalSpecs = [
     {
-      title: "2-3 Flute Designs",
-      description:
-        "Preferred for deep slotting in materials producing long chips (aluminum) with larger flute valleys for excellent chip evacuation.",
-      color: "border-red-600",
+      title: "Deep Ditch Flat Bottom End Mills",
+      description: "Characterized by extended flute length and often specialized helix angle and core design. Available in uncoated tungsten steel for steel and nonferrous metals (copper, aluminum), and nano-coated versions for HRC60° steel, cast iron, and stainless steel. Diameter range from Ø0.5mm to Ø4mm with flute lengths from 0.8mm to 35mm for deep cavity machining.",
     },
     {
-      title: "4+ Flute Designs",
-      description:
-        "Offer increased stability, better surface finish, and higher feed rates in wider grooves or rigid setups, particularly in steels.",
-      color: "border-blue-600",
+      title: "Deep Ditch Ball Head End Mills",
+      description: "Ball head design with tungsten steel construction and two cutting edges. Uncoated versions suitable for steel and nonferrous metals, nano-coated variants designed for HRC60° steel, cast iron, and stainless steel. Available radii from R0.25 to R2 with extended flute lengths up to 35mm for complex contour machining in deep cavities.",
     },
     {
-      title: "Variable Helix",
-      description:
-        "Variable helix designs reduce vibration in deep cuts while promoting smoother cutting and better chip evacuation.",
-      color: "border-green-600",
+      title: "Performance Parameters",
+      description: "Optimized flute design with wider chip gullets and specific helix angles (typically 45-55 degrees) promote upward chip flow. Enhanced rigidity through larger core diameter relative to cutting diameter. Advanced coatings like AlTiN or TiAlN provide superior hardness, heat resistance, and lubricity for extended tool life in demanding deep cutting applications.",
     },
-  ]
-
-  // Specifications
-  const specifications = [
-    { label: "Type", value: "Deep Ditch/Deep Groove End Mill" },
-    { label: "Material", value: "Solid Tungsten Carbide (WC-Co)" },
-    { label: "Coating Options", value: "TiAlN, AlTiN, TiCN, Nano-composite" },
-    { label: "Helix Angle", value: "30°-45°, Variable Available" },
-    { label: "Flute Count", value: "2, 3, 4, or More Flutes" },
-    { label: "Neck Design", value: "Reduced Diameter for Deep Access" },
-    { label: "Cutting Diameter", value: "0.1mm to 30mm+" },
-    { label: "Hardness", value: "HRC60 and above" },
   ]
 
   return (
@@ -193,27 +153,18 @@ export default function DeepDitchMillingCutterPage() {
       <Header />
       <div className="bg-white">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <div className="absolute inset-0 overflow-hidden opacity-30 mix-blend-overlay">
-            <Image
-              src="/images/milling-tools.jpg"
-              alt="Deep Ditch Milling Cutters Background"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div className="relative container mx-auto px-4 py-20 md:py-28">
+        <div className="relative bg-white text-gray-900">
+          <div className="relative container mx-auto px-4 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
-                <div className="inline-block bg-red-600 px-4 py-1 rounded-full text-sm font-medium mb-4">
-                  Tungsten Steel Deep Ditch End Milling Cutters
+                <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+                  Deep Ditch End Milling Expert Guide
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Deep Ditch Milling Cutters</h1>
-                <p className="text-lg md:text-xl mb-8 text-gray-100 leading-relaxed">
-                  Engineered for high performance in demanding deep grooving and slotting applications. Featuring solid
-                  tungsten carbide construction, extended reach designs, and optimized chip evacuation for accessing
-                  confined features and maintaining precision at extreme depths.
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                  MZG Deep Ditch End Milling Cutter System
+                </h1>
+                <p className="text-sm mb-8 text-gray-600 leading-relaxed">
+                  The Deep Ditch End Milling Cutter is a specialized cutting tool engineered for efficient and precise machining of deep grooves, slots, and cavities. Characterized by its extended flute length and optimized helix angle and core design, these cutters overcome challenges associated with deep machining including chip accumulation, heat buildup, and deflection. Available in flat bottom and ball head configurations with uncoated and nano-coated variants for materials from aluminum to HRC60° hardened steel.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button
@@ -225,26 +176,26 @@ export default function DeepDitchMillingCutterPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
+                    className="bg-transparent text-gray-900 hover:bg-gray-100 border-gray-300 hover:text-gray-900 transition-all duration-300"
                   >
                     Download Catalog <Download className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>
               <div className="flex justify-center lg:justify-end">
-                <div className="w-[500px] h-[300px] bg-white/10 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/milling-JvsTK9mKVpWhb6WORtlP22ZwwqQAca.png"
-                    alt="Deep Ditch Milling Cutters Collection"
-                    width={500}
-                    height={300}
-                    className="object-contain rounded-lg"
+                    src="/images/millingcutter1.png"
+                    alt="MZG Professional Deep Ditch End Milling Cutter System"
+                    width={563}
+                    height={400}
+                    className="object-contain"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         </div>
 
         {/* Performance Features */}
@@ -269,38 +220,25 @@ export default function DeepDitchMillingCutterPage() {
           <div className="mb-16">
             <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Product Performance</h2>
+              <h2 className="text-3xl font-bold">System Performance Analysis</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
-                <div className="prose prose-sm max-w-none">
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Tungsten Steel Deep Ditch End Milling Cutters are engineered for high performance in demanding deep
-                    grooving and slotting applications. Their primary construction material, tungsten carbide (often
-                    referred to as tungsten steel in this context), provides exceptional hardness, high wear resistance,
-                    and good toughness. This allows the cutter to maintain a sharp cutting edge and resist abrasion even
-                    when machining hard materials or during prolonged engagement in deep cuts. Compared to High-Speed
-                    Steel (HSS) tools, tungsten carbide end mills offer significantly longer tool life and can operate
-                    at higher cutting speeds, contributing to increased productivity.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    A key performance aspect for deep ditch milling is the tool's ability to manage chips and maintain
-                    stability over an extended reach. These cutters often feature optimized flute geometries, including
-                    specific helix angles and flute valley designs, to facilitate efficient chip evacuation from the
-                    deep groove, preventing chip packing which can lead to tool breakage or poor surface finish. The
-                    inherent rigidity of tungsten carbide, combined with design features like a strong core or
-                    specialized neck geometries, helps to minimize deflection and vibration, which is critical when the
-                    tool is extended deep into a workpiece.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Many deep ditch end mills are enhanced with advanced coatings (e.g., TiAlN, AlTiN, or other
-                    proprietary coatings). These coatings further improve performance by increasing surface hardness,
-                    reducing friction (which lowers heat generation), enhancing wear resistance, and providing a thermal
-                    barrier. This is particularly beneficial in deep grooving where heat dissipation can be challenging.
-                    Some cutters may also undergo treatments like deep cryogenic treatment to further enhance their
-                    machinability performance on specific materials like P20 mold steel. The overall design focuses on
-                    ensuring rapid, precise processing with neat results even in challenging deep-cut scenarios.
-                  </p>
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="prose prose-xs max-w-none">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      The performance of a <strong>Deep Ditch End Milling Cutter</strong> is primarily driven by its ability to maintain cutting efficiency and dimensional accuracy in deep recesses. It exhibits excellent chip evacuation capabilities due to its optimized flute design, often featuring wider chip gullets and a specific helix angle that promotes upward chip flow. This minimizes chip re-cutting and packing, which are common issues in deep slotting and can lead to tool breakage or surface finish degradation.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      These cutters are engineered for enhanced rigidity and stability, often employing a larger core diameter relative to their cutting diameter or through-tool coolant channels to withstand higher cutting forces and minimize deflection over extended reaches. The cutting edges are typically sharpened to maintain sharp cutting capabilities over long cutting depths, ensuring smooth, precise cuts and preventing excessive burr formation.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Many Deep Ditch End Milling Cutters incorporate advanced coatings like <strong>AlTiN (Aluminum Titanium Nitride)</strong> or <strong>TiAlN (Titanium Aluminum Nitride)</strong> which provide superior hardness, heat resistance, and lubricity, significantly extending tool life, especially when machining tough or abrasive materials. The deep ditch characteristic refers to their design with a long neck and extended flute length, allowing them to reach and mill deep features or slots in a workpiece.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Available in both <strong>flat bottom</strong> and <strong>ball head</strong> configurations, these tools feature tungsten steel construction with two cutting edges. Uncoated versions are designed for milling steel and nonferrous metal materials such as copper and aluminum, while nano-coated versions are specifically applied for milling HRC60° steel, cast iron, and stainless steel.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div>
@@ -313,31 +251,31 @@ export default function DeepDitchMillingCutterPage() {
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Material:</strong> Solid Tungsten Carbide (WC-Co)
+                        <strong>Diameter Range:</strong> Ø0.5mm to Ø4mm
                       </span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Coatings:</strong> TiAlN, AlTiN, TiCN, Nano-composite
+                        <strong>Flute Length:</strong> 0.8mm to 35mm (deep ditch)
                       </span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Helix Angle:</strong> 30°-45° (Variable Available)
+                        <strong>Materials:</strong> Tungsten Steel
                       </span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Design:</strong> Extended Reach with Reduced Neck
+                        <strong>Coatings:</strong> Uncoated, Nano-coated
                       </span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Hardness:</strong> HRC60 and above
+                        <strong>Configurations:</strong> Flat bottom, Ball head
                       </span>
                     </li>
                   </ul>
@@ -358,7 +296,7 @@ export default function DeepDitchMillingCutterPage() {
                   key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
                 >
-                  <div className="relative w-full bg-white" style={{ height: "176px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                     <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
@@ -367,51 +305,22 @@ export default function DeepDitchMillingCutterPage() {
                     />
                   </div>
                   <div className="p-5 border-t">
-                    <h3 className="text-base font-bold mb-2 line-clamp-2">{product.name}</h3>
-                    {product.application && (
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.application}</p>
-                    )}
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4">
-                      {product.d && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">d:</span> {product.d}
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.pageNumber}</span>
+                    </div>
+                    <div className="space-y-2 text-xs">
+                      {product.series && (
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-700">Series:</span>
+                          <span className="text-gray-900 text-right">{product.series}</span>
                         </div>
                       )}
-                      {product.D && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">D:</span> {product.D}
+                      {product.application && (
+                        <div className="pt-2 border-t border-gray-100">
+                          <p className="text-xs text-gray-600">{product.application}</p>
                         </div>
                       )}
-                      {product.H && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">H:</span> {product.H}
-                        </div>
-                      )}
-                      {product.L && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">L:</span> {product.L}
-                        </div>
-                      )}
-                      {product.L1 && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">L1:</span> {product.L1}
-                        </div>
-                      )}
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Flutes:</span> {product.flutes}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Coating:</span> {product.coating}
-                      </div>
-                      {product.hardness && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">Hardness:</span> {product.hardness}
-                        </div>
-                      )}
-
-                      <div className="col-span-2 flex items-center">
-                        <span className="font-medium mr-1">Series:</span> {product.series}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -419,154 +328,405 @@ export default function DeepDitchMillingCutterPage() {
             </div>
           </div>
 
-          {/* Technical Parameters */}
-          <div className="mb-16">
+          {/* Product Gallery */}
+          <div className="mb-12">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Technical Parameters</h2>
+              <h2 className="text-3xl font-bold">Product Gallery</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Flute Configurations */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Flute Configurations</h3>
-                <div className="p-4 space-y-4">
-                  {technicalSpecs.map((spec, index) => (
-                    <div key={index} className={`border-l-4 ${spec.color} pl-4 py-2`}>
-                      <h4 className="font-bold text-base mb-1">{spec.title}</h4>
-                      <p className="text-gray-600 text-sm">{spec.description}</p>
-                    </div>
-                  ))}
-                </div>
+            <div className="grid grid-cols-6 grid-rows-4 gap-3 h-[300px]">
+              {/* Large center-left image - 主要轮播图 */}
+              <div className="col-span-2 row-span-4 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center overflow-hidden group">
+                <Image
+                  src={galleryImages[currentMainImage]}
+                  alt="Product"
+                  width={480}
+                  height={480}
+                  quality={100}
+                  priority
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
               </div>
-
-              {/* Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Specifications</h3>
-                <div className="divide-y divide-gray-100">
-                  {specifications.map((spec, index) => (
-                    <div key={index} className="flex justify-between items-center p-4">
-                      <span className="font-medium text-sm text-gray-700">{spec.label}:</span>
-                      <span className="text-sm text-right text-gray-900">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
+              
+              {/* Middle section - 2 containers spanning full height */}
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 1) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 1) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 2) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 2) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 3) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 3) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 4) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 4) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              {/* Right section - 4 containers with same height as middle section */}
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 5) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 5) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 6) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 6) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 7) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 7) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 8) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 8) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
               </div>
             </div>
           </div>
 
-          {/* Application Scenarios */}
+          {/* Technical Specifications */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Application Scenarios</h2>
+              <h2 className="text-3xl font-bold">Technical Specifications</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Industries Served */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Settings className="h-5 w-5 text-red-600 mr-2" />
-                  Industries Served
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {industries.map((industry, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{industry}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Machining Operations */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Tool className="h-5 w-5 text-red-600 mr-2" />
-                  Application Processing
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machiningOperations.map((operation, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{operation}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Material Compatibility */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Info className="h-5 w-5 text-red-600 mr-2" />
-                  Material Compatibility
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machinableMaterials.map((material, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{material}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Functions */}
-          <div className="mb-16">
-            <div className="flex items-center mb-8">
-              <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Main Functions</h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Efficient Material Removal at Depth",
-                  description: "Remove material and create deep grooves, slots, or pockets efficiently and accurately.",
-                  icon: <Target className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Accessing Confined Features",
-                  description:
-                    "Reach and machine features that are inaccessible to standard length end mills due to their geometry.",
-                  icon: <Layers className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Maintaining Dimensional Accuracy at Depth",
-                  description:
-                    "Produce deep features with precise dimensions and good geometric tolerances, minimizing deflection over long reaches.",
-                  icon: <Tool className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Ensuring Good Surface Finish",
-                  description:
-                    "Achieve the required surface quality on the walls and bottom of deep grooves or pockets.",
-                  icon: <Settings className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Facilitating Chip Evacuation",
-                  description:
-                    "A critical function to prevent tool failure and ensure process stability during deep machining operations.",
-                  icon: <Shield className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Overcoming Standard End Mill Limitations",
-                  description:
-                    "Specifically designed to address the challenges (reach, rigidity, chip control) of milling deep features.",
-                  icon: <Zap className="h-6 w-6 text-red-600" />,
-                },
-              ].map((func, index) => (
+            <div className="grid md:grid-cols-3 gap-8">
+              {technicalSpecs.map((spec, index) => (
                 <div
                   key={index}
-                  className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
+                  className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
                 >
-                  <div className="flex items-start mb-4">
-                    <div className="bg-red-50 p-2 rounded-lg mr-4">{func.icon}</div>
-                    <h3 className="text-lg font-bold">{func.title}</h3>
-                  </div>
-                  <p className="text-gray-600">{func.description}</p>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">{spec.title}</h3>
+                  <p className="text-gray-700 leading-relaxed text-sm">{spec.description}</p>
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Detailed Product Categories */}
+          <div className="mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-1 bg-red-600 mr-4"></div>
+              <h2 className="text-3xl font-bold">Deep Ditch End Milling Systems</h2>
+            </div>
+
+            {/* Flat Bottom Deep Ditch End Mills */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900">Deep Ditch Flat Bottom End Mills</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-900 flex items-center">
+                    <Tool className="h-6 w-6 text-blue-600 mr-3" />
+                    Uncoated Tungsten Steel
+                  </h4>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Tungsten steel construction with two cutting edges, specifically designed for milling steel and nonferrous metal materials such as copper and aluminum. These tools feature optimized chip evacuation and excellent dimensional stability.
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Diameter range: Ø0.5mm to Ø4mm</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Flute length: 0.8mm to 35mm (deep ditch)</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Optimized for steel and nonferrous metals</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-900 flex items-center">
+                    <Layers className="h-6 w-6 text-green-600 mr-3" />
+                    Nano-Coated Tungsten Steel
+                  </h4>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Advanced nano-coating technology applied to tungsten steel construction, specifically designed for milling HRC60° steel, cast iron, and stainless steel. Superior wear resistance and extended tool life.
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Suitable for materials up to HRC60°</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Enhanced heat resistance and lubricity</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Extended tool life in difficult materials</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Ball Head Deep Ditch End Mills */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900">Deep Ditch Ball Head End Mills</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-900 flex items-center">
+                    <CircleDot className="h-6 w-6 text-purple-600 mr-3" />
+                    Uncoated Ball Head Design
+                  </h4>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Ball head configuration with tungsten steel construction and two cutting edges. Designed for complex contour machining in steel and nonferrous metal materials like copper and aluminum.
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Ball radius range: R0.25 to R2</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Extended flute length up to 35mm</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Ideal for complex contour machining</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-xl font-semibold mb-4 text-gray-900 flex items-center">
+                    <Target className="h-6 w-6 text-orange-600 mr-3" />
+                    Nano-Coated Ball Head
+                  </h4>
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    Advanced nano-coated ball head design suitable for milling HRC60° steel, cast iron, and stainless steel. Provides superior surface finish and dimensional accuracy in deep cavities.
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-orange-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Superior performance in hard materials</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-orange-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Excellent surface finish capability</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-orange-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Deep cavity profiling expertise</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Application Scenarios */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900">Application Scenarios</h3>
+              <div className="grid md:grid-cols-4 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Mold & Die Manufacturing</h4>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    Creating deep cavities, cooling channels, or ejector pin slots in molds with precise dimensional control and superior surface finish.
+                  </p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Aerospace Industry</h4>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    Machining deep pockets and precise slots in high-strength alloys for aircraft components requiring tight tolerances.
+                  </p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Automotive Industry</h4>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    Producing deep grooves for seals, fluid lines, or component assembly in engine blocks and transmission cases.
+                  </p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Medical Device Manufacturing</h4>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    Crafting intricate, deep features in surgical instruments or implantable devices with biocompatible materials.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Applied Machining Operations */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900">Applied Machining Operations</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Deep Slotting</h4>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Creating long, deep channels or grooves in a single pass or with minimal step-downs</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Optimized chip evacuation prevents re-cutting and tool damage</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Deep Pocketing</h4>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Machining deep cavities with defined perimeters and precise dimensional control</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Enhanced stability minimizes deflection over extended reaches</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Deep Profiling</h4>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Following complex contours at significant depths with ball head configurations</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span>Superior surface finish and dimensional accuracy in deep features</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Functions */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900">Main Functions</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Primary Functions</h4>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span><strong>Efficient Deep Chip Evacuation:</strong> Designed to effectively remove chips from deep cutting zones</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span><strong>Enhanced Stability and Rigidity:</strong> Minimizes deflection and vibration during long-reach machining</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span><strong>Extended Reach Capability:</strong> Single-pass deep slotting or high-Z-depth pocketing</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <h4 className="text-lg font-semibold mb-4 text-gray-900">Performance Benefits</h4>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span><strong>Improved Surface Finish:</strong> Stable cutting and efficient chip flow produce smoother surfaces</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span><strong>Reduced Tool Wear:</strong> Advanced geometries and coatings extend operational periods</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                      <span><strong>Precision Machining:</strong> Tight tolerances maintained over deep lengths</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          {/* FAQ Section */}
+          <div className="mb-16">
+            <FAQSectionEn pageUrl="/standard-tools/milling/deep-ditch" />
           </div>
 
           {/* Related Categories */}
@@ -575,47 +735,51 @@ export default function DeepDitchMillingCutterPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "Right Angle Flat End Mills",
-                  image: "/images/product-1.jpg",
-                  description: "High-performance flat end mills for precision milling operations.",
-                  url: "/standard-tools/milling/right-angle-flat",
-                },
-                {
-                  title: "End Mills",
-                  image: "/images/product-2.jpg",
-                  description: "General purpose end mills for a wide range of milling applications.",
-                  url: "/standard-tools/milling/end-mills",
-                },
-                {
-                  title: "Ball Nose End Mills",
-                  image: "/images/product-3.jpg",
-                  description: "Specialized tools for 3D contour machining and curved surfaces.",
-                  url: "/standard-tools/milling/ball-nose",
-                },
-                {
-                  title: "Roughing End Mills",
-                  image: "/images/product-4.jpg",
-                  description: "High material removal rate end mills for efficient roughing operations.",
-                  url: "/standard-tools/milling/roughing",
-                },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {(() => {
+                // Define all categories in the same milling directory
+                const allMillingCategories = [
+                  {
+                    title: "Ball End Mills",
+                    image: "/images/2F50C.png",
+                    description: "Ball nose end mills for 3D profiling",
+                    url: "/standard-tools/milling/ball-end",
+                  },
+                  {
+                    title: "End Mills",
+                    image: "/images/4F55C.png",
+                    description: "Standard end milling cutters",
+                    url: "/standard-tools/milling/end-mills",
+                  },
+                  {
+                    title: "Roughing End Mills",
+                    image: "/images/4FS.png",
+                    description: "High material removal rate cutters",
+                    url: "/standard-tools/milling/roughing",
+                  },
+                  {
+                    title: "Corner Radius End Mills",
+                    image: "/images/AL-CP4F55C.png",
+                    description: "Corner radius milling cutters",
+                    url: "/standard-tools/milling/corner-radius",
+                  },
+                ];
+                
+                return allMillingCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gray-900 text-white py-16">
+        <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 text-white py-16 animate-gradient-xy">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Need Expert Guidance?</h2>
+              <h2 className="text-3xl font-bold mb-4">Need Professional Deep Ditch Milling Solutions?</h2>
               <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select the optimal deep ditch milling cutter configuration for your
-                specific deep machining requirements, material, and application depth.
+                Our technical team can help you select optimal deep ditch end mills for specific deep machining applications, materials, and precision requirements. From micro-diameter deep slotting to heavy-duty deep pocketing, we provide comprehensive deep machining solutions.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">
@@ -626,7 +790,7 @@ export default function DeepDitchMillingCutterPage() {
                   variant="outline"
                   className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
                 >
-                  Request Custom Solution
+                  Request Custom Solutions
                 </Button>
               </div>
             </div>
@@ -636,4 +800,4 @@ export default function DeepDitchMillingCutterPage() {
       <Footer />
     </>
   )
-}
+} 

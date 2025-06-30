@@ -605,25 +605,20 @@ export default function Header() {
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Boring Machining
+                                      Boring Machining System
                                     </Link>
                                   </li>
+                                </ul>
+                                
+                                <h4 className="font-semibold text-gray-700 border-b pb-2 mb-3 mt-6">Drill Bit & Reamer</h4>
+                                <ul className="space-y-2">
                                   <li>
                                     <Link
-                                      href="/standard-tools/hole-machining/fine-boring"
+                                      href="/standard-tools/hole-machining/drill-bit-reamer"
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Fine Boring
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      href="/standard-tools/hole-machining/rough-boring"
-                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Rough Boring
+                                      Drill Bit & Reamer
                                     </Link>
                                   </li>
                                 </ul>

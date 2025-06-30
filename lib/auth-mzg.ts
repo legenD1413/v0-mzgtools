@@ -211,4 +211,31 @@ export async function logout(): Promise<void> {
   } catch (error) {
     console.error("退出登录错误:", error)
   }
+}
+
+// 验证API请求的管理员令牌
+export async function verifyAdminToken(request: Request): Promise<AdminUser | null> {
+  try {
+    // 从请求中获取cookie
+    const cookieHeader = request.headers.get('cookie')
+    if (!cookieHeader) {
+      return null
+    }
+
+    // 解析cookie获取会话令牌
+    const cookies = Object.fromEntries(
+      cookieHeader.split('; ').map(cookie => cookie.split('='))
+    )
+    
+    const sessionToken = cookies[SESSION_COOKIE_NAME]
+    if (!sessionToken) {
+      return null
+    }
+
+    // 验证会话
+    return await validateSession(sessionToken)
+  } catch (error) {
+    console.error("验证管理员令牌错误:", error)
+    return null
+  }
 } 

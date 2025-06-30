@@ -1,433 +1,248 @@
+"use client"
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target } from "lucide-react"
+import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target, Drill, Wrench, Cog, CircleDot, Crosshair } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ProductCard from "@/components/product-card"
+import FAQSectionEn from "@/components/faq-section-en"
+import { useState, useEffect } from "react"
 
 export default function RightAngleFlatEndMillsPage() {
-  // Sample product data - in a real application, this would come from a database or API
+  // Gallery images for rotation - will be loaded from API
+  const [galleryImages, setGalleryImages] = useState<string[]>([
+    "/images/2F45C-JST.png",
+    "/images/4F45C-TSJ.png",
+    "/images/2F50C.png",
+    "/images/4F50C.png",
+    "/images/2F55C.png",
+    "/images/4F55C.png",
+    "/images/2F60C.png",
+    "/images/4F60C.png"
+  ]);
+
+  // State for rotating images
+  const [currentMainImage, setCurrentMainImage] = useState(0);
+
+  // Load gallery images from API
+  const loadGalleryImages = async () => {
+    try {
+      const response = await fetch("/api/admin-mzg/product-gallery?pagePath=/standard-tools/milling/right-angle-flat");
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.images.length > 0) {
+          const imageUrls = data.images.map((img: any) => img.imageUrl);
+          setGalleryImages(imageUrls);
+        }
+      }
+    } catch (error) {
+      console.error("加载图片失败:", error);
+      // 保持默认图片
+    }
+  };
+
+  // Auto-rotate effect
+  useEffect(() => {
+    // Load images from API
+    loadGalleryImages();
+    
+    const interval = setInterval(() => {
+      setCurrentMainImage((prev) => (prev + 1) % galleryImages.length);
+    }, 20000); // 每20秒轮换一次
+
+    return () => clearInterval(interval);
+  }, [galleryImages.length]);
+  // Product data based on provided content
   const products = [
     {
-      id: "raf-007",
+      id: "2F45C",
       name: "2F Edge HRC45° Tungsten Steel Coated End Milling Cutter",
+      series: "2F45C Series",
       image: "/images/2F45C-JST.png",
-      description: "",
-      flutes: 2,
-      material: "Carbide",
-      coating: "Coated",
-      series: "2F45C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC45",
-      page: "F03",
+      description: "2-edge coated tungsten steel end mill for general steel machining",
+      specifications: "2-edge, HRC45°, Coated tungsten steel",
       application: "Milling the steel hardness under HRC45°",
-      url: "/standard-tools/milling/right-angle-flat/2F45C",
+      pageNumber: "F03",
     },
     {
-      id: "raf-008",
+      id: "4F45C",
       name: "4F Edge HRC45° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/4F45C-TSJ.png",
-      description: "",
-      flutes: 4,
-      material: "Carbide",
-      coating: "Coated",
       series: "4F45C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC45",
-      page: "F03",
+      image: "/images/4F45C-TSJ.png",
+      description: "4-edge coated tungsten steel end mill for general steel machining",
+      specifications: "4-edge, HRC45°, Coated tungsten steel",
       application: "Milling the steel hardness under HRC45°",
-      url: "/standard-tools/milling/right-angle-flat/4F45C",
+      pageNumber: "F03",
     },
     {
-      id: "raf-009",
+      id: "2F50C",
       name: "2F Edge HRC50° Tungsten Steel Coated End Milling Cutter",
+      series: "2F50Cs",
       image: "/images/2F50C.png",
-      description: "",
-      flutes: 2,
-      material: "Carbide",
-      coating: "Coated",
-      series: "2F50C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC50",
-      page: "F03",
+      description: "2-edge coated tungsten steel end mill for medium hardness steel",
+      specifications: "2-edge, HRC50°, Coated tungsten steel",
       application: "Milling the steel hardness under HRC50°",
-      url: "/standard-tools/milling/right-angle-flat/2F50C",
+      pageNumber: "F04",
     },
     {
-      id: "raf-010",
+      id: "4F50C",
       name: "4F Edge HRC50° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/4F50C.png",
-      description: "",
-      flutes: 4,
-      material: "Carbide",
-      coating: "Coated",
       series: "4F50C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC50",
-      page: "F03",
+      image: "/images/4F50C.png",
+      description: "4-edge coated tungsten steel end mill for medium hardness steel",
+      specifications: "4-edge, HRC50°, Coated tungsten steel",
       application: "Milling the steel hardness under HRC50°",
-      url: "/standard-tools/milling/right-angle-flat/4F50C",
+      pageNumber: "F04",
     },
     {
-      id: "raf-011",
+      id: "2F55C",
       name: "2F Edge HRC55° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/2F55C.png",
-      description: "",
-      flutes: 2,
-      material: "Carbide",
-      coating: "Coated",
       series: "2F55C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC55",
-      page: "F03",
+      image: "/images/2F55C.png",
+      description: "2-edge coated tungsten steel end mill for harder steel machining",
+      specifications: "2-edge, HRC55°, Coated tungsten steel",
       application: "Milling the steel hardness under HRC55°",
-      url: "/standard-tools/milling/right-angle-flat/2F55C",
+      pageNumber: "F05",
     },
     {
-      id: "raf-012",
+      id: "4F55C",
       name: "4F Edge HRC55° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/4F55C.png",
-      description: "",
-      flutes: 4,
-      material: "Carbide",
-      coating: "Coated",
       series: "4F55C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC55",
-      page: "F03",
+      image: "/images/4F55C.png",
+      description: "4-edge coated tungsten steel end mill for harder steel machining",
+      specifications: "4-edge, HRC55°, Coated tungsten steel",
       application: "Milling the steel hardness under HRC55°",
-      url: "/standard-tools/milling/right-angle-flat/4F55C",
+      pageNumber: "F05",
     },
     {
-      id: "raf-013",
-      name: "2F Edge HRC60° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/2F60C.png",
-      description: "",
-      flutes: 2,
-      material: "Carbide",
-      coating: "Coated",
+      id: "2F60C",
+      name: "2F Edge HRC60° Tungsten Steel Nano Coated End Milling Cutter",
       series: "2F60C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC60",
-      page: "F03",
-      application: "Milling Stainless Steel And Steel Hardness Under HRC60°",
-      url: "/standard-tools/milling/right-angle-flat/2F60C",
+      image: "/images/2F60C.png",
+      description: "2-edge nano coated tungsten steel end mill for high hardness steel and stainless steel",
+      specifications: "2-edge, HRC60°, Nano coated tungsten steel",
+      application: "Milling HRC60° steel, cast iron and stainless steel",
+      pageNumber: "F06",
     },
     {
-      id: "raf-014",
-      name: "4F Edge HRC60° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/4F60C.png",
-      description: "",
-      flutes: 4,
-      material: "Carbide",
-      coating: "Coated",
+      id: "4F60C",
+      name: "4F Edge HRC60° Tungsten Steel Nano Coated End Milling Cutter",
       series: "4F60C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC60",
-      page: "F03",
-      application: "Milling Stainless Steel And Steel Hardness Under HRC60°",
-      url: "/standard-tools/milling/right-angle-flat/4F60C",
+      image: "/images/4F60C.png",
+      description: "4-edge nano coated tungsten steel end mill for high hardness steel and stainless steel",
+      specifications: "4-edge, HRC60°, Nano coated tungsten steel",
+      application: "Milling HRC60° steel, cast iron and stainless steel",
+      pageNumber: "F06",
     },
     {
-      id: "raf-015",
-      name: "2F Edge HRC65° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/2F65C.png",
-      description: "",
-      flutes: 2,
-      material: "Carbide",
-      coating: "Coated",
+      id: "2F65C",
+      name: "2F Edge HRC65° Tungsten Steel Nano Coated End Milling Cutter",
       series: "2F65C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC65",
-      page: "F03",
-      application: "Milling Stainless Steel And Steel Hardness Under HRC65°",
-      url: "/standard-tools/milling/right-angle-flat/2F65C",
+      image: "/images/2F65C.png",
+      description: "2-edge nano coated tungsten steel end mill for extremely hard steel and stainless steel",
+      specifications: "2-edge, HRC65°, Nano coated tungsten steel",
+      application: "Milling HRC65° steel, quenched steel, mold prehardened steel and stainless steel",
+      pageNumber: "F07",
     },
     {
-      id: "raf-016",
-      name: "4F Edge HRC65° Tungsten Steel Coated End Milling Cutter",
-      image: "/images/4F65C.png",
-      description: "",
-      flutes: 4,
-      material: "Carbide",
-      coating: "Coated",
+      id: "4F65C",
+      name: "4F Edge HRC65° Tungsten Steel Nano Coated End Milling Cutter",
       series: "4F65C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC65",
-      page: "F03",
-      application: "Milling Stainless Steel And Steel Hardness Under HRC65°",
-      url: "/standard-tools/milling/right-angle-flat/4F65C",
+      image: "/images/4F65C.png",
+      description: "4-edge nano coated tungsten steel end mill for extremely hard steel and stainless steel",
+      specifications: "4-edge, HRC65°, Nano coated tungsten steel",
+      application: "Milling HRC65° steel, quenched steel, mold prehardened steel and stainless steel",
+      pageNumber: "F07",
     },
     {
-      id: "raf-017",
-      name: "4F Edge HRC50° Tungsten Steel Coated End Milling Cutter-Nothing Coating",
-      image: "/images/AL-4F50C.png",
-      description: "",
-      flutes: 4,
-      material: "Carbide",
-      coating: "Uncoated",
-      series: "AL-4F50C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC50",
-      page: "F03",
-      application: "Milling the steel hardness under HRC50° and copper and aluminum",
-      url: "/standard-tools/milling/right-angle-flat/AL-4F50C",
-    },
-    {
-      id: "raf-018",
-      name: "4F Edge HRC55° Tungsten Steel Coated End Milling Cutter-Nothing Coating",
-      image: "/images/AL-4F55C.png",
-      description: "",
-      flutes: 4,
-      material: "Carbide",
-      coating: "Uncoated",
-      series: "AL-4F55C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC55",
-      page: "F03",
-      application: "Milling the steel hardness under HRC55° and copper and aluminum",
-      url: "/standard-tools/milling/right-angle-flat/AL-4F55C",
-    },
-    {
-      id: "raf-019",
-      name: "2F Edge HRC50° Tungsten Steel Coated End Milling Cutter-Nothing Coating",
-      image: "/images/AL-2F50C.png",
-      description: "",
-      flutes: 2,
-      material: "Carbide",
-      coating: "Uncoated",
+      id: "AL-2F50C",
+      name: "2F Edge Tungsten Steel Uncoated End Milling Cutter",
       series: "AL-2F50C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC50",
-      page: "F03",
-      application: "Milling the steel hardness under HRC60° and copper and aluminum",
-      url: "/standard-tools/milling/right-angle-flat/AL-2F50C",
+      image: "/images/AL-2F50C.png",
+      description: "2-edge uncoated tungsten steel end mill for non-ferrous metals",
+      specifications: "2-edge, Uncoated tungsten steel",
+      application: "Milling copper, aluminum and general steel under HRC50°",
+      pageNumber: "F08",
     },
     {
-      id: "raf-020",
-      name: "3F Edge HRC50° Tungsten Steel Coated End Milling Cutter-Nothing Coating",
-      image: "/images/AL-3F50C.png",
-      description: "",
-      flutes: 3,
-      material: "Carbide",
-      coating: "Uncoated",
+      id: "AL-3F50C",
+      name: "3F Edge Tungsten Steel Uncoated End Milling Cutter",
       series: "AL-3F50C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC50",
-      page: "F03",
-      application: "Milling the steel hardness under HRC50° and copper and aluminum",
-      url: "/standard-tools/milling/right-angle-flat/AL-3F50C",
-    },
-    {
-      id: "raf-021",
-      name: "3F Edge HRC55° High gloss end mill for tungsten steel and aluminum",
-      image: "/images/AL-3F55C.png",
-      description: "",
-      flutes: 3,
-      material: "Carbide",
-      coating: "Uncoated",
-      series: "AL-3F55C",
-      // Dimensions as separate fields
-      d: "1-20mm",
-      H: "3-75mm",
-      L: "50-200mm",
-      D: "3-20mm",
-      // Additional specifications
-      hardness: "HRC55",
-      page: "F03",
-      application: "Milling the steel hardness under HRC55° and copper and aluminum",
-      url: "/standard-tools/milling/right-angle-flat/AL-3F55C",
+      image: "/images/AL-3F50C.png",
+      description: "3-edge uncoated tungsten steel end mill for non-ferrous metals",
+      specifications: "3-edge, Uncoated tungsten steel",
+      application: "Milling copper, aluminum and non-ferrous metals",
+      pageNumber: "F09",
     },
   ]
 
-  // Performance features for the feature section
+  // Performance features
   const performanceFeatures = [
     {
-      icon: <Shield className="h-8 w-8 text-red-600" />,
-      title: "Superior Hardness",
-      description:
-        "HRC45-65 hardness range with tungsten carbide construction for exceptional wear resistance and extended tool life.",
+      icon: "Shield",
+      title: "Superior Material Performance",
+      description: "Tungsten steel construction with HRC45-65 hardness range featuring 90-degree corners for precise flat surfaces, groove machining, and stepped surface creation across diverse workpiece materials.",
     },
     {
-      icon: <Zap className="h-8 w-8 text-red-600" />,
-      title: "Advanced Coatings",
-      description:
-        "TiAlN, AlTiN, and nano-composite coatings reduce friction, prevent material adhesion, and enable higher cutting speeds.",
+      icon: "Zap", 
+      title: "Advanced Coating Technology",
+      description: "Nano-coated versions for HRC60° and HRC65° materials provide superior wear resistance, while uncoated variants excel in copper, aluminum, and non-ferrous applications.",
     },
     {
-      icon: <Target className="h-8 w-8 text-red-600" />,
-      title: "Precision Engineering",
-      description:
-        "Sharp cutting edges with optimized helix angles for efficient chip evacuation and prevention of built-up edge formation.",
+      icon: "Target",
+      title: "Versatile Flute Configurations",
+      description: "Available in 2-flute, 3-flute, and 4-flute designs optimized for different materials, from softer non-ferrous metals to extremely hard steel and stainless steel.",
     },
   ]
 
-  // Industries served
-  const industries = [
-    "Automotive Industry",
-    "Aerospace Industry",
-    "Mold and Die Making",
-    "Robotics and Automation",
-    "New Energy Sector",
-    "Electronics Manufacturing",
-    "Medical Device Manufacturing",
-    "General Engineering",
-  ]
+  // Helper function to render icons
+  const renderIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Shield":
+        return <Shield className="h-8 w-8 text-red-600" />
+      case "Zap":
+        return <Zap className="h-8 w-8 text-red-600" />
+      case "Target":
+        return <Target className="h-8 w-8 text-red-600" />
+      default:
+        return <Tool className="h-8 w-8 text-red-600" />
+    }
+  }
 
-  // Machining operations
-  const machiningOperations = [
-    "End Milling (Face Milling)",
-    "Side Milling (Peripheral Milling)",
-    "Slotting and Grooving",
-    "Profiling/Contouring",
-    "Shoulder Milling",
-    "Plunging Operations",
-    "Ramping/Helical Interpolation",
-    "Finish Machining",
-  ]
-
-  // Materials that can be machined
-  const machinableMaterials = [
-    "Copper and Copper Alloys",
-    "Cast Iron (Grey, Ductile)",
-    "Carbon Steels (Low, Medium, High Carbon)",
-    "Alloy Steels",
-    "Tool Steels",
-    "Mould Steels (Pre-hardened and Hardened)",
-    "Stainless Steels (All Types)",
-    "Hardened Steels (up to HRC65)",
-  ]
-
-  // Flute configurations
-  const fluteConfigurations = [
+  // Technical specifications
+  const technicalSpecs = [
     {
-      title: "2-Flute Designs",
-      description:
-        "Large flute valleys for excellent chip evacuation. Ideal for slotting operations and non-ferrous materials like aluminum and copper.",
-      color: "border-red-600",
+      title: "Coated Tungsten Steel End Mills",
+      description: "Available in HRC45, HRC50, HRC55, HRC60, and HRC65 ratings with nano-coating technology. Designed for steel, cast iron, and stainless steel applications with superior wear resistance and thermal stability. 2-flute and 4-flute configurations optimize chip evacuation and cutting performance.",
     },
     {
-      title: "3-Flute End Mills",
-      description:
-        "Good compromise between chip evacuation and strength. General-purpose tools for various materials including steels and cast iron.",
-      color: "border-blue-600",
+      title: "Uncoated Tungsten Steel End Mills",
+      description: "Specifically designed for copper, aluminum, and non-ferrous metal applications. Available in 2-flute and 3-flute configurations with polished flutes to prevent built-up edge (BUE) formation and achieve excellent surface finishes in sticky materials.",
     },
     {
-      title: "4-Flute Designs",
-      description:
-        "Increased strength and rigidity with higher feed rates. Excellent for profile milling and finishing operations in ferrous materials.",
-      color: "border-green-600",
+      title: "Performance Parameters",
+      description: "90-degree corner geometry for precise flat surfaces and sharp corners. Optimized helix angles promote efficient chip evacuation. Enhanced core strength provides stability during deep cutting operations. Advanced geometries ensure consistent dimensional accuracy and surface quality.",
     },
-  ]
-
-  // Specifications
-  const specifications = [
-    { label: "Type", value: "Flat End Mill (Square End)" },
-    { label: "Material", value: "Tungsten Steel/Solid Carbide" },
-    { label: "Coating Options", value: "TiAlN, AlTiN, TiCN, Nano-composite" },
-    { label: "Helix Angle", value: "30°, 35°, 40°, 45°, Variable" },
-    { label: "Hardness Range", value: "HRC45 to HRC65" },
-    { label: "Shank Type", value: "Straight Shank with Weldon Flat" },
-    { label: "Diameter Range", value: "1mm to 25mm+" },
-    { label: "Customization", value: "OEM Support Available" },
   ]
 
   return (
     <>
       <Header />
       <div className="bg-white">
-        {/* Hero Section - Enhanced with product-specific information */}
-        <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <div className="absolute inset-0 overflow-hidden opacity-30 mix-blend-overlay">
-            <Image
-              src="/images/milling-tools.jpg"
-              alt="Right Angle Flat End Mills Background"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div className="relative container mx-auto px-4 py-20 md:py-28">
+        {/* Hero Section */}
+        <div className="relative bg-white text-gray-900">
+          <div className="relative container mx-auto px-4 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
-                <div className="inline-block bg-red-600 px-4 py-1 rounded-full text-sm font-medium mb-4">
-                  Tungsten Steel End Milling Cutters
+                <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+                  Right Angle Flat End Mill Expert Guide
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Right Angle Flat End Mills</h1>
-                <p className="text-lg md:text-xl mb-8 text-gray-100 leading-relaxed">
-                  High-performance tungsten steel flat end mills with advanced coatings, engineered for precision
-                  milling operations across diverse industries. Featuring exceptional hardness (HRC45-65), superior wear
-                  resistance, and optimized geometries for creating perfect 90° corners and flat bottom profiles.
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                  MZG Right Angle Flat End Mill System
+                </h1>
+                <p className="text-sm mb-8 text-gray-600 leading-relaxed">
+                  The MZG Right Angle Flat End Mill is characterized by its distinct cutting geometry: a flat end with sharp, 90-degree corners where the end cutting edges meet the peripheral cutting edges. This specialized tool is optimized for plane milling, groove machining, and stepped surface creation. Available in coated variants for HRC45-65° materials and uncoated versions for copper, aluminum, and non-ferrous metals, featuring 2-flute, 3-flute, and 4-flute configurations.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button
@@ -439,26 +254,26 @@ export default function RightAngleFlatEndMillsPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
+                    className="bg-transparent text-gray-900 hover:bg-gray-100 border-gray-300 hover:text-gray-900 transition-all duration-300"
                   >
                     Download Catalog <Download className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>
               <div className="flex justify-center lg:justify-end">
-                <div className="w-[500px] h-[300px] bg-white/10 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/milling-JvsTK9mKVpWhb6WORtlP22ZwwqQAca.png"
-                    alt="Collection of Right Angle Flat End Mills and Milling Tools"
-                    width={500}
-                    height={300}
-                    className="object-contain rounded-lg"
+                    src={galleryImages[currentMainImage]}
+                    alt="MZG Professional Right Angle Flat End Mill System"
+                    width={563}
+                    height={400}
+                    className="object-contain"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         </div>
 
         {/* Performance Features */}
@@ -469,7 +284,7 @@ export default function RightAngleFlatEndMillsPage() {
                 key={index}
                 className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
               >
-                <div className="mb-4 bg-white inline-flex p-3 rounded-lg shadow-sm">{feature.icon}</div>
+                <div className="mb-4 bg-white inline-flex p-3 rounded-lg shadow-sm">{renderIcon(feature.icon)}</div>
                 <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </div>
@@ -483,30 +298,25 @@ export default function RightAngleFlatEndMillsPage() {
           <div className="mb-16">
             <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Product Performance</h2>
+              <h2 className="text-3xl font-bold">System Performance Analysis</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
-                <div className="prose prose-sm max-w-none">
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Right Angle Flat End Mills, predominantly manufactured from high-quality tungsten steel or solid
-                    carbide, are celebrated for their outstanding performance across a multitude of milling
-                    applications. The core material, tungsten carbide, forms a robust and highly wear-resistant
-                    foundation that contributes significantly to the tool's extended operational life and capability to
-                    retain a sharp, effective cutting edge even under demanding machining conditions and high
-                    temperatures.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Advanced coatings such as TiAlN (Titanium Aluminum Nitride), AlTiN (Aluminum Titanium Nitride), or
-                    specialized nano-coatings substantially increase surface hardness, reduce friction coefficient,
-                    enhance wear resistance, and enable higher cutting speeds and feed rates for increased productivity
-                    and reduced cycle times.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    The design incorporates exceptionally sharp cutting edges with optimized helix angles to promote
-                    efficient chip evacuation and prevent built-up edge (BUE) formation, ensuring consistent cutting
-                    efficiency and high-quality surface finishes.
-                  </p>
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="prose prose-xs max-w-none">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      The performance of MZG's <strong>Right Angle Flat End Mills</strong> is systematically optimized to deliver superior results in general and high-precision milling operations, focusing on productivity, surface finish, and tool longevity. These end mills are primarily designed for <strong>plane milling</strong>, efficiently creating flat surfaces with high accuracy.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      MZG offers a highly specialized range tailored to workpiece material hardness, indicated by HRC values. Our <strong>Nano-coated Tungsten Steel End Mills</strong> for HRC60° and HRC65° provide superior wear resistance and thermal stability when machining hardened steels, mold prehardened steel, quenched steel, alloy steel, tool steel, and stainless steel.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      For softer, non-ferrous materials such as copper, aluminum, and their alloys, MZG offers dedicated <strong>uncoated Tungsten Steel End Mills</strong>. These tools are designed with specific geometries that prevent built-up edge (BUE) and promote smooth chip flow, crucial for achieving excellent surface finishes.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Available in 2-flute (for increased chip space and softer materials), 3-flute (for non-ferrous metals), and 4-flute (for higher rigidity and better surface finish in harder materials) configurations, providing optimal performance for specific applications.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div>
@@ -525,25 +335,25 @@ export default function RightAngleFlatEndMillsPage() {
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Material:</strong> Tungsten Steel/Solid Carbide
+                        <strong>Materials:</strong> Tungsten Steel Construction
                       </span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Coatings:</strong> TiAlN, AlTiN, Nano-composite
+                        <strong>Coatings:</strong> Nano-coated, Uncoated
                       </span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Helix Angle:</strong> 30°-45° (optimized)
+                        <strong>Configurations:</strong> 2, 3, 4-flute designs
                       </span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
                       <span>
-                        <strong>Flute Options:</strong> 2, 3, 4flutes
+                        <strong>Geometry:</strong> 90-degree corners, flat end
                       </span>
                     </li>
                   </ul>
@@ -573,53 +383,22 @@ export default function RightAngleFlatEndMillsPage() {
                     />
                   </div>
                   <div className="p-5 border-t">
-                    <h3 className="text-base font-bold mb-2 line-clamp-2">{product.name}</h3>
-                    {product.application && (
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.application}</p>
-                    )}
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4">
-                      {product.d && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">d:</span> {product.d}
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.pageNumber}</span>
+                    </div>
+                    <div className="space-y-2 text-xs">
+                      {product.series && (
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-700">Series:</span>
+                          <span className="text-gray-900 text-right">{product.series}</span>
                         </div>
                       )}
-                      {product.D && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">D:</span> {product.D}
+                      {product.application && (
+                        <div className="pt-2 border-t border-gray-100">
+                          <p className="text-xs text-gray-600">{product.application}</p>
                         </div>
                       )}
-                      {product.H && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">H:</span> {product.H}
-                        </div>
-                      )}
-                      {product.L && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">L:</span> {product.L}
-                        </div>
-                      )}
-                      {product.diameter && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">Diameter:</span> {product.diameter}
-                        </div>
-                      )}
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Flutes:</span> {product.flutes}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Material:</span> {product.material}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Coating:</span> {product.coating}
-                      </div>
-                      {product.hardness && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">Hardness:</span> {product.hardness}
-                        </div>
-                      )}
-                      <div className="col-span-2 flex items-center">
-                        <span className="font-medium mr-1">Series:</span> {product.series}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -627,156 +406,231 @@ export default function RightAngleFlatEndMillsPage() {
             </div>
           </div>
 
-          {/* Technical Parameters - Redesigned for horizontal alignment */}
-          <div className="mb-16">
+          {/* Product Showcase - Compact Grid Layout */}
+          <div className="mb-12">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Technical Parameters</h2>
+              <h2 className="text-3xl font-bold">Product Gallery</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Flute Configurations */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Flute Configurations</h3>
-                <div className="p-4 space-y-4">
-                  {fluteConfigurations.map((config, index) => (
-                    <div key={index} className={`border-l-4 ${config.color} pl-4 py-2`}>
-                      <h4 className="font-bold text-base mb-1">{config.title}</h4>
-                      <p className="text-gray-600 text-sm">{config.description}</p>
-                    </div>
-                  ))}
-                </div>
+            <div className="grid grid-cols-6 grid-rows-4 gap-3 h-[300px]">
+              {/* Large center-left image - 主要轮播图 */}
+              <div className="col-span-2 row-span-4 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center overflow-hidden group">
+                <Image
+                  src={galleryImages[currentMainImage]}
+                  alt="Product"
+                  width={480}
+                  height={480}
+                  quality={100}
+                  priority
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
               </div>
-
-              {/* Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Specifications</h3>
-                <div className="divide-y divide-gray-100">
-                  {specifications.map((spec, index) => (
-                    <div key={index} className="flex justify-between items-center p-4">
-                      <span className="font-medium text-sm text-gray-700">{spec.label}:</span>
-                      <span className="text-sm text-right text-gray-900">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
+              
+              {/* Middle section - 2 containers spanning full height */}
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 1) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 1) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 2) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 2) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 3) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 3) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 4) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 4) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              {/* Right section - 4 containers with same height as middle section */}
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 5) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 5) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 6) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 6) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 7) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 7) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
+              </div>
+              
+              <div 
+                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                onClick={() => setCurrentMainImage((currentMainImage + 8) % galleryImages.length)}
+              >
+                <Image
+                  src={galleryImages[(currentMainImage + 8) % galleryImages.length]}
+                  alt="Product"
+                  width={280}
+                  height={280}
+                  quality={100}
+                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                />
               </div>
             </div>
           </div>
 
-          {/* Combined Application Scenarios and Material Compatibility in one row */}
+          {/* Technical Specifications */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Applications & Materials</h2>
+              <h2 className="text-3xl font-bold">Technical Specifications</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Industries Served */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Settings className="h-5 w-5 text-red-600 mr-2" />
-                  Industries Served
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {industries.map((industry, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{industry}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Machining Operations */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Tool className="h-5 w-5 text-red-600 mr-2" />
-                  Machining Operations
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machiningOperations.map((operation, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{operation}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Material Compatibility */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Info className="h-5 w-5 text-red-600 mr-2" />
-                  Material Compatibility
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machinableMaterials.map((material, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{material}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {technicalSpecs.map((spec, index) => {
+                const getIcon = (title: string) => {
+                  switch (title) {
+                    case "Coated Tungsten Steel End Mills":
+                      return <Layers className="h-6 w-6 text-blue-600 mr-3" />
+                    case "Uncoated Tungsten Steel End Mills":
+                      return <Drill className="h-6 w-6 text-green-600 mr-3" />
+                    case "Performance Parameters":
+                      return <Settings className="h-6 w-6 text-purple-600 mr-3" />
+                    default:
+                      return <Tool className="h-6 w-6 text-gray-600 mr-3" />
+                  }
+                }
+                
+                return (
+                  <div
+                    key={index}
+                    className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                      {getIcon(spec.title)}
+                      {spec.title}
+                    </h3>
+                    <p className="text-gray-700 leading-relaxed text-sm">{spec.description}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
 
           {/* Main Functions */}
-          <div className="mb-16">
-            <div className="flex items-center mb-8">
+          <div className="mb-12">
+            <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Main Functions</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Precision Material Removal",
-                  description:
-                    "Efficiently and accurately remove material according to programmed instructions, shaping workpieces to desired geometry with high fidelity.",
-                  icon: <Target className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Flat Surface Generation",
-                  description:
-                    "Create accurately flat surfaces perpendicular to the machine tool's spindle axis, fundamental for creating datums and functional surfaces.",
-                  icon: <Layers className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Right Angle Feature Creation",
-                  description:
-                    "Produce sharp, well-defined 90-degree corners, shoulders, steps, and orthogonal faces in milled components with precision.",
-                  icon: <Tool className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Versatility in Operations",
-                  description:
-                    "Perform comprehensive milling tasks including slotting, peripheral milling, face milling, and complex contouring operations.",
-                  icon: <Settings className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Precision & Tolerance Control",
-                  description:
-                    "Enable consistent production with high dimensional accuracy, tight geometric tolerances, and excellent surface quality.",
-                  icon: <Shield className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Enhanced Productivity",
-                  description:
-                    "Contribute to machining efficiency through optimal cutting parameters, durability, and long tool life for reduced downtime.",
-                  icon: <Zap className="h-6 w-6 text-red-600" />,
-                },
-              ].map((func, index) => (
-                <div
-                  key={index}
-                  className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
-                >
-                  <div className="flex items-start mb-4">
-                    <div className="bg-red-50 p-2 rounded-lg mr-4">{func.icon}</div>
-                    <h3 className="text-lg font-bold">{func.title}</h3>
-                  </div>
-                  <p className="text-gray-600">{func.description}</p>
-                </div>
-              ))}
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Target className="h-5 w-5 text-red-600 mr-2" />
+                  Primary Functions
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Plane Milling:</strong> Creating flat surfaces with high accuracy and precision</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Groove Machining:</strong> Cutting slots, keyways, and grooves with sharp 90-degree corners</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Stepped Surface Creation:</strong> Machining multi-level features and shoulders</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Zap className="h-5 w-5 text-blue-600 mr-2" />
+                  Performance Benefits
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Material Versatility:</strong> Optimized for HRC45-65 steel and non-ferrous materials</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Superior Tool Life:</strong> Advanced coating and geometry design</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Precision Machining:</strong> Sharp 90-degree corners and flat surfaces</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
+
+          {/* FAQ Section */}
+          <FAQSectionEn pageUrl="/standard-tools/milling/right-angle-flat" className="mb-16" />
 
           {/* Related Categories */}
           <div>
@@ -784,47 +638,51 @@ export default function RightAngleFlatEndMillsPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "End Mills",
-                  image: "/images/product-1.jpg",
-                  description: "General purpose end mills for a wide range of milling applications.",
-                  url: "/standard-tools/milling/end-mills",
-                },
-                {
-                  title: "Corner Radius End Mills",
-                  image: "/images/product-2.jpg",
-                  description: "End mills with rounded corners for improved tool life and surface finish.",
-                  url: "/standard-tools/milling/corner-radius",
-                },
-                {
-                  title: "Roughing End Mills",
-                  image: "/images/product-4.jpg",
-                  description: "High material removal rate end mills for efficient roughing operations.",
-                  url: "/standard-tools/milling/roughing",
-                },
-                {
-                  title: "Ball Nose End Mills",
-                  image: "/images/product-3.jpg",
-                  description: "Specialized tools for 3D contour machining and curved surfaces.",
-                  url: "/standard-tools/milling/ball-nose",
-                },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {(() => {
+                // Define all categories in the same milling directory
+                const allMillingCategories = [
+                  {
+                    title: "Deep Ditch End Mills",
+                    image: "/images/SG2F60C.png",
+                    description: "Deep groove and cavity milling",
+                    url: "/standard-tools/milling/deep-ditch",
+                  },
+                  {
+                    title: "Ball End Mills",
+                    image: "/images/2F50CR.png",
+                    description: "Ball nose end mills for 3D profiling",
+                    url: "/standard-tools/milling/ball-end",
+                  },
+                  {
+                    title: "Corner Radius End Mills",
+                    image: "/images/2F50CRB.png",
+                    description: "Corner radius milling cutters",
+                    url: "/standard-tools/milling/corner-radius",
+                  },
+                  {
+                    title: "Roughing End Mills",
+                    image: "/images/4FS.png",
+                    description: "High material removal rate cutters",
+                    url: "/standard-tools/milling/roughing",
+                  },
+                ];
+                
+                return allMillingCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gray-900 text-white py-16">
+        <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 text-white py-16 animate-gradient-xy">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Need Expert Guidance?</h2>
+              <h2 className="text-3xl font-bold mb-4">Need Professional Right Angle Flat End Mill Solutions?</h2>
               <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select the optimal right angle flat end mill configuration for your
-                specific machining requirements, material, and application.
+                Our technical team can help you select optimal right angle flat end mills for specific plane milling, groove machining, and stepped surface applications. From HRC45 general steel to HRC65 hardened materials, we provide comprehensive flat end milling solutions.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">
@@ -835,7 +693,7 @@ export default function RightAngleFlatEndMillsPage() {
                   variant="outline"
                   className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
                 >
-                  Request Custom Solution
+                  Request Custom Solutions
                 </Button>
               </div>
             </div>
