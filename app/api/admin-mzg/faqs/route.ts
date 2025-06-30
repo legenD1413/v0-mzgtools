@@ -13,37 +13,41 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10')
     const offset = (page - 1) * limit
 
-    // 构建基础查询
-    let baseQuery = `SELECT * FROM faqs WHERE is_active = true`
-    let countQuery = `SELECT COUNT(*) as count FROM faqs WHERE is_active = true`
+    // 构建查询条件 - 使用模板字符串拼接
+    let whereConditions = ['is_active = true']
 
     // 添加搜索条件
     if (search) {
-      const searchCondition = ` AND (question ILIKE '%${search}%' OR answer ILIKE '%${search}%')`
-      baseQuery += searchCondition
-      countQuery += searchCondition
+      const escapedSearch = search.replace(/'/g, "''") // 简单的SQL注入防护
+      whereConditions.push(`(question ILIKE '%${escapedSearch}%' OR answer ILIKE '%${escapedSearch}%')`)
     }
 
     // 添加分类筛选
-    if (category) {
-      const categoryCondition = ` AND categories @> '["${category}"]'`
-      baseQuery += categoryCondition
-      countQuery += categoryCondition
+    if (category && category !== 'all') {
+      const escapedCategory = category.replace(/'/g, "''")
+      whereConditions.push(`categories @> '["${escapedCategory}"]'`)
     }
 
     // 添加页面地址筛选
-    if (pageUrl) {
-      const pageUrlCondition = ` AND page_urls @> '["${pageUrl}"]'`
-      baseQuery += pageUrlCondition
-      countQuery += pageUrlCondition
+    if (pageUrl && pageUrl !== 'all') {
+      const escapedPageUrl = pageUrl.replace(/'/g, "''")
+      whereConditions.push(`page_urls @> '["${escapedPageUrl}"]'`)
     }
 
-    // 添加排序和分页
-    baseQuery += ` ORDER BY sort_order ASC, created_at DESC LIMIT ${limit} OFFSET ${offset}`
+    const whereClause = whereConditions.join(' AND ')
 
     // 执行查询
-    const faqs = await sql.query(baseQuery)
-    const totalResult = await sql.query(countQuery)
+    const faqs = await sql`
+      SELECT * FROM faqs 
+      WHERE ${sql.unsafe(whereClause)}
+      ORDER BY sort_order ASC, created_at DESC 
+      LIMIT ${limit} OFFSET ${offset}
+    `
+
+    const totalResult = await sql`
+      SELECT COUNT(*) as count FROM faqs 
+      WHERE ${sql.unsafe(whereClause)}
+    `
     const total = parseInt(totalResult[0].count)
 
     return NextResponse.json({
@@ -99,13 +103,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 创建FAQ - 同时填充新旧字段以保持兼容性
-    const firstPageUrl = page_urls[0] || '/default-page' // 旧字段需要单个值
-    const firstCategory = categories[0] || 'General' // 旧字段需要单个值
-    
+    // 创建FAQ - 只使用新的字段结构
     const result = await sql`
-      INSERT INTO faqs (page_urls, page_url, question, answer, categories, category, sort_order, show_in_popular)
-      VALUES (${JSON.stringify(page_urls)}, ${firstPageUrl}, ${question}, ${answer}, ${JSON.stringify(categories)}, ${firstCategory}, ${sort_order}, ${show_in_popular})
+      INSERT INTO faqs (page_urls, question, answer, categories, sort_order, show_in_popular)
+      VALUES (${JSON.stringify(page_urls)}, ${question}, ${answer}, ${JSON.stringify(categories)}, ${sort_order}, ${show_in_popular})
       RETURNING id, page_urls, question, answer, categories, sort_order, is_active, show_in_popular, created_at, updated_at
     `
 

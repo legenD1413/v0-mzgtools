@@ -10,17 +10,19 @@ import FAQSectionEn from "@/components/faq-section-en"
 import { useState, useEffect } from "react"
 
 export default function BallEndMillsPage() {
-  // Gallery images for rotation - will be loaded from API
-  const [galleryImages, setGalleryImages] = useState<string[]>([
+  // Ball End Mills相关的默认图片 - 避免显示不相关产品
+  const defaultBallEndImages = [
     "/images/2F45CRB.png",
-    "/images/2F50CRB.png",
+    "/images/2F50CRB.png", 
     "/images/2F55CRB.png",
     "/images/AL-2F50CRB.png",
     "/images/2F60CRB.png",
-    "/images/2F65CRB.png",
-    "/images/2F50CR.png",
-    "/images/2F45CR.png"
-  ]);
+    "/images/2F65CRB.png"
+  ];
+
+  // Gallery images for rotation - will be loaded from API
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [isLoadingImages, setIsLoadingImages] = useState(true);
 
   // State for rotating images
   const [currentMainImage, setCurrentMainImage] = useState(0);
@@ -28,24 +30,43 @@ export default function BallEndMillsPage() {
   // Load gallery images from API
   const loadGalleryImages = async () => {
     try {
+      setIsLoadingImages(true);
       const response = await fetch("/api/admin-mzg/product-gallery?pagePath=/standard-tools/milling/ball-end");
       if (response.ok) {
         const data = await response.json();
         if (data.success && data.images.length > 0) {
           const imageUrls = data.images.map((img: any) => img.imageUrl);
           setGalleryImages(imageUrls);
+        } else {
+          // API返回成功但没有图片，使用默认Ball End图片
+          setGalleryImages(defaultBallEndImages);
         }
+      } else {
+        // API请求失败，使用默认Ball End图片
+        setGalleryImages(defaultBallEndImages);
       }
     } catch (error) {
       console.error("加载图片失败:", error);
-      // 保持默认图片
+      // 网络错误或其他异常，使用默认Ball End图片
+      setGalleryImages(defaultBallEndImages);
+    } finally {
+      setIsLoadingImages(false);
     }
   };
 
   // Auto-rotate effect
   useEffect(() => {
-    // Load images from API
+    // 首先设置默认Ball End图片，避免显示无关图片
+    setGalleryImages(defaultBallEndImages);
+    setIsLoadingImages(false);
+    
+    // 然后异步加载API图片
     loadGalleryImages();
+  }, []);
+
+  // 单独的useEffect处理图片轮播
+  useEffect(() => {
+    if (galleryImages.length === 0) return;
     
     const interval = setInterval(() => {
       setCurrentMainImage((prev) => (prev + 1) % galleryImages.length);
@@ -342,133 +363,57 @@ export default function BallEndMillsPage() {
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Product Gallery</h2>
+              {isLoadingImages && (
+                <div className="ml-4 flex items-center text-sm text-gray-500">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600 mr-2"></div>
+                  Loading latest images...
+                </div>
+              )}
             </div>
             <div className="grid grid-cols-6 grid-rows-4 gap-3 h-[300px]">
               {/* Large center-left image - 主要轮播图 */}
               <div className="col-span-2 row-span-4 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center overflow-hidden group">
-                <Image
-                  src={galleryImages[currentMainImage]}
-                  alt="Product"
-                  width={480}
-                  height={480}
-                  quality={100}
-                  priority
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
+                {galleryImages.length > 0 ? (
+                  <Image
+                    src={galleryImages[currentMainImage] || defaultBallEndImages[0]}
+                    alt="Ball End Mill Product"
+                    width={480}
+                    height={480}
+                    quality={100}
+                    priority
+                    className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="animate-pulse">Loading...</div>
+                  </div>
+                )}
               </div>
               
-              {/* Middle section - 2 containers spanning full height */}
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 1) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 1) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
-              
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 2) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 2) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
-              
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 3) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 3) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
-              
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 4) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 4) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
-              
-              {/* Right section - 4 containers with same height as middle section */}
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 5) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 5) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
-              
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 6) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 6) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 7) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 7) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
-              
-              <div 
-                className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
-                onClick={() => setCurrentMainImage((currentMainImage + 8) % galleryImages.length)}
-              >
-                <Image
-                  src={galleryImages[(currentMainImage + 8) % galleryImages.length]}
-                  alt="Product"
-                  width={280}
-                  height={280}
-                  quality={100}
-                  className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
-                />
-              </div>
+              {/* Middle section and Right section - 小图片网格 */}
+              {Array.from({ length: 8 }, (_, index) => {
+                const imageIndex = (currentMainImage + index + 1) % galleryImages.length;
+                const imageSrc = galleryImages.length > 0 
+                  ? galleryImages[imageIndex] || defaultBallEndImages[imageIndex % defaultBallEndImages.length]
+                  : defaultBallEndImages[index % defaultBallEndImages.length];
+                
+                return (
+                  <div 
+                    key={index}
+                    className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                    onClick={() => galleryImages.length > 0 && setCurrentMainImage((currentMainImage + index + 1) % galleryImages.length)}
+                  >
+                    <Image
+                      src={imageSrc}
+                      alt={`Ball End Mill Product ${index + 1}`}
+                      width={280}
+                      height={280}
+                      quality={100}
+                      className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
 

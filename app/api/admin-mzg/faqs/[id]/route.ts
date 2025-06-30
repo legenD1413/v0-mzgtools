@@ -94,18 +94,13 @@ export async function PUT(
       )
     }
 
-    // 更新FAQ - 同时更新新旧字段以保持兼容性
-    const firstPageUrl = page_urls[0] || '/default-page' // 旧字段需要单个值
-    const firstCategory = categories[0] || 'General' // 旧字段需要单个值
-    
+    // 更新FAQ - 只使用新的字段结构
     const result = await sql`
       UPDATE faqs 
       SET page_urls = ${JSON.stringify(page_urls)}, 
-          page_url = ${firstPageUrl},
           question = ${question}, 
           answer = ${answer}, 
           categories = ${JSON.stringify(categories)}, 
-          category = ${firstCategory},
           sort_order = ${sort_order}, 
           show_in_popular = ${show_in_popular},
           updated_at = NOW()

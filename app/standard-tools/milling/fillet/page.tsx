@@ -1,12 +1,81 @@
+"use client"
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target } from "lucide-react"
+import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target, Drill, Wrench, Cog, CircleDot, Crosshair } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ProductCard from "@/components/product-card"
+import FAQSectionEn from "@/components/faq-section-en"
+import { useState, useEffect } from "react"
 
 export default function FilletEndMillsPage() {
-  // Sample product data - in a real application, this would come from a database or API
+  // Fillet End Mills相关的默认图片
+  const defaultFilletImages = [
+    "/images/2F45CR.png",
+    "/images/4F45CR.png", 
+    "/images/2F50CR.png",
+    "/images/4F50CR.png",
+    "/images/2F55CR.png",
+    "/images/4F55CR.png"
+  ];
+
+  // Gallery images for rotation - will be loaded from API
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [isLoadingImages, setIsLoadingImages] = useState(true);
+
+  // State for rotating images
+  const [currentMainImage, setCurrentMainImage] = useState(0);
+
+  // Load gallery images from API
+  const loadGalleryImages = async () => {
+    try {
+      setIsLoadingImages(true);
+      const response = await fetch("/api/admin-mzg/product-gallery?pagePath=/standard-tools/milling/fillet");
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.images.length > 0) {
+          const imageUrls = data.images.map((img: any) => img.imageUrl);
+          setGalleryImages(imageUrls);
+        } else {
+          // API返回成功但没有图片，使用默认Fillet图片
+          setGalleryImages(defaultFilletImages);
+        }
+      } else {
+        // API请求失败，使用默认Fillet图片
+        setGalleryImages(defaultFilletImages);
+      }
+    } catch (error) {
+      console.error("加载图片失败:", error);
+      // 网络错误或其他异常，使用默认Fillet图片
+      setGalleryImages(defaultFilletImages);
+    } finally {
+      setIsLoadingImages(false);
+    }
+  };
+
+  // Auto-rotate effect
+  useEffect(() => {
+    // 首先设置默认Fillet图片，避免显示无关图片
+    setGalleryImages(defaultFilletImages);
+    setIsLoadingImages(false);
+    
+    // 然后异步加载API图片
+    loadGalleryImages();
+  }, []);
+
+  // 单独的useEffect处理图片轮播
+  useEffect(() => {
+    if (galleryImages.length === 0) return;
+    
+    const interval = setInterval(() => {
+      setCurrentMainImage((prev) => (prev + 1) % galleryImages.length);
+    }, 20000); // 每20秒轮换一次
+
+    return () => clearInterval(interval);
+  }, [galleryImages.length]);
+
+  // Product data based on existing content
   const products = [
     {
       id: "fillet-005",
@@ -162,126 +231,72 @@ export default function FilletEndMillsPage() {
     },
   ]
 
-  // Performance features for the feature section
+  // Performance features
   const performanceFeatures = [
     {
-      icon: <Shield className="h-8 w-8 text-red-600" />,
-      title: "Superior Corner Radius Design",
-      description:
-        "Precision-ground corner radii distribute cutting forces evenly, significantly enhancing tool life and reducing chipping compared to sharp-cornered end mills.",
+      icon: "Shield",
+      title: "Enhanced Tool Strength and Durability",
+      description: "Corner radius design eliminates stress concentration points, distributing cutting forces evenly across a larger area for superior resistance to chipping and fracturing compared to sharp-cornered end mills.",
     },
     {
-      icon: <Zap className="h-8 w-8 text-red-600" />,
-      title: "Advanced Tungsten Carbide",
-      description:
-        "High-quality solid tungsten carbide construction with optional PVD coatings (TiAlN, AlTiN, TiCN) for enhanced hardness, wear resistance, and thermal protection.",
+      icon: "Zap", 
+      title: "Superior Wear Resistance",
+      description: "High-quality Tungsten Steel construction with advanced Nano Coating (纳米涂层) technology provides exceptional hardness, lubricity, and thermal barrier properties for extended tool life in demanding applications.",
     },
     {
-      icon: <Target className="h-8 w-8 text-red-600" />,
-      title: "Stress Reduction Engineering",
-      description:
-        "Creates filleted corners that reduce stress concentrations in workpieces, improving part strength, fatigue resistance, and overall durability.",
+      icon: "Target",
+      title: "Improved Surface Finish",
+      description: "Creates precise filleted transitions between surfaces, eliminating sharp internal corners and producing superior surface quality while reducing stress risers in finished parts.",
     },
   ]
 
-  // Industries served
-  const industries = [
-    "Mold and Die Making",
-    "Aerospace Industry",
-    "Automotive Industry",
-    "General Machining and Engineering",
-    "Medical Device Manufacturing",
-    "Power Generation",
-    "Electronics Manufacturing",
-    "Tool and Fixture Making",
-  ]
+  // Helper function to render icons
+  const renderIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Shield":
+        return <Shield className="h-8 w-8 text-red-600" />
+      case "Zap":
+        return <Zap className="h-8 w-8 text-red-600" />
+      case "Target":
+        return <Target className="h-8 w-8 text-red-600" />
+      default:
+        return <Tool className="h-8 w-8 text-red-600" />
+    }
+  }
 
-  // Machining operations
-  const machiningOperations = [
-    "Pocket Milling",
-    "Slotting Operations",
-    "Contour Milling/Profiling",
-    "Shoulder Milling",
-    "Plunge Milling",
-    "Ramping and Helical Interpolation",
-    "Corner Radius Creation",
-    "Stress Relief Machining",
-  ]
-
-  // Materials that can be machined
-  const machinableMaterials = [
-    "Carbon Steels and Alloy Steels",
-    "Tool Steels (Including Hardened)",
-    "Stainless Steels (All Grades)",
-    "Cast Iron (Grey and Ductile)",
-    "Aluminum and Aluminum Alloys",
-    "Copper and Brass",
-    "Titanium Alloys",
-    "High-Temperature Superalloys",
-    "Plastics and Composites",
-  ]
-
-  // Flute configurations
-  const fluteConfigurations = [
+  // Technical specifications
+  const technicalSpecs = [
     {
-      title: "2-Flute Designs",
-      description:
-        "Excellent chip evacuation for softer materials like aluminum and slotting operations. Ideal for deep pockets and high material removal rates.",
-      color: "border-red-600",
+      title: "Material & Construction",
+      description: "Solid Tungsten Carbide construction for exceptional hardness, compressive strength, and hot hardness retention. Available in 2-flute and 4-flute configurations. 2-flute offers excellent chip evacuation for slotting and softer materials, while 4-flute provides stable cutting action and finer surface finish for harder materials.",
     },
     {
-      title: "3-Flute End Mills",
-      description:
-        "Balanced design offering good chip evacuation with increased stability. Suitable for general-purpose applications across various materials.",
-      color: "border-blue-600",
+      title: "Corner Radius & Coating",
+      description: "Defining corner radius parameter (R) specified in millimeters (e.g., R0.2, R0.5, R1.0) based on part design requirements. Advanced PVD/CVD Nano Coating provides increased surface hardness, enhanced lubricity, and thermal barrier protection for materials up to HRC65.",
     },
     {
-      title: "4+ Flute Designs",
-      description:
-        "Maximum stability and superior surface finish for harder materials and profiling applications. Higher feed rates and better dimensional accuracy.",
-      color: "border-green-600",
+      title: "Dimensional Parameters",
+      description: "Key specifications include d (Cutting Diameter), R (Corner Radius), H (Flute Length), L (Overall Length), and D (Shank Diameter). Standard nomenclature example: 4F55C-10R1.0 indicates 4-Flute, HRC55 Coated, 10mm diameter with 1.0mm corner radius.",
     },
-  ]
-
-  // Specifications
-  const specifications = [
-    { label: "Type", value: "Fillet End Mill / Corner Radius End Mill" },
-    { label: "Material", value: "Solid Tungsten Carbide (Micro-grain)" },
-    { label: "Corner Radius (CR)", value: '0.1mm to 3mm+ (0.005" to 0.125"+)' },
-    { label: "Coating Options", value: "TiN, TiCN, TiAlN, AlTiN, CrN, Multi-layer" },
-    { label: "Helix Angle", value: "30° to 45° (Variable helix available)" },
-    { label: "End Geometry", value: "Flat bottom with radiused corners" },
-    { label: "Flute Count", value: "2, 3, 4, or more flutes" },
-    { label: "Tolerances", value: "High precision on diameter and radius" },
   ]
 
   return (
     <>
       <Header />
       <div className="bg-white">
-        {/* Hero Section - Enhanced with product-specific information */}
-        <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <div className="absolute inset-0 overflow-hidden opacity-30 mix-blend-overlay">
-            <Image
-              src="/images/milling-tools.jpg"
-              alt="Fillet End Mills Background"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div className="relative container mx-auto px-4 py-20 md:py-28">
+        {/* Hero Section */}
+        <div className="relative bg-white text-gray-900">
+          <div className="relative container mx-auto px-4 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
-                <div className="inline-block bg-red-600 px-4 py-1 rounded-full text-sm font-medium mb-4">
-                  Tungsten Steel Corner Radius End Mills
+                <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+                  Fillet End Mill Expert Guide
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Fillet End Mills</h1>
-                <p className="text-lg md:text-xl mb-8 text-gray-100 leading-relaxed">
-                  Precision tungsten steel fillet end mills designed to create specific corner radii while enhancing
-                  tool life and part strength. Engineered for superior performance across diverse materials, from
-                  aluminum to high-temperature superalloys, with advanced coatings and optimized geometries for stress
-                  reduction and improved fatigue resistance.
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                  MZG Fillet End Mill System
+                </h1>
+                <p className="text-sm mb-8 text-gray-600 leading-relaxed">
+                  Fillet End Mills, also commonly known as Corner Radius End Mills, Round Angle End Mills (圆角铣刀), or Radius End Mills (圆鼻铣刀), represent a critical and versatile category of cutting tools used in modern CNC milling operations. Distinguished from standard square end mills by their unique geometry, the sharp 90-degree corners are replaced with a precise, rounded corner of a specific radius. This design modification provides significant advantages in tool strength, workpiece quality, and overall machining efficiency.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button
@@ -293,26 +308,26 @@ export default function FilletEndMillsPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
+                    className="bg-transparent text-gray-900 hover:bg-gray-100 border-gray-300 hover:text-gray-900 transition-all duration-300"
                   >
                     Download Catalog <Download className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>
               <div className="flex justify-center lg:justify-end">
-                <div className="w-[500px] h-[300px] bg-white/10 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/milling-JvsTK9mKVpWhb6WORtlP22ZwwqQAca.png"
-                    alt="Collection of Fillet End Mills and Corner Radius Cutting Tools"
-                    width={500}
-                    height={300}
-                    className="object-contain rounded-lg"
+                    src="/images/millingcutter1.png"
+                    alt="MZG Professional Fillet End Mill System"
+                    width={563}
+                    height={400}
+                    className="object-contain"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         </div>
 
         {/* Performance Features */}
@@ -323,7 +338,7 @@ export default function FilletEndMillsPage() {
                 key={index}
                 className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
               >
-                <div className="mb-4 bg-white inline-flex p-3 rounded-lg shadow-sm">{feature.icon}</div>
+                <div className="mb-4 bg-white inline-flex p-3 rounded-lg shadow-sm">{renderIcon(feature.icon)}</div>
                 <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </div>
@@ -337,32 +352,25 @@ export default function FilletEndMillsPage() {
           <div className="mb-16">
             <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Product Performance</h2>
+              <h2 className="text-3xl font-bold">System Performance Analysis</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
-                <div className="prose prose-sm max-w-none">
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Tungsten Steel Fillet End Mills, often referred to as Corner Radius End Mills, are precision cutting
-                    tools designed to create a specific radius (fillet) at the intersection of two machined surfaces,
-                    such as the bottom of a slot and its wall, or a pocket floor and its vertical wall. Manufactured
-                    from high-quality solid tungsten carbide, these end mills offer excellent hardness, superior wear
-                    resistance, and the ability to maintain cutting edge integrity at high machining temperatures and
-                    cutting speeds.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    The key performance advantage of a fillet end mill lies in its corner radius. This rounded corner
-                    significantly enhances tool life compared to a sharp-cornered (square) end mill, especially in
-                    demanding applications or when machining abrasive materials. The radius distributes cutting forces
-                    more evenly across the corner, reducing chipping and premature wear of this vulnerable part of the
-                    tool.
-                  </p>
-                  <p className="mb-4 text-base leading-normal text-gray-700">
-                    Performance is further enhanced by optimized flute geometries for efficient chip evacuation,
-                    advanced PVD coatings like TiAlN, AlTiN, TiCN, or specialized multi-layer coatings, and precision
-                    grinding that ensures high accuracy of the corner radius, cutting diameter, and overall tool
-                    geometry for consistent machining results.
-                  </p>
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="prose prose-xs max-w-none">
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      The performance of MZG Fillet End Mills is meticulously engineered to overcome the inherent weaknesses of standard square end mills while offering enhanced machining capabilities. The fundamental purpose is derived from its signature <strong>corner radius design</strong>, which dramatically increases structural integrity by distributing cutting forces evenly across a larger area, eliminating the stress concentration points that make sharp corners highly susceptible to chipping.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Our Fillet End Mills are predominantly manufactured from high-quality <strong>Tungsten Steel (solid carbide)</strong>, chosen for its exceptional hardness, high compressive strength, and ability to retain hardness at elevated temperatures. This material foundation ensures cutting edges remain sharp and effective even when machining tough, abrasive materials across hardness ranges from <strong>HRC45° to HRC65°</strong>.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      Advanced <strong>Nano Coating technology</strong> further enhances performance through multi-layered PVD/CVD coatings that provide increased surface hardness beyond the carbide substrate, enhanced lubricity to reduce friction and heat generation, and thermal barrier protection for high-speed operations. This combination allows specialized machining of hardened tool steels and stainless steel materials.
+                    </p>
+                    <p className="mb-3 text-sm leading-relaxed text-gray-700">
+                      The radius geometry creates corresponding fillets on workpieces, eliminating sharp internal corners that act as stress risers while producing visibly smoother, higher-quality surface finishes. This is crucial in applications like mold making and aerospace where surface integrity and part strength are paramount considerations.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div>
@@ -373,34 +381,24 @@ export default function FilletEndMillsPage() {
                   </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start">
-                      <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Material:</strong> Solid Tungsten Carbide
-                      </span>
+                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
+                      <span className="text-sm"><strong>Material:</strong> Solid Tungsten Carbide</span>
                     </li>
                     <li className="flex items-start">
-                      <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Corner Radius:</strong> 0.1mm to 3mm+
-                      </span>
+                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
+                      <span className="text-sm"><strong>Flute Options:</strong> 2-flute & 4-flute configurations</span>
                     </li>
                     <li className="flex items-start">
-                      <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Coatings:</strong> TiAlN, AlTiN, TiCN, Multi-layer
-                      </span>
+                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
+                      <span className="text-sm"><strong>Corner Radius:</strong> R0.2 to R3.0mm range</span>
                     </li>
                     <li className="flex items-start">
-                      <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Helix Angle:</strong> 30°-45° (Variable available)
-                      </span>
+                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
+                      <span className="text-sm"><strong>Hardness Range:</strong> HRC45° to HRC65°</span>
                     </li>
                     <li className="flex items-start">
-                      <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Flute Options:</strong> 2, 3, 4+ flutes
-                      </span>
+                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0 mt-1" />
+                      <span className="text-sm"><strong>Coating:</strong> Advanced Nano Coating technology</span>
                     </li>
                   </ul>
                 </div>
@@ -408,7 +406,6 @@ export default function FilletEndMillsPage() {
             </div>
           </div>
 
-          {/* Products Grid - Empty for now, will be populated when products are added */}
           {/* Products Grid */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
@@ -421,7 +418,7 @@ export default function FilletEndMillsPage() {
                   key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
                 >
-                  <div className="relative w-full bg-white" style={{ height: "176px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                     <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
@@ -430,41 +427,22 @@ export default function FilletEndMillsPage() {
                     />
                   </div>
                   <div className="p-5 border-t">
-                    <h3 className="text-base font-bold mb-2 line-clamp-2">{product.name}</h3>
-                    {product.application && (
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.application}</p>
-                    )}
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4">
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">R:</span> {product.cornerRadius}
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.page}</span>
                       </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">d:</span> {product.d}
+                    <div className="space-y-2 text-xs">
+                      {product.series && (
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-700">Series:</span>
+                          <span className="text-gray-900 text-right">{product.series}</span>
                       </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">D:</span> {product.D}
+                      )}
+                      {product.application && (
+                        <div className="pt-2 border-t border-gray-100">
+                          <p className="text-xs text-gray-600">{product.application}</p>
                       </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">H:</span> {product.H}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">L:</span> {product.L}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Flutes:</span> {product.flutes}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Coating:</span> {product.coating}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Hardness:</span> {product.hardness}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Page:</span> {product.page}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Series:</span> {product.series}
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -472,155 +450,225 @@ export default function FilletEndMillsPage() {
             </div>
           </div>
 
-          {/* Technical Parameters - Redesigned for horizontal alignment */}
-          <div className="mb-16">
+          {/* Product Gallery */}
+          <div className="mb-12">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Technical Parameters</h2>
+              <h2 className="text-3xl font-bold">Product Gallery</h2>
+              {isLoadingImages && (
+                <div className="ml-4 flex items-center text-sm text-gray-500">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600 mr-2"></div>
+                  Loading latest images...
+                </div>
+              )}
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Flute Configurations */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Flute Configurations</h3>
-                <div className="p-4 space-y-4">
-                  {fluteConfigurations.map((config, index) => (
-                    <div key={index} className={`border-l-4 ${config.color} pl-4 py-2`}>
-                      <h4 className="font-bold text-base mb-1">{config.title}</h4>
-                      <p className="text-gray-600 text-sm">{config.description}</p>
+            <div className="grid grid-cols-6 grid-rows-4 gap-3 h-[300px]">
+              {/* Large center-left image - 主要轮播图 */}
+              <div className="col-span-2 row-span-4 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center overflow-hidden group">
+                {galleryImages.length > 0 ? (
+                  <Image
+                    src={galleryImages[currentMainImage] || defaultFilletImages[0]}
+                    alt="Fillet End Mill Product"
+                    width={480}
+                    height={480}
+                    quality={100}
+                    priority
+                    className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="animate-pulse">Loading...</div>
                     </div>
-                  ))}
+                )}
+              </div>
+
+              {/* Middle section and Right section - 小图片网格 */}
+              {Array.from({ length: 8 }, (_, index) => {
+                const imageIndex = (currentMainImage + index + 1) % galleryImages.length;
+                const imageSrc = galleryImages.length > 0 
+                  ? galleryImages[imageIndex] || defaultFilletImages[imageIndex % defaultFilletImages.length]
+                  : defaultFilletImages[index % defaultFilletImages.length];
+                
+                return (
+                  <div 
+                    key={index}
+                    className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                    onClick={() => galleryImages.length > 0 && setCurrentMainImage((currentMainImage + index + 1) % galleryImages.length)}
+                  >
+                    <Image
+                      src={imageSrc}
+                      alt={`Fillet End Mill Product ${index + 1}`}
+                      width={280}
+                      height={280}
+                      quality={100}
+                      className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                    />
+                    </div>
+                );
+              })}
                 </div>
               </div>
 
-              {/* Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Specifications</h3>
-                <div className="divide-y divide-gray-100">
-                  {specifications.map((spec, index) => (
-                    <div key={index} className="flex justify-between items-center p-4">
-                      <span className="font-medium text-sm text-gray-700">{spec.label}:</span>
-                      <span className="text-sm text-right text-gray-900">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* Technical Specifications */}
+          <div className="mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-1 bg-red-600 mr-4"></div>
+              <h2 className="text-3xl font-bold">Technical Specifications</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {technicalSpecs.map((spec, index) => {
+                const getIcon = (title: string) => {
+                  switch (title) {
+                    case "Material & Construction":
+                      return <Layers className="h-6 w-6 text-blue-600 mr-3" />
+                    case "Corner Radius & Coating":
+                      return <Shield className="h-6 w-6 text-green-600 mr-3" />
+                    case "Dimensional Parameters":
+                      return <Settings className="h-6 w-6 text-purple-600 mr-3" />
+                    default:
+                      return <Tool className="h-6 w-6 text-gray-600 mr-3" />
+                  }
+                }
+                
+                return (
+                  <div
+                    key={index}
+                    className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                      {getIcon(spec.title)}
+                      {spec.title}
+                    </h3>
+                    <p className="text-gray-700 leading-relaxed text-sm">{spec.description}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
 
-          {/* Combined Application Scenarios and Material Compatibility in one row */}
+          {/* Application Scenarios & Processing */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Applications & Materials</h2>
+              <h2 className="text-3xl font-bold">Application Scenarios & Processing</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Industries Served */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Settings className="h-5 w-5 text-red-600 mr-2" />
-                  Industries Served
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Application Scenarios */}
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                  <Wrench className="h-6 w-6 text-blue-600 mr-3" />
+                  Application Scenarios
                 </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {industries.map((industry, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{industry}</span>
-                    </div>
-                  ))}
-                </div>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Mold & Die Manufacturing:</strong> Primary application for creating precise internal fillets to improve material flow and part strength</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Aerospace Industry:</strong> Components requiring fatigue resistance with filleted corners to eliminate failure points</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>General Engineering:</strong> Creating strong, aesthetically pleasing components with rounded edges</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>High-Speed Machining:</strong> Stable geometry ideal for aggressive toolpaths and high feed rates</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Medical Device Manufacturing:</strong> Critical applications requiring superior surface integrity</span>
+                  </li>
+                </ul>
               </div>
 
               {/* Machining Operations */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Tool className="h-5 w-5 text-red-600 mr-2" />
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                  <Settings className="h-6 w-6 text-green-600 mr-3" />
                   Machining Operations
                 </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machiningOperations.map((operation, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{operation}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Material Compatibility */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Info className="h-5 w-5 text-red-600 mr-2" />
-                  Material Compatibility
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machinableMaterials.map((material, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{material}</span>
-                    </div>
-                  ))}
-                </div>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Fillet Milling:</strong> Direct application for machining specific radius at floor-wall intersections</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Profile Milling & Contouring:</strong> Strength for long, continuous cuts in 2D/3D profiles</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Pocket Milling:</strong> Creating specified corner radius in single operation with time savings</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Slotting:</strong> Reinforced corners prevent chipping during full-width engagement in harder materials</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Finishing Operations:</strong> Superior surface finish meeting tight dimensional tolerances</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
 
           {/* Main Functions */}
-          <div className="mb-16">
-            <div className="flex items-center mb-8">
+          <div className="mb-12">
+            <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Main Functions</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Creating Defined Corner Radii",
-                  description:
-                    "Accurately produce specific radius at internal corners of machined features, meeting precise design specifications and engineering requirements.",
-                  icon: <Target className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Stress Concentration Reduction",
-                  description:
-                    "Create fillets instead of sharp corners to distribute stress more evenly, increasing part strength, fatigue resistance, and overall durability.",
-                  icon: <Shield className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Enhanced Tool Life",
-                  description:
-                    "Corner radius design strengthens cutting edges, making them more resistant to chipping and wear compared to sharp-cornered square end mills.",
-                  icon: <Zap className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Surface Finish Improvement",
-                  description:
-                    "Provide smoother transitions between floor and wall of machined features compared to sharp corners, enhancing overall surface quality.",
-                  icon: <Layers className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Versatile Milling Operations",
-                  description:
-                    "Capable of performing slotting, pocketing, and profiling operations where corner radius is specified, offering operational flexibility.",
-                  icon: <Tool className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Design Requirement Compliance",
-                  description:
-                    "Meet engineering drawings that explicitly call for specific internal radii for functional, structural, or manufacturing reasons.",
-                  icon: <Settings className="h-6 w-6 text-red-600" />,
-                },
-              ].map((func, index) => (
-                <div
-                  key={index}
-                  className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
-                >
-                  <div className="flex items-start mb-4">
-                    <div className="bg-red-50 p-2 rounded-lg mr-4">{func.icon}</div>
-                    <h3 className="text-lg font-bold">{func.title}</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Target className="h-5 w-5 text-red-600 mr-2" />
+                  Primary Functions
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Enhanced Tool Strength:</strong> Corner radius distributes cutting forces evenly, drastically reducing stress concentration and chipping susceptibility</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Improved Surface Finish:</strong> Creates corresponding fillets eliminating sharp internal corners and stress risers in finished parts</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Increased Tool Life:</strong> Prevention of premature corner wear contributes to longer, more predictable tool performance</span>
+                  </li>
+                </ul>
                   </div>
-                  <p className="text-gray-600">{func.description}</p>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Zap className="h-5 w-5 text-blue-600 mr-2" />
+                  Performance Benefits
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Material Versatility:</strong> Optimized for materials from HRC45 general steel to HRC65 hardened stainless steel</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Advanced Coating Technology:</strong> Multi-layered nano coatings for enhanced hardness, lubricity, and thermal protection</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Economic Efficiency:</strong> Reduced machine downtime and tooling costs through extended tool life and higher speeds</span>
+                  </li>
+                </ul>
                 </div>
-              ))}
             </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mb-16">
+            <FAQSectionEn pageUrl="/standard-tools/milling/fillet" />
           </div>
 
           {/* Related Categories */}
@@ -629,47 +677,51 @@ export default function FilletEndMillsPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {(() => {
+                // Define all categories in the same milling directory
+                const allMillingCategories = [
+                  {
+                    title: "Ball End Mills",
+                    image: "/images/2F45CRB.png",
+                    description: "3D contouring and curved surface machining",
+                    url: "/standard-tools/milling/ball-end",
+                  },
                 {
                   title: "Right Angle Flat End Mills",
-                  image: "/images/product-1.jpg",
-                  description: "Precision flat end mills for creating sharp 90-degree corners and flat surfaces.",
+                    image: "/images/2F45C-JST.png",
+                    description: "Flat end mills for precise surfaces",
                   url: "/standard-tools/milling/right-angle-flat",
                 },
                 {
-                  title: "Ball Nose End Mills",
-                  image: "/images/product-3.jpg",
-                  description: "Specialized tools for 3D contour machining and curved surfaces.",
-                  url: "/standard-tools/milling/ball-nose",
-                },
-                {
-                  title: "Corner Radius End Mills",
-                  image: "/images/product-2.jpg",
-                  description: "End mills with rounded corners for improved tool life and surface finish.",
-                  url: "/standard-tools/milling/corner-radius",
+                    title: "Deep Ditch End Mills",
+                    image: "/images/SG2F60C.png",
+                    description: "Deep groove and cavity milling",
+                    url: "/standard-tools/milling/deep-ditch",
                 },
                 {
                   title: "Roughing End Mills",
-                  image: "/images/product-4.jpg",
-                  description: "High material removal rate end mills for efficient roughing operations.",
+                    image: "/images/4FS.png",
+                    description: "High material removal rate cutters",
                   url: "/standard-tools/milling/roughing",
                 },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" />
-              ))}
+                ];
+                
+                return allMillingCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gray-900 text-white py-16">
+        <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 text-white py-16 animate-gradient-xy">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Need Expert Guidance?</h2>
+              <h2 className="text-3xl font-bold mb-4">Need Professional Fillet End Mill Solutions?</h2>
               <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select the optimal fillet end mill configuration for your specific
-                corner radius requirements, material, and application needs.
+                Our technical team can help you select optimal fillet end mills for specific corner radius machining, mold making, and structural strengthening applications. From HRC45 general steel to HRC65 hardened materials, we provide comprehensive corner radius milling solutions.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">
@@ -680,7 +732,7 @@ export default function FilletEndMillsPage() {
                   variant="outline"
                   className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
                 >
-                  Request Custom Solution
+                  Request Custom Solutions
                 </Button>
               </div>
             </div>

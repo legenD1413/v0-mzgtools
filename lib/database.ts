@@ -1,7 +1,19 @@
 import { neon } from "@neondatabase/serverless"
 
+// 检查环境变量
+const databaseUrl = process.env.DATABASE_URL
+
+if (!databaseUrl) {
+  console.error('❌ DATABASE_URL 环境变量未设置')
+  console.error('请创建 .env.local 文件并添加：')
+  console.error('DATABASE_URL=你的数据库连接字符串')
+  throw new Error('DATABASE_URL 环境变量未设置')
+}
+
+console.log('✅ DATABASE_URL 已设置:', databaseUrl.substring(0, 30) + '...')
+
 // 创建数据库连接
-export const sql = neon(process.env.DATABASE_URL!)
+export const sql = neon(databaseUrl)
 
 // 数据库表初始化
 export async function initializeTables() {
