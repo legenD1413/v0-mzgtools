@@ -19,7 +19,11 @@ export default function RightAngleFlatEndMillsPage() {
     "/images/2F55C.png",
     "/images/4F55C.png",
     "/images/2F60C.png",
-    "/images/4F60C.png"
+    "/images/4F60C.png",
+    "/images/2F65C.png",
+    "/images/4F65C.png",
+    "/images/AL-2F50C.png",
+    "/images/AL-3F50C.png"
   ]);
 
   // State for rotating images
@@ -630,7 +634,33 @@ export default function RightAngleFlatEndMillsPage() {
           </div>
 
           {/* FAQ Section */}
-          <FAQSectionEn pageUrl="/standard-tools/milling/right-angle-flat" className="mb-16" />
+          <div className="mb-5">
+            <FAQSectionEn pageUrl="/standard-tools/milling/right-angle-flat" />
+          </div>
+
+          {/* CTA Section */}
+          <div className="bg-white py-5">
+            <div className="container mx-auto px-4 border border-gray-200 rounded-2xl shadow-sm">
+              <div className="mx-auto text-center px-8 py-16">
+                <h2 className="text-3xl font-bold mb-4 text-gray-900">Need Professional Right Angle Flat End Mill Solutions?</h2>
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Our technical team can help you select optimal right angle flat end mills for specific plane milling, groove machining, and stepped surface applications. From HRC45 general steel to HRC65 hardened materials, we provide comprehensive flat end milling solutions.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 shadow-sm hover:shadow-md">
+                    Contact Technical Support
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="bg-transparent text-gray-900 hover:bg-gray-50 border-gray-300 hover:border-gray-400 transition-all duration-300"
+                  >
+                    Request Custom Solutions
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Related Categories */}
           <div>
@@ -638,7 +668,7 @@ export default function RightAngleFlatEndMillsPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-5 gap-6">
               {(() => {
                 // Define all categories in the same milling directory
                 const allMillingCategories = [
@@ -666,36 +696,19 @@ export default function RightAngleFlatEndMillsPage() {
                     description: "High material removal rate cutters",
                     url: "/standard-tools/milling/roughing",
                   },
+                  {
+                    title: "Taper End Mills",
+                    image: "/images/ZDXD2F45C.png",
+                    description: "Tapered cutting for angled surfaces",
+                    url: "/standard-tools/milling/taper",
+                  },
                 ];
                 
-                return allMillingCategories.map((category, index) => (
+                // 只显示前5个，确保只有1行
+                return allMillingCategories.slice(0, 5).map((category, index) => (
                   <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" url={category.url} />
                 ));
               })()}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 text-white py-16 animate-gradient-xy">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Need Professional Right Angle Flat End Mill Solutions?</h2>
-              <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select optimal right angle flat end mills for specific plane milling, groove machining, and stepped surface applications. From HRC45 general steel to HRC65 hardened materials, we provide comprehensive flat end milling solutions.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">
-                  Contact Technical Support
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
-                >
-                  Request Custom Solutions
-                </Button>
-              </div>
             </div>
           </div>
         </div>

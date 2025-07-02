@@ -12,12 +12,11 @@ import { useState, useEffect } from "react"
 export default function ChamferEndMillsPage() {
   // Chamfer相关的默认图片
   const defaultChamferImages = [
-    "/images/WGDDZ.png",
-    "/images/WGDDZB.png", 
-    "/images/WGDDZT.png",
-    "/images/WGDJD.png",
-    "/images/WGDJDB.png",
-    "/images/WGDJDT.png"
+    "/images/f32-01.png",
+    "/images/f32-02.png", 
+    "/images/f33-01.png",
+    "/images/f33-02.png",
+    "/images/f33-03.png"
   ];
 
   // Gallery images for rotation - will be loaded from API
@@ -78,64 +77,54 @@ export default function ChamferEndMillsPage() {
   // Product data based on provided content
   const products = [
     {
-      id: "WGDDZ",
-      name: "Tungsten Steel Fixed-Point Drill (Uncoated)",
-      series: "WGDDZ Series",
-      image: "/images/WGDDZ.png",
-      description: "Uncoated tungsten steel spotting drill for aluminum and non-ferrous metals",
-      specifications: "60°, 90°, 120° angles, Uncoated tungsten steel",
-      application: "Aluminum, aluminum alloy, die-cast aluminum",
-      page: "F31",
-    },
-    {
-      id: "WGDDZB",
-      name: "Tungsten Steel Fixed-Point Drill (Bronze Coated)",
-      series: "WGDDZB",
-      image: "/images/WGDDZB.png",
-      description: "Bronze coated tungsten steel spotting drill for hardened materials",
-      specifications: "60°, 90°, 120° angles, Bronze coated",
-      application: "Die prehardened steel, quenched steel, alloy steel up to HRC45°",
-      page: "F31",
-    },
-    {
-      id: "WGDDZT",
-      name: "Tungsten Steel Fixed-Point Drill (Nano Coated)",
-      series: "WGDDZT",
-      image: "/images/WGDDZT.png",
-      description: "Nano coated tungsten steel spotting drill for extreme hardness materials",
-      specifications: "60°, 90°, 120° angles, Nano coated",
-      application: "Tool steel, gray cast iron, common die steel up to HRC65°",
-      page: "F31",
-    },
-    {
-      id: "WGDJD",
-      name: "3-Edge Tungsten Steel Chamfering Cutter (Uncoated)",
+      id: "F32-01",
+      name: "3-Edge tungsten steel chamfering cutter",
       series: "WGDJD",
-      image: "/images/WGDJD.png",
-      description: "3-edge uncoated tungsten steel chamfering cutter for soft materials",
-      specifications: "3-edge, 60°, 90°, 120° angles, Uncoated",
-      application: "Aluminum, aluminum alloy, die-cast aluminum",
+      image: "/images/f32-01.png",
+      description: "",
+      specifications: "3-edge tungsten steel, uncoated",
+      application: "Use: Aluminum, aluminum alloy, die-cast aluminum",
       page: "F32",
     },
     {
-      id: "WGDJDB",
-      name: "3-Edge Tungsten Steel Chamfering Cutter (Bronze Coated)",
+      id: "F32-02",
+      name: "3-Edge tungsten steel chamfering cutter",
       series: "WGDJDB",
-      image: "/images/WGDJDB.png",
-      description: "3-edge bronze coated tungsten steel chamfering cutter for steel",
-      specifications: "3-edge, 60°, 90°, 120° angles, Bronze coated",
-      application: "Die prehardened steel, quenched steel, alloy steel",
+      image: "/images/f32-02.png",
+      description: "",
+      specifications: "3-edge tungsten steel, nano coating",
+      application: "Use: Die prehardened steel, Quenched steel, Alloy steel, Tool steel, Nonferrous metal, Gray cast iron, Common die steel)",
       page: "F32",
     },
     {
-      id: "WGDJDT",
-      name: "3-Edge Tungsten Steel Chamfering Cutter (Nano Coated)",
-      series: "WGDJDT",
-      image: "/images/WGDJDT.png",
-      description: "3-edge nano coated tungsten steel chamfering cutter for hardened steel",
-      specifications: "3-edge, 60°, 90°, 120° angles, Nano coated",
-      application: "Tool steel, gray cast iron, stainless steel up to HRC65°",
-      page: "F32",
+      id: "F33-01",
+      name: "SWA 45° Welding edge type ultra-fine particle tungsten steel chamfering cutter",
+      series: "SWA",
+      image: "/images/f33-01.png",
+      description: "",
+      specifications: "45° welding edge type, ultra-fine particle tungsten steel",
+      application: "Various steel machining applications",
+      page: "F33",
+    },
+    {
+      id: "F33-02",
+      name: "SWCS 45° Welding edge type ultra-fine particle tungsten steel inner hole chamfering cutter (1 blade hand type",
+      series: "SWCS",
+      image: "/images/f33-02.png",
+      description: "",
+      specifications: "45° welding edge type, 1 blade hand type, inner hole chamfering",
+      application: "Inner hole chamfering operations",
+      page: "F33",
+    },
+    {
+      id: "F33-03",
+      name: "SWCS 45° Welding edge type ultra-fine particle tungsten steel inner hole chamfering cutter (3 blade machine type))",
+      series: "SWCS", 
+      image: "/images/f33-03.png",
+      description: "",
+      specifications: "45° welding edge type, 3 blade machine type, inner hole chamfering",
+      application: "Inner hole chamfering operations",
+      page: "F33",
     },
   ]
 
@@ -184,7 +173,7 @@ export default function ChamferEndMillsPage() {
     },
     {
       title: "Geometric Specifications",
-      description: "Precision angles including 45°, 60°, 90°, and 120° options. Key parameters include outer diameter (D), shank diameter (d), total length (L), flute length (H), and chamfering angle (α°) with tight tolerances for consistent results.",
+      description: "Precision angles including  60°, 90°, and 120° options. Key parameters include outer diameter (D), shank diameter (d), total length (L), flute length (H), and chamfering angle (α°) with tight tolerances for consistent results.",
     },
   ]
 
@@ -275,7 +264,7 @@ export default function ChamferEndMillsPage() {
                       <strong>Uncoated versions</strong> are frequently used for milling steel and non-ferrous metals like copper and aluminum. The selection of coating depends on the material being machined and the desired finish. <strong>Nano-coating</strong> is well-suited for hardened steels, alloy steels, and cast iron, whereas uncoated tools are generally recommended for aluminum and its alloys.
                     </p>
                     <p className="mb-3 text-sm leading-relaxed text-gray-700">
-                      These tools often feature <strong>multiple cutting edges</strong>; commonly, 3-edge designs are used for tungsten steel chamfering cutters. The number of flutes influences chip evacuation and the rigidity of the cutting process. Chamfering tools can be designed with various angles, including <strong>45°, 60°, 90°, and 120°</strong>, allowing for a diverse range of chamfer geometries.
+                      These tools often feature <strong>multiple cutting edges</strong>; commonly, 3-edge designs are used for tungsten steel chamfering cutters. The number of flutes influences chip evacuation and the rigidity of the cutting process. Chamfering tools can be designed with various angles, including <strong> 60°, 90°, and 120°</strong>, allowing for a diverse range of chamfer geometries.
                     </p>
                     <p className="mb-3 text-sm leading-relaxed text-gray-700">
                       Specialized chamfering tools are engineered for particular applications, including inner hole chamfering and welding edge type ultra-fine particle tungsten steel chamfering cutters for enhanced cutting performance and durability.
@@ -556,8 +545,32 @@ export default function ChamferEndMillsPage() {
           </div>
 
           {/* FAQ Section */}
-          <div className="mb-16">
+          <div className="mb-5">
             <FAQSectionEn pageUrl="/standard-tools/milling/chamfer" />
+          </div>
+
+          {/* CTA Section */}
+          <div className="bg-white py-5">
+            <div className="container mx-auto px-4 border border-gray-200 rounded-2xl shadow-sm">
+              <div className="mx-auto text-center px-8 py-16">
+                <h2 className="text-3xl font-bold mb-4 text-gray-900">Need Professional Chamfer End Mill Solutions?</h2>
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Our technical team can help you select optimal chamfering tools for precise angle formation, deburring, and edge preparation applications. From aluminum processing to hardened steel machining up to HRC65°, we provide comprehensive chamfering solutions.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 shadow-sm hover:shadow-md">
+                    Contact Technical Support
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="bg-transparent text-gray-900 hover:bg-gray-50 border-gray-300 hover:border-gray-400 transition-all duration-300"
+                  >
+                    Request Custom Solutions
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Related Categories */}
@@ -566,7 +579,7 @@ export default function ChamferEndMillsPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-5 gap-6">
               {(() => {
                 // Define all categories in the same milling directory
                 const allMillingCategories = [
@@ -602,34 +615,10 @@ export default function ChamferEndMillsPage() {
                 },
                 ];
                 
-                return allMillingCategories.map((category, index) => (
+                return allMillingCategories.slice(0, 5).map((category, index) => (
                   <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" url={category.url} />
                 ));
               })()}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 text-white py-16 animate-gradient-xy">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Need Professional Chamfer End Mill Solutions?</h2>
-              <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select optimal chamfering tools for precise angle formation, deburring, and edge preparation applications. From aluminum processing to hardened steel machining up to HRC65°, we provide comprehensive chamfering solutions.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">
-                  Contact Technical Support
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
-                >
-                  Request Custom Solutions
-                </Button>
-              </div>
             </div>
           </div>
         </div>

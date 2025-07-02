@@ -1,12 +1,80 @@
+"use client"
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target } from "lucide-react"
+import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target, Drill, Wrench, Cog, CircleDot, Crosshair } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ProductCard from "@/components/product-card"
+import FAQSectionEn from "@/components/faq-section-en"
+import { useState, useEffect } from "react"
 
 export default function SideMillingCutterPage() {
-  // Sample product data - in a real application, this would come from a database or API
+  // Side Milling Cutters相关的默认图片
+  const defaultSideMillingImages = [
+    "/images/SWS.png",
+    "/images/SWSS.png", 
+    "/images/WGJP.png",
+    "/images/JPDG.png",
+    "/images/YKL-1F55C.png"
+  ];
+
+  // Gallery images for rotation - will be loaded from API
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [isLoadingImages, setIsLoadingImages] = useState(true);
+
+  // State for rotating images
+  const [currentMainImage, setCurrentMainImage] = useState(0);
+
+  // Load gallery images from API
+  const loadGalleryImages = async () => {
+    try {
+      setIsLoadingImages(true);
+      const response = await fetch("/api/admin-mzg/product-gallery?pagePath=/standard-tools/milling/side-milling-cutter");
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.images.length > 0) {
+          const imageUrls = data.images.map((img: any) => img.imageUrl);
+          setGalleryImages(imageUrls);
+        } else {
+          // API返回成功但没有图片，使用默认Side Milling图片
+          setGalleryImages(defaultSideMillingImages);
+        }
+      } else {
+        // API请求失败，使用默认Side Milling图片
+        setGalleryImages(defaultSideMillingImages);
+      }
+    } catch (error) {
+      console.error("加载图片失败:", error);
+      // 网络错误或其他异常，使用默认Side Milling图片
+      setGalleryImages(defaultSideMillingImages);
+    } finally {
+      setIsLoadingImages(false);
+    }
+  };
+
+  // Auto-rotate effect
+  useEffect(() => {
+    // 首先设置默认Side Milling图片，避免显示无关图片
+    setGalleryImages(defaultSideMillingImages);
+    setIsLoadingImages(false);
+    
+    // 然后异步加载API图片
+    loadGalleryImages();
+  }, []);
+
+  // 单独的useEffect处理图片轮播
+  useEffect(() => {
+    if (galleryImages.length === 0) return;
+    
+    const interval = setInterval(() => {
+      setCurrentMainImage((prev) => (prev + 1) % galleryImages.length);
+    }, 20000); // 每20秒轮换一次
+
+    return () => clearInterval(interval);
+  }, [galleryImages.length]);
+
+  // Sample product data - preserving original content
   const products = [
     {
       id: "smc-001",
@@ -41,7 +109,7 @@ export default function SideMillingCutterPage() {
     {
       id: "smc-003",
       name: "Saw Blade Toolholder",
-      image: "/images/WGJP.png", // Updated to use the actual WGJP image
+      image: "/images/WGJP.png",
       description: "Precision toolholder designed for tungsten steel saw blades with adjustable mounting options",
       application: "tungsten steel saw blade",
       series: "WGJP",
@@ -87,125 +155,72 @@ export default function SideMillingCutterPage() {
     },
   ]
 
-  // Performance features for the feature section
+  // Performance features
   const performanceFeatures = [
     {
-      icon: <Shield className="h-8 w-8 text-red-600" />,
-      title: "Dual Cutting Action",
-      description:
-        "Cutting teeth on both periphery and sides enable versatile machining operations including slotting, grooving, and facing in a single setup.",
+      icon: "Shield",
+      title: "Dual Cutting Action for Multiple Surfaces",
+      description: "Cutting edges on both periphery and sides enable simultaneous side and end milling operations. Three-sided edge design provides versatile machining capabilities for complex geometric requirements in a single setup.",
     },
     {
-      icon: <Zap className="h-8 w-8 text-red-600" />,
-      title: "Superior Chip Evacuation",
-      description:
-        "Staggered tooth designs provide excellent chip clearance and reduced chatter, enabling deeper cuts and higher feed rates for improved productivity.",
+      icon: "Zap", 
+      title: "Advanced Chip Evacuation Technology",
+      description: "Staggered tooth (Thousand Birds) design features offset teeth arrangement that efficiently breaks chips, reduces cutting resistance, and improves chip evacuation for heavy-duty cutting operations and sticky materials.",
     },
     {
-      icon: <Target className="h-8 w-8 text-red-600" />,
-      title: "Parallel Surface Machining",
-      description:
-        "Gang milling capability allows simultaneous machining of multiple parallel surfaces, significantly reducing cycle times and improving efficiency.",
+      icon: "Target",
+      title: "Welding Edge Construction",
+      description: "Ultra-fine particle tungsten steel with welded cutting inserts provides exceptional durability and precision. Tubular side milling design offers superior stability and rigidity for demanding machining applications.",
     },
   ]
 
-  // Industries served
-  const industries = [
-    "General Machining and Job Shops",
-    "Automotive Industry",
-    "Aerospace Industry",
-    "Heavy Machinery Manufacturing",
-    "Tool and Die Making",
-    "Power Generation",
-    "Railway Industry",
-    "Shipbuilding",
-  ]
+  // Helper function to render icons
+  const renderIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Shield":
+        return <Shield className="h-8 w-8 text-red-600" />
+      case "Zap":
+        return <Zap className="h-8 w-8 text-red-600" />
+      case "Target":
+        return <Target className="h-8 w-8 text-red-600" />
+      default:
+        return <Tool className="h-8 w-8 text-red-600" />
+    }
+  }
 
-  // Machining operations
-  const machiningOperations = [
-    "Slotting and Grooving",
-    "Facing Operations",
-    "Straddle Milling",
-    "Gang Milling",
-    "Cutting Off/Parting",
-    "Step Milling",
-    "Shoulder Machining",
-    "Profile Milling",
-  ]
-
-  // Materials that can be machined
-  const machinableMaterials = [
-    "Carbon Steels (Low, Medium, High Carbon)",
-    "Alloy Steels",
-    "Tool Steels",
-    "Stainless Steels",
-    "Cast Iron (Grey, Ductile)",
-    "Non-ferrous Metals (Aluminum, Copper)",
-    "Hardened Steels (with Carbide)",
-    "Exotic Alloys (Aerospace Materials)",
-  ]
-
-  // Cutter configurations
-  const cutterConfigurations = [
+  // Technical specifications
+  const technicalSpecs = [
     {
-      title: "Straight Tooth Design",
-      description:
-        "Teeth parallel to rotation axis. Ideal for general-purpose slotting and shallower cuts with excellent bottom surface finish.",
-      color: "border-red-600",
+      title: "Material & Construction",
+      description: "Ultra-fine particle Tungsten Steel construction with welded cutting inserts for exceptional hardness and wear resistance. Available in saw blade three-sided edge design and tubular side milling configurations. Cutting edges on periphery and both sides enable simultaneous multi-surface machining operations.",
     },
     {
-      title: "Staggered Tooth Design",
-      description:
-        "Alternating helix angles provide shearing action, better chip evacuation, and reduced chatter for deep slotting operations.",
-      color: "border-blue-600",
+      title: "Tooth Design & Geometry",
+      description: "Two primary tooth configurations: Flat Teeth for general cutting operations and Staggered Teeth (Thousand Birds) for enhanced chip breaking and evacuation. Staggered design features offset teeth arrangement that reduces cutting resistance and improves performance in heavy-duty applications.",
     },
     {
-      title: "Indexable Insert Design",
-      description:
-        "Replaceable carbide inserts offer economic benefits, application-specific grades, and superior performance at high cutting speeds.",
-      color: "border-green-600",
+      title: "Dimensional Parameters",
+      description: "Comprehensive size range from 75mm to 200mm outer diameter for welding edge cutters, with blade heights from 3mm to 20mm. Saw blade toolholders accommodate various mounting configurations. Models include SWST series with 14-18 teeth and precise tolerance specifications (+1.0/+0 for diameter, +0.02/+0 for height).",
     },
-  ]
-
-  // Specifications
-  const specifications = [
-    { label: "Type", value: "Side Milling Cutter (Disc Type)" },
-    { label: "Material Options", value: "HSS, Carbide Tipped, Indexable Carbide" },
-    { label: "Coating Options", value: "TiN, TiAlN, AlTiN, TiCN" },
-    { label: "Tooth Design", value: "Straight Tooth, Staggered Tooth" },
-    { label: "Diameter Range", value: "50mm to 300mm+" },
-    { label: "Width Range", value: "4mm to 50mm+" },
-    { label: "Bore Sizes", value: "16mm to 50mm (Standard)" },
-    { label: "Standards", value: "ISO, DIN, ANSI Compliant" },
   ]
 
   return (
     <>
       <Header />
       <div className="bg-white">
-        {/* Hero Section - Enhanced with product-specific information */}
-        <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <div className="absolute inset-0 overflow-hidden opacity-30 mix-blend-overlay">
-            <Image
-              src="/images/milling-tools.jpg"
-              alt="Side Milling Cutters Background"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div className="relative container mx-auto px-4 py-20 md:py-28">
+        {/* Hero Section */}
+        <div className="relative bg-white text-gray-900">
+          <div className="relative container mx-auto px-4 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
-                <div className="inline-block bg-red-600 px-4 py-1 rounded-full text-sm font-medium mb-4">
-                  Staggered Tooth / Straight Tooth
+                <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+                  Side Milling Cutter Expert Guide
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">Side Milling Cutters</h1>
-                <p className="text-lg md:text-xl mb-8 text-gray-100 leading-relaxed">
-                  Disc-type milling cutters with cutting teeth on periphery and sides, designed for slotting, grooving,
-                  facing, and straddle milling operations. Available in straight tooth and staggered tooth
-                  configurations with HSS, carbide tipped, and indexable carbide insert options for maximum versatility
-                  and productivity.
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                  MZG Side Milling Cutter System
+                </h1>
+                <p className="text-sm mb-8 text-gray-600 leading-relaxed">
+                  Side Milling Cutters are a type of milling cutter used primarily for side milling operations. They are designed with cutting edges on their periphery, allowing for efficient material removal along the side of a workpiece. Our comprehensive system includes saw blade three-sided edge side milling cutters with cutting edges on both sides and circumference for simultaneous side and end milling, welding edge type ultra-fine particle tungsten steel tubular side milling cutters (SWST) with welded cutting inserts, and precision saw blade toolholders for secure mounting and stability.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button
@@ -217,26 +232,26 @@ export default function SideMillingCutterPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
+                    className="bg-transparent text-gray-900 hover:bg-gray-100 border-gray-300 hover:text-gray-900 transition-all duration-300"
                   >
                     Download Catalog <Download className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>
               <div className="flex justify-center lg:justify-end">
-                <div className="w-[500px] h-[300px] bg-white/10 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
-                    src="/placeholder.svg?height=300&width=500"
-                    alt="Collection of Side Milling Cutters"
-                    width={500}
-                    height={300}
-                    className="object-contain rounded-lg"
+                    src="/images/milling.png"
+                    alt="MZG Professional Side Milling Cutter System"
+                    width={563}
+                    height={400}
+                    className="object-contain"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         </div>
 
         {/* Performance Features */}
@@ -247,7 +262,7 @@ export default function SideMillingCutterPage() {
                 key={index}
                 className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
               >
-                <div className="mb-4 bg-white inline-flex p-3 rounded-lg shadow-sm">{feature.icon}</div>
+                <div className="mb-4 bg-white inline-flex p-3 rounded-lg shadow-sm">{renderIcon(feature.icon)}</div>
                 <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </div>
@@ -266,22 +281,30 @@ export default function SideMillingCutterPage() {
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
                 <div className="prose prose-sm max-w-none">
+                  <h3 className="text-xl font-bold mb-3">I. Saw Blade Three-Sided Edge Side Milling Cutter</h3>
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    Side Milling Cutters, often referred to as Side and Face Cutters or Straddle Mills, are disc-type
-                    milling cutters with cutting teeth on their periphery and on one or both sides. The defining
-                    characteristic is their ability to cut on their sides as well as their periphery, allowing them to
-                    machine slots, grooves, faces, and steps efficiently.
+                    This specialized cutter, often referred to as a "Saw Blade Three-sided Edge Side Milling Cutter," features 
+                    <strong> cutting edges on both its sides and its circumference</strong>. This design enables it to perform 
+                    <strong> simultaneous side and end milling</strong> operations. The cutters are characterized by their ability to perform 
+                    <strong> simultaneous cutting on three faces</strong> (periphery and two sides) with different tooth geometries: 
+                    <strong>Flat Teeth (平齿)</strong> for general cutting operations and <strong>Staggered Teeth (错齿/千鸟刃)</strong> 
+                    with interspersed or offset arrangement that helps efficiently break chips, reduce cutting resistance, and improve chip evacuation.
                   </p>
+                  
+                  <h3 className="text-xl font-bold mb-3">II. Welding Edge Type Ultra-Fine Particle Tungsten Steel Tubular Side Milling Cutter (SWST)</h3>
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    When used in multiples, they can machine parallel surfaces simultaneously, making them highly
-                    efficient for production environments. They are typically mounted on a milling machine arbor and are
-                    available in various designs, including straight tooth versions for general-purpose slotting and
-                    staggered tooth versions for deeper slots and heavier cuts.
+                    This is a specific type of <strong>welded edge milling cutter</strong> designed for side milling, known as "焊刃式超微粒钨钢筒状侧铣刀". 
+                    It is constructed from <strong>ultra-fine particle tungsten steel</strong>, a material prized for its high hardness and wear resistance. 
+                    The "welding edge" characteristic implies suitability for <strong>heavy-duty cutting and machining of special shapes</strong> with 
+                    cutting inserts welded onto the tool body.
                   </p>
+                  
+                  <h3 className="text-xl font-bold mb-3">III. Saw Blade Toolholder (锯片刀杆)</h3>
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    Modern designs incorporate indexable carbide inserts for enhanced productivity and wear resistance,
-                    while traditional HSS versions remain popular for their versatility and ability to be resharpened.
-                    Advanced coatings such as TiAlN and AlTiN significantly improve performance and tool life.
+                    The <strong>Saw Blade Toolholder</strong> is an accessory designed to <strong>mount and secure saw blades</strong>. 
+                    Its primary performance characteristic is its <strong>ability to securely hold saw blades</strong>, ensuring stability and precision during cutting. 
+                    The toolholder's role is to <strong>interface the saw blade with the milling machine spindle</strong>, providing a 
+                    <strong>stable and precise clamping mechanism</strong> for various cutting operations.
                   </p>
                 </div>
               </div>
@@ -294,33 +317,27 @@ export default function SideMillingCutterPage() {
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Material Options:</strong> HSS, Carbide Tipped, Indexable
-                      </span>
+                      <span className="text-sm"><strong>Material:</strong> Ultra-fine particle tungsten steel</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Tooth Design:</strong> Straight Tooth, Staggered Tooth
-                      </span>
+                      <span className="text-sm"><strong>Diameter Range:</strong> 75mm to 200mm</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Coatings:</strong> TiN, TiAlN, AlTiN, TiCN
-                      </span>
+                      <span className="text-sm"><strong>Blade Height:</strong> 3mm to 20mm</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Diameter Range:</strong> 50mm to 300mm+
-                      </span>
+                      <span className="text-sm"><strong>Teeth Count:</strong> 14-24 teeth</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Applications:</strong> Slotting, Facing, Gang Milling
-                      </span>
+                      <span className="text-sm"><strong>Design Types:</strong> Flat teeth, Staggered (Thousand Birds)</span>
+                    </li>
+                    <li className="flex items-start">
+                      <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
+                      <span className="text-sm"><strong>Applications:</strong> Side milling, Slotting, Gang milling</span>
                     </li>
                   </ul>
                 </div>
@@ -340,7 +357,7 @@ export default function SideMillingCutterPage() {
                   key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
                 >
-                  <div className="relative w-full bg-white" style={{ height: "176px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                     <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
@@ -349,54 +366,22 @@ export default function SideMillingCutterPage() {
                     />
                   </div>
                   <div className="p-5 border-t">
-                    <h3 className="text-base font-bold mb-2 line-clamp-2">{product.name}</h3>
-                    {product.application && (
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.application}</p>
-                    )}
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4">
-                      {/* Conditional rendering based on product specifications */}
-                      {product.d1 && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">D1:</span> {product.d1}
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.page}</span>
+                        </div>
+                    <div className="space-y-2 text-xs">
+                      {product.series && (
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-700">Series:</span>
+                          <span className="text-gray-900 text-right">{product.series}</span>
                         </div>
                       )}
-                      {product.d && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">d:</span> {product.d}
+                      {product.application && (
+                        <div className="pt-2 border-t border-gray-100">
+                          <p className="text-xs text-gray-600">{product.application}</p>
                         </div>
                       )}
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">D:</span> {product.diameter}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">H:</span> {product.width}
-                      </div>
-                      {product.length && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">L:</span> {product.length}
-                        </div>
-                      )}
-                      {product.l1 && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">L1:</span> {product.l1}
-                        </div>
-                      )}
-                      {product.innerDiameter && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">D1:</span> {product.innerDiameter}
-                        </div>
-                      )}
-                      {product.teeth && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">T:</span> {product.teeth}
-                        </div>
-                      )}
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Series:</span> {product.series}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Page:</span> {product.page}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -404,154 +389,248 @@ export default function SideMillingCutterPage() {
             </div>
           </div>
 
-          {/* Technical Parameters - Redesigned for horizontal alignment */}
-          <div className="mb-16">
+          {/* Product Gallery */}
+          <div className="mb-12">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Technical Parameters</h2>
+              <h2 className="text-3xl font-bold">Product Gallery</h2>
+              {isLoadingImages && (
+                <div className="ml-4 flex items-center text-sm text-gray-500">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600 mr-2"></div>
+                  Loading latest images...
+                </div>
+              )}
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Cutter Configurations */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Cutter Configurations</h3>
-                <div className="p-4 space-y-4">
-                  {cutterConfigurations.map((config, index) => (
-                    <div key={index} className={`border-l-4 ${config.color} pl-4 py-2`}>
-                      <h4 className="font-bold text-base mb-1">{config.title}</h4>
-                      <p className="text-gray-600 text-sm">{config.description}</p>
+            <div className="grid grid-cols-6 grid-rows-4 gap-3 h-[300px]">
+              {/* Large center-left image - 主要轮播图 */}
+              <div className="col-span-2 row-span-4 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center overflow-hidden group">
+                {galleryImages.length > 0 ? (
+                  <Image
+                    src={galleryImages[currentMainImage] || defaultSideMillingImages[0]}
+                    alt="Side Milling Cutter Product"
+                    width={480}
+                    height={480}
+                    quality={100}
+                    priority
+                    className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="animate-pulse">Loading...</div>
                     </div>
-                  ))}
+                )}
+              </div>
+
+              {/* Middle section and Right section - 小图片网格 */}
+              {Array.from({ length: 8 }, (_, index) => {
+                const imageIndex = (currentMainImage + index + 1) % galleryImages.length;
+                const imageSrc = galleryImages.length > 0 
+                  ? galleryImages[imageIndex] || defaultSideMillingImages[imageIndex % defaultSideMillingImages.length]
+                  : defaultSideMillingImages[index % defaultSideMillingImages.length];
+                
+                return (
+                  <div 
+                    key={index}
+                    className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                    onClick={() => galleryImages.length > 0 && setCurrentMainImage((currentMainImage + index + 1) % galleryImages.length)}
+                  >
+                    <Image
+                      src={imageSrc}
+                      alt={`Side Milling Cutter Product ${index + 1}`}
+                      width={280}
+                      height={280}
+                      quality={100}
+                      className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                    />
+                    </div>
+                );
+              })}
                 </div>
               </div>
 
-              {/* Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Specifications</h3>
-                <div className="divide-y divide-gray-100">
-                  {specifications.map((spec, index) => (
-                    <div key={index} className="flex justify-between items-center p-4">
-                      <span className="font-medium text-sm text-gray-700">{spec.label}:</span>
-                      <span className="text-sm text-right text-gray-900">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* Technical Specifications */}
+          <div className="mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-1 bg-red-600 mr-4"></div>
+              <h2 className="text-3xl font-bold">Technical Specifications</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {technicalSpecs.map((spec, index) => {
+                const getIcon = (title: string) => {
+                  switch (title) {
+                    case "Material & Construction":
+                      return <Layers className="h-6 w-6 text-blue-600 mr-3" />
+                    case "Tooth Design & Geometry":
+                      return <Shield className="h-6 w-6 text-green-600 mr-3" />
+                    case "Dimensional Parameters":
+                      return <Settings className="h-6 w-6 text-purple-600 mr-3" />
+                    default:
+                      return <Tool className="h-6 w-6 text-gray-600 mr-3" />
+                  }
+                }
+                
+                return (
+                  <div
+                    key={index}
+                    className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                      {getIcon(spec.title)}
+                      {spec.title}
+                    </h3>
+                    <p className="text-gray-700 leading-relaxed text-sm">{spec.description}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
 
-          {/* Combined Application Scenarios and Material Compatibility in one row */}
+          {/* Application Scenarios & Processing */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Applications & Materials</h2>
+              <h2 className="text-3xl font-bold">Application Scenarios & Processing</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Industries Served */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Settings className="h-5 w-5 text-red-600 mr-2" />
-                  Industries Served
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Application Scenarios */}
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                  <Wrench className="h-6 w-6 text-blue-600 mr-3" />
+                  Application Scenarios
                 </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {industries.map((industry, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{industry}</span>
-                    </div>
-                  ))}
-                </div>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>General Machining and Job Shops:</strong> Versatile side milling operations for slotting, grooving, and facing in diverse manufacturing environments</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Heavy Machinery Manufacturing:</strong> Welding edge type cutters ideal for heavy-duty cutting operations and processing of special shapes</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Automotive & Aerospace Industry:</strong> Precision side milling for component manufacturing requiring tight tolerances and superior surface finish</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Tool and Die Making:</strong> Saw blade three-sided edge cutters for simultaneous side and end milling in mold and die applications</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Tungsten Steel Saw Blade Operations:</strong> Specialized toolholders for secure mounting and precision cutting applications</span>
+                  </li>
+                </ul>
               </div>
 
               {/* Machining Operations */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Tool className="h-5 w-5 text-red-600 mr-2" />
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                  <Settings className="h-6 w-6 text-green-600 mr-3" />
                   Machining Operations
                 </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machiningOperations.map((operation, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{operation}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Material Compatibility */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Info className="h-5 w-5 text-red-600 mr-2" />
-                  Material Compatibility
-                </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machinableMaterials.map((material, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{material}</span>
-                    </div>
-                  ))}
-                </div>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Side Milling & Slotting:</strong> Primary application for efficient material removal along workpiece sides with various tooth configurations</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Gang Milling Operations:</strong> Simultaneous machining of multiple parallel surfaces for reduced cycle times and improved productivity</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Straddle Milling:</strong> Cutting on both sides of workpiece simultaneously using appropriate cutter spacing and toolholder setup</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Face Milling & Grooving:</strong> Three-sided edge design enables complex operations including facing, grooving, and step milling</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Heavy-duty Processing:</strong> Staggered tooth design for sticky materials and high material removal rate applications</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
 
           {/* Main Functions */}
-          <div className="mb-16">
-            <div className="flex items-center mb-8">
+          <div className="mb-12">
+            <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Main Functions</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Slotting and Grooving",
-                  description:
-                    "Primary function for machining slots and grooves of specific widths and depths. Staggered tooth cutters excel in deeper slots with better chip clearance.",
-                  icon: <Target className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Facing Operations",
-                  description:
-                    "Machine flat surfaces on workpieces, particularly when wide surfaces need coverage or when access for face mills is limited.",
-                  icon: <Layers className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Straddle Milling",
-                  description:
-                    "Simultaneous machining of two or more parallel vertical surfaces using multiple cutters with spacers for high efficiency.",
-                  icon: <Tool className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Gang Milling",
-                  description:
-                    "Multiple cutters of different sizes mounted on same arbor to machine complex profiles or multiple features in single pass.",
-                  icon: <Settings className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Step Milling",
-                  description:
-                    "Create steps or shoulders on workpieces by utilizing both peripheral and side cutting edges for well-defined features.",
-                  icon: <Shield className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Cutting Off Operations",
-                  description:
-                    "Heavy-duty side milling cutters can be used for parting or cutting off material with excellent control and precision.",
-                  icon: <Zap className="h-6 w-6 text-red-600" />,
-                },
-              ].map((func, index) => (
-                <div
-                  key={index}
-                  className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
-                >
-                  <div className="flex items-start mb-4">
-                    <div className="bg-red-50 p-2 rounded-lg mr-4">{func.icon}</div>
-                    <h3 className="text-lg font-bold">{func.title}</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Target className="h-5 w-5 text-red-600 mr-2" />
+                  Primary Functions
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Simultaneous Multi-Surface Cutting:</strong> Three-sided edge design with cutting edges on periphery and both sides enables complex milling operations in a single setup</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Efficient Side Material Removal:</strong> Optimized geometry for side milling operations with superior chip evacuation and reduced cutting resistance</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Secure Saw Blade Mounting:</strong> Precision toolholders provide stable interface between saw blade and machine spindle for accurate cutting operations</span>
+                  </li>
+                </ul>
                   </div>
-                  <p className="text-gray-600">{func.description}</p>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Zap className="h-5 w-5 text-blue-600 mr-2" />
+                  Performance Benefits
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Enhanced Productivity:</strong> Gang milling capability allows parallel processing of multiple surfaces, significantly reducing cycle times</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Superior Chip Control:</strong> Staggered tooth (Thousand Birds) design breaks chips effectively and improves evacuation for sticky materials</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Welding Edge Durability:</strong> Ultra-fine particle tungsten steel with welded inserts provides exceptional tool life in demanding applications</span>
+                  </li>
+                </ul>
                 </div>
-              ))}
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mb-5">
+            <FAQSectionEn pageUrl="/standard-tools/milling/side-milling-cutter" />
+          </div>
+
+          {/* CTA Section */}
+          <div className="bg-white py-5">
+            <div className="container mx-auto px-4 border border-gray-200 rounded-2xl shadow-sm">
+              <div className="mx-auto text-center px-8 py-16">
+                <h2 className="text-3xl font-bold mb-4 text-gray-900">Need Professional Side Milling Cutter Solutions?</h2>
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Discover how our advanced side milling cutter solutions can improve your productivity and precision. From saw blade three-sided edge cutters to tungsten steel SWST series, we provide comprehensive side milling solutions for all industrial applications.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 shadow-sm hover:shadow-md">
+                    Contact Technical Support
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="bg-transparent text-gray-900 hover:bg-gray-50 border-gray-300 hover:border-gray-400 transition-all duration-300"
+                  >
+                    Request Custom Solutions
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -561,60 +640,46 @@ export default function SideMillingCutterPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "Face Mills",
-                  image: "/images/product-1.jpg",
-                  description: "Large diameter face milling cutters for efficient surface machining.",
-                  url: "/standard-tools/milling/face-mills",
-                },
-                {
-                  title: "End Mills",
-                  image: "/images/product-2.jpg",
-                  description: "Versatile end mills for general purpose milling applications.",
-                  url: "/standard-tools/milling/end-mills",
-                },
-                {
-                  title: "T-Slot Cutters",
-                  image: "/images/product-4.jpg",
-                  description: "Specialized cutters for machining T-slots and keyways.",
-                  url: "/standard-tools/milling/t-slot-cutter",
-                },
-                {
-                  title: "Thread Mills",
-                  image: "/images/product-3.jpg",
-                  description: "Precision thread milling cutters for internal and external threads.",
-                  url: "/standard-tools/milling/thread-mills",
-                },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-gray-900 text-white py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Need Expert Guidance?</h2>
-              <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select the optimal side milling cutter configuration for your specific
-                slotting, grooving, and gang milling requirements.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">
-                  Contact Technical Support
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
-                >
-                  Request Custom Solution
-                </Button>
-              </div>
+            <div className="grid grid-cols-5 gap-6">
+              {(() => {
+                // Define all categories in the same milling directory
+                const allMillingCategories = [
+                  {
+                    title: "T-Slot Cutters",
+                    image: "/images/SWT.png",
+                    description: "Specialized T-slot milling cutters",
+                    url: "/standard-tools/milling/t-slot-cutter",
+                  },
+                  {
+                    title: "Right Angle Flat End Mills",
+                    image: "/images/2F45C-JST.png",
+                    description: "Flat end mills for precise surfaces",
+                    url: "/standard-tools/milling/right-angle-flat",
+                  },
+                  {
+                    title: "Deep Ditch End Mills",
+                    image: "/images/SG2F60C.png",
+                    description: "Deep groove and cavity milling",
+                    url: "/standard-tools/milling/deep-ditch",
+                  },
+                  {
+                    title: "Fillet End Mills",
+                    image: "/images/2F45CR.png",
+                    description: "Corner radius end mills for enhanced strength",
+                    url: "/standard-tools/milling/fillet",
+                  },
+                  {
+                    title: "Ball End Mills",
+                    image: "/images/2F45CRB.png",
+                    description: "3D contouring and curved surface machining",
+                    url: "/standard-tools/milling/ball-end",
+                  },
+                ];
+                
+                return allMillingCategories.map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>

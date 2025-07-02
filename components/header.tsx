@@ -345,15 +345,6 @@ export default function Header() {
                                 <ul className="space-y-2">
                                   <li>
                                     <Link
-                                      href="/standard-tools/milling/reamer"
-                                      className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
-                                    >
-                                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Reamer
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
                                       href="/standard-tools/milling/small-diameter"
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
@@ -376,7 +367,7 @@ export default function Header() {
                                       className="flex items-center hover:text-red-600 py-1 transition-colors text-xs whitespace-nowrap overflow-hidden text-ellipsis"
                                     >
                                       <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2 flex-shrink-0"></span>
-                                      Taper End Mill
+                                      Taper | Reamer End Mill
                                     </Link>
                                   </li>
                                   <li>
@@ -564,8 +555,6 @@ export default function Header() {
                             </div>
                           </div>
                         )}
-
-
 
                         {/* 孔加工系统子菜单 */}
                         {activeCategory === "hole-machining" && (
@@ -1550,11 +1539,6 @@ export default function Header() {
             )}
           </div>
 
-          {/* Blog */}
-          <Link href="/mzgblog" className="font-medium text-sm px-3 py-2 rounded-full text-gray-700 hover:text-red-600 hover:bg-gray-50 transition-all duration-200">
-            Blog
-          </Link>
-
           {/* About Us */}
           <Link href="/about" className="font-medium text-sm px-3 py-2 rounded-full text-gray-700 hover:text-red-600 hover:bg-gray-50 transition-all duration-200">
             About Us
@@ -1563,8 +1547,8 @@ export default function Header() {
 
         {/* Desktop Action Buttons */}
         <div className="hidden items-center lg:flex">
-          <Button asChild className="bg-red-600 text-white hover:bg-red-700 rounded-full px-6 py-2 font-medium text-sm shadow-sm hover:shadow-md transition-all duration-200">
-            <Link href="/custom-quote">Custom Quote</Link>
+          <Button asChild className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 rounded-md px-4 py-2 font-medium text-sm shadow-none hover:shadow-none transition-colors duration-200">
+            <Link href="/custom-quote">Request Quote</Link>
           </Button>
         </div>
 
@@ -1596,9 +1580,6 @@ export default function Header() {
           </Link>
           <Link href="/resources" className="block px-4 py-2 text-gray-700 hover:text-red-600">
             Resources
-          </Link>
-          <Link href="/mzgblog" className="block px-4 py-2 text-gray-700 hover:text-red-600">
-            Blog
           </Link>
           <Link href="/about" className="block px-4 py-2 text-gray-700 hover:text-red-600">
             About Us

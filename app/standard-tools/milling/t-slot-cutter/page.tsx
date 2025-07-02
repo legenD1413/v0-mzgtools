@@ -1,11 +1,81 @@
+"use client"
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target } from "lucide-react"
+import { Download, ChevronRight, Info, PenToolIcon as Tool, Settings, Layers, Zap, Shield, Target, Drill, Wrench, Cog, CircleDot, Crosshair } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ProductCard from "@/components/product-card"
+import FAQSectionEn from "@/components/faq-section-en"
+import { useState, useEffect } from "react"
 
 export default function TSlotCutterPage() {
+  // T-Slot Cutters相关的默认图片
+  const defaultTSlotImages = [
+    "/images/SWT.png",
+    "/images/SWTS.png", 
+    "/images/SWTI.png",
+    "/images/SWST.png",
+    "/images/AL-TXD.png",
+    "/images/SWD45.png",
+    "/images/SWD60.png",
+    "/images/SWDT60.png"
+  ];
+
+  // Gallery images for rotation - will be loaded from API
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [isLoadingImages, setIsLoadingImages] = useState(true);
+
+  // State for rotating images
+  const [currentMainImage, setCurrentMainImage] = useState(0);
+
+  // Load gallery images from API
+  const loadGalleryImages = async () => {
+    try {
+      setIsLoadingImages(true);
+      const response = await fetch("/api/admin-mzg/product-gallery?pagePath=/standard-tools/milling/t-slot-cutter");
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.images.length > 0) {
+          const imageUrls = data.images.map((img: any) => img.imageUrl);
+          setGalleryImages(imageUrls);
+        } else {
+          // API返回成功但没有图片，使用默认T-Slot图片
+          setGalleryImages(defaultTSlotImages);
+        }
+      } else {
+        // API请求失败，使用默认T-Slot图片
+        setGalleryImages(defaultTSlotImages);
+      }
+    } catch (error) {
+      console.error("加载图片失败:", error);
+      // 网络错误或其他异常，使用默认T-Slot图片
+      setGalleryImages(defaultTSlotImages);
+    } finally {
+      setIsLoadingImages(false);
+    }
+  };
+
+  // Auto-rotate effect
+  useEffect(() => {
+    // 首先设置默认T-Slot图片，避免显示无关图片
+    setGalleryImages(defaultTSlotImages);
+    setIsLoadingImages(false);
+    
+    // 然后异步加载API图片
+    loadGalleryImages();
+  }, []);
+
+  // 单独的useEffect处理图片轮播
+  useEffect(() => {
+    if (galleryImages.length === 0) return;
+    
+    const interval = setInterval(() => {
+      setCurrentMainImage((prev) => (prev + 1) % galleryImages.length);
+    }, 20000); // 每20秒轮换一次
+
+    return () => clearInterval(interval);
+  }, [galleryImages.length]);
   // Sample product data - in a real application, this would come from a database or API
   const products = [
     {
@@ -114,6 +184,7 @@ export default function TSlotCutterPage() {
       L: "50-75mm",
       // Additional specifications
       application: "T-slot milling cutter for aluminum",
+      page: "F36",
       url: "/standard-tools/milling/t-slot-cutter/al-txd-series",
     },
     {
@@ -130,6 +201,7 @@ export default function TSlotCutterPage() {
       H: "0.5-3mm",
       D2: "1.5-5mm",
       L: "50-75mm",
+      page: "F36",
       // Additional specifications
       application: "Bronze T-groove coated milling cutter",
       url: "/standard-tools/milling/t-slot-cutter/txd-series",
@@ -285,124 +357,39 @@ export default function TSlotCutterPage() {
     },
   ]
 
-  // Performance features for the feature section
-  const performanceFeatures = [
+  // Technical specifications - matching fillet page structure
+  const technicalSpecs = [
     {
-      icon: <Shield className="h-8 w-8 text-red-600" />,
-      title: "Precision Engineering",
-      description:
-        "Meticulously designed geometry with smaller diameter neck and larger cutting head for accurate T-shaped slot creation.",
+      title: "Material & Construction",
+      description: "Ultra-fine particle Tungsten Steel construction with exceptional hardness and wear resistance. Welding T-type cutters feature cutting inserts welded onto tool body for mold processing applications. Available in multiple flute configurations (2-24 flutes) optimized for different material removal rates and surface finish requirements.",
     },
     {
-      icon: <Zap className="h-8 w-8 text-red-600" />,
-      title: "Advanced Materials",
-      description:
-        "Available in HSS, solid carbide, and indexable designs with specialized coatings for enhanced performance and extended tool life.",
+      title: "Cutter Profiles & Coating",
+      description: "Three main categories: Welding T-type with flat tooth edge or Thousand Birds edge, Tungsten steel T-groove side cutters with bronze/nano coatings, and Dovetail groove cutters (45°, 60°, 90°). Advanced coating technologies including welding edge technology, bronze coating for enhanced lubricity, and nano coating for thermal protection.",
     },
     {
-      icon: <Target className="h-8 w-8 text-red-600" />,
-      title: "Specialized Functionality",
-      description:
-        "Unique undercutting capability enables creation of T-slots for workholding, fixturing, and component mounting applications.",
+      title: "Dimensional Parameters",
+      description: "Comprehensive size range from 3mm to 200mm diameter. Standard nomenclature includes: d1 (neck diameter), d (head diameter), D (shank diameter), H (slot height), L (overall length), T (flute count). Imperial sizing available for SWTI series. Custom dimensions and OEM support available for specialized applications.",
     },
-  ]
-
-  // Industries served
-  const industries = [
-    "Machine Tool Manufacturing",
-    "Fixture and Jig Design",
-    "Automation and Robotics",
-    "Aerospace Industry",
-    "Automotive Industry",
-    "General Engineering",
-    "Optical Equipment",
-    "Measurement Equipment",
-  ]
-
-  // Machining operations
-  const machiningOperations = [
-    "T-Slot Creation",
-    "Workholding Preparation",
-    "Guide Rail Machining",
-    "Component Mounting Slots",
-    "Undercutting Operations",
-    "Profile Milling",
-    "Fixture Preparation",
-    "Assembly Component Machining",
-  ]
-
-  // Materials that can be machined
-  const machinableMaterials = [
-    "Aluminum and Aluminum Alloys",
-    "Mild Steel",
-    "Carbon Steels",
-    "Alloy Steels",
-    "Stainless Steels",
-    "Cast Iron",
-    "Tool Steels",
-    "Hardened Steels",
-  ]
-
-  // Cutter configurations
-  const cutterConfigurations = [
-    {
-      title: "Standard T-Slot Cutters",
-      description:
-        "Traditional design with smaller neck diameter and larger cutting head. Ideal for creating standard T-slots in machine tables and fixtures.",
-      color: "border-red-600",
-    },
-    {
-      title: "Dovetail Cutters",
-      description:
-        "Angled cutting heads (45°, 60°, 90°) for creating dovetail slots and specialized profiles. Perfect for precision fixturing applications.",
-      color: "border-blue-600",
-    },
-    {
-      title: "Side Milling Cutters",
-      description:
-        "Large diameter tools with multiple teeth for efficient side milling operations. Designed for heavy-duty material removal.",
-      color: "border-green-600",
-    },
-  ]
-
-  // Specifications
-  const specifications = [
-    { label: "Type", value: "T-Slot Cutter (Various Profiles)" },
-    { label: "Material", value: "Tungsten Steel/Solid Carbide" },
-    { label: "Coating Options", value: "TiAlN, AlTiN, TiCN, Welding Edge" },
-    { label: "Diameter Range", value: "3mm to 200mm" },
-    { label: "Angle Options", value: "45°, 60°, 90°, Standard T-Profile" },
-    { label: "Shank Type", value: "Straight Shank with Weldon Flat" },
-    { label: "Flute Count", value: "2 to 24 Flutes" },
-    { label: "Customization", value: "OEM Support Available" },
   ]
 
   return (
     <>
       <Header />
       <div className="bg-white">
-        {/* Hero Section - Enhanced with product-specific information */}
-        <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <div className="absolute inset-0 overflow-hidden opacity-30 mix-blend-overlay">
-            <Image
-              src="/images/milling-tools.jpg"
-              alt="T-Slot Cutters Background"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div className="relative container mx-auto px-4 py-20 md:py-28">
+        {/* Hero Section */}
+        <div className="relative bg-white text-gray-900">
+          <div className="relative container mx-auto px-4 py-16 md:py-24">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="max-w-4xl">
-                <div className="inline-block bg-red-600 px-4 py-1 rounded-full text-sm font-medium mb-4">
-                  Specialized Milling Tools
+                <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+                  T-Slot Cutter Expert Guide
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">T-Slot Cutters</h1>
-                <p className="text-lg md:text-xl mb-8 text-gray-100 leading-relaxed">
-                  Highly specialized milling tools meticulously designed to create T-shaped slots within workpieces.
-                  Essential for machine tool table beds, workholding fixtures, and assembly components where adjustable
-                  and secure clamping is paramount.
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                  MZG T-Slot Cutter System
+                </h1>
+                <p className="text-sm mb-8 text-gray-600 leading-relaxed">
+                  T-slot cutters are a specialized type of milling cutter specifically designed for machining T-slots. These slots are widely used in machine tables, fixtures, and other components for inserting and securing T-head bolts. Our comprehensive T-slot cutter system includes Welding T-type milling cutters for mold processing, Tungsten steel T-groove side milling cutters for general applications, and Dovetail groove milling cutters for precision mechanical connections with various angle configurations (45°, 60°, 90°).
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button
@@ -414,43 +401,29 @@ export default function TSlotCutterPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
+                    className="bg-transparent text-gray-900 hover:bg-gray-100 border-gray-300 hover:text-gray-900 transition-all duration-300"
                   >
                     Download Catalog <Download className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </div>
               <div className="flex justify-center lg:justify-end">
-                <div className="w-[500px] h-[300px] bg-white/10 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                <div className="w-[563px] h-[400px] flex items-center justify-center">
                   <Image
                     src="/images/milling.png"
-                    alt="T-Slot Cutters Product Showcase"
-                    width={450}
-                    height={250}
-                    className="object-contain rounded-lg"
+                    alt="MZG Professional T-Slot Cutter System"
+                    width={563}
+                    height={400}
+                    className="object-contain"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
         </div>
 
-        {/* Performance Features */}
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid md:grid-cols-3 gap-8">
-            {performanceFeatures.map((feature, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
-              >
-                <div className="mb-4 bg-white inline-flex p-3 rounded-lg shadow-sm">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-12">
@@ -464,23 +437,22 @@ export default function TSlotCutterPage() {
               <div className="md:col-span-2">
                 <div className="prose prose-sm max-w-none">
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    T-Slot Cutters are highly specialized milling tools meticulously designed to create T-shaped slots
-                    within a workpiece. These T-slots are a fundamental feature in numerous industrial applications,
-                    prominently including machine tool table beds (e.g., on milling machines and drill presses),
-                    workholding fixtures, and various assembly components where adjustable and secure clamping is
-                    paramount.
+                    <strong>T-slot cutters</strong> are a specialized type of milling cutter specifically designed for machining T-slots. 
+                    These slots are widely used in machine tables, fixtures, and other components for inserting and securing T-head bolts. 
+                    T-slots are a fundamental feature in numerous industrial applications, prominently including machine tool table beds 
+                    (e.g., on milling machines and drill presses), workholding fixtures, and various assembly components where adjustable 
+                    and secure clamping is paramount.
                   </p>
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    The cutter's distinct geometry features a smaller diameter neck positioned behind a larger diameter
-                    cutting head. This design allows the tool to first enter a pre-machined straight slot (often created
-                    by an end mill or slot drill of appropriate width) and subsequently cut laterally to form the wider,
-                    undercut sections that define the characteristic "T" profile.
+                    The cutter's distinct geometry features a smaller diameter neck positioned behind a larger diameter cutting head. 
+                    This design allows the tool to first enter a pre-machined straight slot (often created by an end mill or slot drill 
+                    of appropriate width) and subsequently cut laterally to form the wider, undercut sections that define the characteristic "T" profile.
                   </p>
                   <p className="mb-4 text-base leading-normal text-gray-700">
-                    Advanced coatings such as TiAlN (Titanium Aluminum Nitride), AlTiN (Aluminum Titanium Nitride), or
-                    specialized welding edge technology substantially increase surface hardness, reduce friction
-                    coefficient, enhance wear resistance, and enable higher cutting speeds and feed rates for increased
-                    productivity and reduced cycle times.
+                    Our T-slot cutters include three main categories: <strong>Welding T-type milling cutters</strong> featuring cutting inserts 
+                    welded onto the tool body for mold processing, <strong>Tungsten steel T-groove side milling cutters</strong> for general 
+                    T-slot machining in steel and non-ferrous metals, and <strong>Dovetail groove milling cutters</strong> specifically designed 
+                    for machining dovetail slots with various angle configurations (45°, 60°, 90°).
                   </p>
                 </div>
               </div>
@@ -493,33 +465,27 @@ export default function TSlotCutterPage() {
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Diameter Range:</strong> 3mm to 200mm
-                      </span>
+                      <span className="text-sm"><strong>Material:</strong> Ultra-fine particle tungsten steel</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Material:</strong> Tungsten Steel/Solid Carbide
-                      </span>
+                      <span className="text-sm"><strong>Diameter Range:</strong> 3mm to 200mm</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Coatings:</strong> TiAlN, AlTiN, Welding Edge
-                      </span>
+                      <span className="text-sm"><strong>Coatings:</strong> Welding Edge, Bronze, Nano coating</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Angle Options:</strong> 45°, 60°, 90°, Standard T
-                      </span>
+                      <span className="text-sm"><strong>Angle Options:</strong> 45°, 60°, 90°, Standard T</span>
                     </li>
                     <li className="flex items-start">
                       <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
-                      <span>
-                        <strong>Flute Options:</strong> 2-24 flutes
-                      </span>
+                      <span className="text-sm"><strong>Applications:</strong> Steel below HRC60°, Aluminum, Copper</span>
+                    </li>
+                    <li className="flex items-start">
+                      <ChevronRight className="h-5 w-5 text-red-600 mr-2 shrink-0 mt-0.5" />
+                      <span className="text-sm"><strong>Special Features:</strong> Flat tooth edge, Thousand Birds edge</span>
                     </li>
                   </ul>
                 </div>
@@ -539,7 +505,7 @@ export default function TSlotCutterPage() {
                   key={product.id}
                   className="group bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-red-200"
                 >
-                  <div className="relative w-full bg-white" style={{ height: "176px" }}>
+                  <div className="relative w-full bg-white" style={{ height: "160px" }}>
                     <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
@@ -548,78 +514,22 @@ export default function TSlotCutterPage() {
                     />
                   </div>
                   <div className="p-5 border-t">
-                    <h3 className="text-base font-bold mb-2 line-clamp-2">{product.name}</h3>
-                    {product.application && (
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.application}</p>
-                    )}
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4">
-                      {product.D && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">D:</span> {product.D}
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-sm font-bold line-clamp-2 flex-1 mr-2">{product.name}</h3>
+                      <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{product.page}</span>
+                        </div>
+                    <div className="space-y-2 text-xs">
+                      {product.series && (
+                        <div className="flex justify-between">
+                          <span className="font-medium text-gray-700">Series:</span>
+                          <span className="text-gray-900 text-right">{product.series}</span>
                         </div>
                       )}
-                      {product.D1 && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">D1:</span> {product.D1}
+                      {product.application && (
+                        <div className="pt-2 border-t border-gray-100">
+                          <p className="text-xs text-gray-600">{product.application}</p>
                         </div>
                       )}
-                      {product.H && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">H:</span> {product.H}
-                        </div>
-                      )}
-                      {product.d1 && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">d1:</span> {product.d1}
-                        </div>
-                      )}
-                      {product.d && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">d:</span> {product.d}
-                        </div>
-                      )}
-                      {product.D2 && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">D2:</span> {product.D2}
-                        </div>
-                      )}
-                      {product.l1 && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">l1:</span> {product.l1}
-                        </div>
-                      )}
-                      {product.L && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">L:</span> {product.L}
-                        </div>
-                      )}
-                      {product.T && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">T:</span> {product.T}
-                        </div>
-                      )}
-                      {product.R && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">R:</span> {product.R}
-                        </div>
-                      )}
-                      {product.α && (
-                        <div className="flex items-center">
-                          <span className="font-medium mr-1">α:</span> {product.α}
-                        </div>
-                      )}
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Flutes:</span> {product.flutes}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Material:</span> {product.material}
-                      </div>
-                      <div className="flex items-center">
-                        <span className="font-medium mr-1">Coating:</span> {product.coating}
-                      </div>
-                      <div className="col-span-2 flex items-center">
-                        <span className="font-medium mr-1">Series:</span> {product.series}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -627,154 +537,248 @@ export default function TSlotCutterPage() {
             </div>
           </div>
 
-          {/* Technical Parameters - Redesigned for horizontal alignment */}
-          <div className="mb-16">
+          {/* Product Gallery */}
+          <div className="mb-12">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Technical Parameters</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Cutter Configurations */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Cutter Configurations</h3>
-                <div className="p-4 space-y-4">
-                  {cutterConfigurations.map((config, index) => (
-                    <div key={index} className={`border-l-4 ${config.color} pl-4 py-2`}>
-                      <h4 className="font-bold text-base mb-1">{config.title}</h4>
-                      <p className="text-gray-600 text-sm">{config.description}</p>
-                    </div>
-                  ))}
+              <h2 className="text-3xl font-bold">Product Gallery</h2>
+              {isLoadingImages && (
+                <div className="ml-4 flex items-center text-sm text-gray-500">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600 mr-2"></div>
+                  Loading latest images...
                 </div>
+              )}
+            </div>
+            <div className="grid grid-cols-6 grid-rows-4 gap-3 h-[300px]">
+              {/* Large center-left image - 主要轮播图 */}
+              <div className="col-span-2 row-span-4 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center overflow-hidden group">
+                {galleryImages.length > 0 ? (
+                  <Image
+                    src={galleryImages[currentMainImage] || defaultTSlotImages[0]}
+                    alt="T-Slot Cutter Product"
+                    width={480}
+                    height={480}
+                    quality={100}
+                    priority
+                    className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="animate-pulse">Loading...</div>
+                    </div>
+                )}
               </div>
 
-              {/* Specifications */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <h3 className="text-lg font-bold p-4 border-b border-gray-100">Specifications</h3>
-                <div className="divide-y divide-gray-100">
-                  {specifications.map((spec, index) => (
-                    <div key={index} className="flex justify-between items-center p-4">
-                      <span className="font-medium text-sm text-gray-700">{spec.label}:</span>
-                      <span className="text-sm text-right text-gray-900">{spec.value}</span>
+              {/* Middle section and Right section - 小图片网格 */}
+              {Array.from({ length: 8 }, (_, index) => {
+                const imageIndex = (currentMainImage + index + 1) % galleryImages.length;
+                const imageSrc = galleryImages.length > 0 
+                  ? galleryImages[imageIndex] || defaultTSlotImages[imageIndex % defaultTSlotImages.length]
+                  : defaultTSlotImages[index % defaultTSlotImages.length];
+                
+                return (
+                  <div 
+                    key={index}
+                    className="col-span-1 row-span-2 bg-white rounded-lg p-4 border border-gray-200 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors duration-300 overflow-hidden group"
+                    onClick={() => galleryImages.length > 0 && setCurrentMainImage((currentMainImage + index + 1) % galleryImages.length)}
+                  >
+                    <Image
+                      src={imageSrc}
+                      alt={`T-Slot Cutter Product ${index + 1}`}
+                      width={280}
+                      height={280}
+                      quality={100}
+                      className="object-contain w-full h-full transition-all duration-500 group-hover:scale-125"
+                    />
                     </div>
-                  ))}
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
 
-          {/* Combined Application Scenarios and Material Compatibility in one row */}
+          {/* Technical Specifications */}
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
-              <h2 className="text-3xl font-bold">Applications & Materials</h2>
+              <h2 className="text-3xl font-bold">Technical Specifications</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Industries Served */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Settings className="h-5 w-5 text-red-600 mr-2" />
-                  Industries Served
+            <div className="grid md:grid-cols-3 gap-8">
+              {technicalSpecs.map((spec, index) => {
+                const getIcon = (title: string) => {
+                  switch (title) {
+                    case "Material & Construction":
+                      return <Layers className="h-6 w-6 text-blue-600 mr-3" />
+                    case "Cutter Profiles & Coating":
+                      return <Shield className="h-6 w-6 text-green-600 mr-3" />
+                    case "Dimensional Parameters":
+                      return <Settings className="h-6 w-6 text-purple-600 mr-3" />
+                    default:
+                      return <Tool className="h-6 w-6 text-gray-600 mr-3" />
+                  }
+                }
+                
+                return (
+                  <div
+                    key={index}
+                    className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                      {getIcon(spec.title)}
+                      {spec.title}
                 </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {industries.map((industry, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{industry}</span>
+                    <p className="text-gray-700 leading-relaxed text-sm">{spec.description}</p>
                     </div>
-                  ))}
+                )
+              })}
                 </div>
               </div>
 
-              {/* Machining Operations */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Tool className="h-5 w-5 text-red-600 mr-2" />
-                  Machining Operations
+          {/* Application Scenarios & Processing */}
+          <div className="mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-1 bg-red-600 mr-4"></div>
+              <h2 className="text-3xl font-bold">Application Scenarios & Processing</h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Application Scenarios */}
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                  <Wrench className="h-6 w-6 text-blue-600 mr-3" />
+                  Application Scenarios
                 </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machiningOperations.map((operation, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <ChevronRight className="h-4 w-4 text-red-600 mr-2 shrink-0" />
-                      <span className="text-sm">{operation}</span>
-                    </div>
-                  ))}
-                </div>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Mold Processing:</strong> Primary application for welding T-type milling cutters in creating precise T-slots for mold assembly and clamping</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Machine Tool Manufacturing:</strong> Creating T-slots on machine tables, angle plates, and workholding fixtures for versatile clamping systems</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Automation & Robotics:</strong> T-slots serve as linear guide rails and mounting points for sensors, guards, and positioning equipment</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Aerospace & Automotive:</strong> Precision T-slots and dovetail slots for component mounting and structural connections requiring high accuracy</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>General Engineering:</strong> Fixture preparation, assembly component machining, and specialized undercutting operations</span>
+                  </li>
+                </ul>
               </div>
 
-              {/* Material Compatibility */}
-              <div className="bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold mb-3 flex items-center">
-                  <Info className="h-5 w-5 text-red-600 mr-2" />
-                  Material Compatibility
+              {/* Application Processing */}
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center">
+                  <Settings className="h-6 w-6 text-green-600 mr-3" />
+                  Application Processing
                 </h3>
-                <div className="grid grid-cols-1 gap-1">
-                  {machinableMaterials.map((material, index) => (
-                    <div key={index} className="flex items-center py-1.5 border-b border-gray-200 last:border-b-0">
-                      <div className="w-2 h-2 bg-red-600 rounded-full mr-3 shrink-0"></div>
-                      <span className="text-sm">{material}</span>
-                    </div>
-                  ))}
-                </div>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Steel Processing (HRC55-60°):</strong> Bronze-coated and nano-coated T-groove cutters for enhanced wear resistance and heat protection</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Aluminum & Non-ferrous Metals:</strong> Uncoated specialized cutters (AL-TXD, AL-YWD series) optimized for non-reactive processing</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Welding Edge Technology:</strong> Ultra-fine particle tungsten steel with welded cutting inserts for superior chip evacuation and heavy-duty cutting</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Dovetail Slot Machining:</strong> Specialized 45°, 60° angle cutters for precision sliding connections and mechanical positioning structures</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Thousand Birds Edge Design:</strong> Advanced chip breaking geometry for improved chip evacuation in deep slot milling applications</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
 
           {/* Main Functions */}
-          <div className="mb-16">
-            <div className="flex items-center mb-8">
+          <div className="mb-12">
+            <div className="flex items-center mb-6">
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Main Functions</h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Workholding and Fixturing",
-                  description:
-                    "T-slots on machine tables, angle plates, and custom fixtures allow T-nuts to be inserted, twisted, and engaged, providing a robust, reliable, and highly versatile system for clamping workpieces or entire fixture assemblies securely.",
-                  icon: <Target className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Creating Guide Rails and Tracks",
-                  description:
-                    "T-slots can effectively serve as linear guide rails or tracks for moving components within machinery, automation systems, or specialized equipment, facilitating controlled sliding motion.",
-                  icon: <Layers className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Mounting and Securing Components",
-                  description:
-                    "They provide a standardized method for mounting sensors, guards, accessories, and other components onto machine frames or surfaces, especially where adjustability, repositioning, or quick removal is a design requirement.",
-                  icon: <Settings className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Specialized Undercutting Operations",
-                  description:
-                    "The inherent design of a T-Slot Cutter enables it to perform undercutting tasks, where material is removed beneath an overhanging surface, a feat not easily achievable with standard end mills.",
-                  icon: <Tool className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Precision Profile Creation",
-                  description:
-                    "Enable consistent production with high dimensional accuracy, tight geometric tolerances, and excellent surface quality for critical T-slot applications.",
-                  icon: <Shield className="h-6 w-6 text-red-600" />,
-                },
-                {
-                  title: "Enhanced Productivity",
-                  description:
-                    "Contribute to machining efficiency through optimal cutting parameters, durability, and long tool life for reduced downtime and increased throughput.",
-                  icon: <Zap className="h-6 w-6 text-red-600" />,
-                },
-              ].map((func, index) => (
-                <div
-                  key={index}
-                  className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
-                >
-                  <div className="flex items-start mb-4">
-                    <div className="bg-red-50 p-2 rounded-lg mr-4">{func.icon}</div>
-                    <h3 className="text-lg font-bold">{func.title}</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Target className="h-5 w-5 text-red-600 mr-2" />
+                  Primary Functions
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Workholding and Fixturing:</strong> T-slots on machine tables and fixtures allow T-nuts to be engaged, providing robust and versatile clamping systems</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Guide Rails and Tracks:</strong> T-slots serve as linear guide systems for moving components within machinery and automation equipment</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Specialized Undercutting:</strong> Unique ability to remove material beneath overhanging surfaces, not achievable with standard end mills</span>
+                  </li>
+                </ul>
                   </div>
-                  <p className="text-gray-600">{func.description}</p>
+              
+              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                  <Zap className="h-5 w-5 text-blue-600 mr-2" />
+                  Performance Benefits
+                </h3>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Precision Profile Creation:</strong> Consistent production with high dimensional accuracy and tight geometric tolerances for critical applications</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Enhanced Productivity:</strong> Optimal cutting parameters, superior durability, and extended tool life for reduced downtime</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 shrink-0"></div>
+                    <span><strong>Component Mounting:</strong> Standardized method for mounting sensors, guards, and accessories with adjustability and quick removal capability</span>
+                  </li>
+                </ul>
                 </div>
-              ))}
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mb-5">
+            <FAQSectionEn pageUrl="/standard-tools/milling/t-slot-cutter" />
+          </div>
+
+          {/* CTA Section */}
+          <div className="bg-white py-5">
+            <div className="container mx-auto px-4 border border-gray-200 rounded-2xl shadow-sm">
+              <div className="mx-auto text-center px-8 py-16">
+                <h2 className="text-3xl font-bold mb-4 text-gray-900">Need Professional T-Slot Cutter Solutions?</h2>
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Our technical team can help you select optimal T-slot cutters for specific machining requirements, from welding T-type milling cutters for mold processing to dovetail groove cutters for precision mechanical connections. We provide comprehensive T-slot and dovetail machining solutions for all materials and applications.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 shadow-sm hover:shadow-md">
+                    Contact Technical Support
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="bg-transparent text-gray-900 hover:bg-gray-50 border-gray-300 hover:border-gray-400 transition-all duration-300"
+                  >
+                    Request Custom Solutions
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -784,60 +788,46 @@ export default function TSlotCutterPage() {
               <div className="w-12 h-1 bg-red-600 mr-4"></div>
               <h2 className="text-3xl font-bold">Related Categories</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "End Mills",
-                  image: "/images/product-1.jpg",
-                  description: "General purpose end mills for a wide range of milling applications.",
-                  url: "/standard-tools/milling/end-mills",
-                },
-                {
-                  title: "Face Mills",
-                  image: "/images/product-2.jpg",
-                  description: "Large diameter cutters for efficient face milling operations.",
-                  url: "/standard-tools/milling/face-mills",
-                },
-                {
-                  title: "Thread Mills",
-                  image: "/images/product-3.jpg",
-                  description: "Specialized tools for thread milling in various materials.",
-                  url: "/standard-tools/milling/thread-mills",
+            <div className="grid grid-cols-5 gap-6">
+              {(() => {
+                // Define all categories in the same milling directory
+                const allMillingCategories = [
+                  {
+                    title: "Fillet End Mills",
+                    image: "/images/2F45CR.png",
+                    description: "Corner radius end mills for enhanced strength",
+                    url: "/standard-tools/milling/fillet",
+                  },
+                  {
+                    title: "Right Angle Flat End Mills",
+                    image: "/images/2F45C-JST.png",
+                    description: "Flat end mills for precise surfaces",
+                    url: "/standard-tools/milling/right-angle-flat",
+                  },
+                  {
+                    title: "Deep Ditch End Mills",
+                    image: "/images/SG2F60C.png",
+                    description: "Deep groove and cavity milling",
+                    url: "/standard-tools/milling/deep-ditch",
+                  },
+                  {
+                    title: "Roughing End Mills",
+                    image: "/images/4FS.png",
+                    description: "High material removal rate cutters",
+                    url: "/standard-tools/milling/roughing",
                 },
                 {
                   title: "Chamfer Mills",
-                  image: "/images/product-4.jpg",
-                  description: "Tools for creating chamfers and beveled edges.",
+                    image: "/images/f32-01.png",
+                    description: "Tools for creating chamfers and beveled edges",
                   url: "/standard-tools/milling/chamfer",
                 },
-              ].map((category, index) => (
-                <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-gray-900 text-white py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Need Expert Guidance?</h2>
-              <p className="text-lg text-gray-300 mb-8">
-                Our technical team can help you select the optimal T-Slot Cutter configuration for your specific
-                machining requirements, material, and application standards.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="bg-red-600 hover:bg-red-700 transition-all duration-300">
-                  Contact Technical Support
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="bg-transparent text-white hover:bg-white/10 border-white hover:text-white transition-all duration-300"
-                >
-                  Request Custom Solution
-                </Button>
-              </div>
+                ];
+                
+                return allMillingCategories.slice(0, 5).map((category, index) => (
+                  <ProductCard key={index} image={category.image} title={category.title} category="Milling Tools" url={category.url} />
+                ));
+              })()}
             </div>
           </div>
         </div>

@@ -102,21 +102,17 @@ export default function FAQSectionEn({ pageUrl }: FAQSectionProps) {
   )
 
   return (
-    <section className="py-16 bg-white">
+    <section className="pt-5 pb-16 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Find answers to common questions about our right angle flat end mills
-          </p>
+        <div className="flex items-center mb-8">
+          <div className="w-12 h-1 bg-red-600 mr-4"></div>
+          <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
         </div>
 
         {/* 热门问题部分 */}
         {popularFaqs.length > 0 && (
           <div className="mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+            <h3 className="text-base font-semibold text-gray-900 mb-6 flex items-center">
               <MessageCircle className="h-6 w-6 mr-2 text-blue-600" />
               Popular Questions
             </h3>
@@ -152,7 +148,7 @@ export default function FAQSectionEn({ pageUrl }: FAQSectionProps) {
         {/* 分类FAQ部分 */}
         {availableCategories.length > 0 && (
           <div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+            <h3 className="text-base font-semibold text-gray-900 mb-6 flex items-center">
               <BookOpen className="h-6 w-6 mr-2 text-green-600" />
               Browse by Category
             </h3>
